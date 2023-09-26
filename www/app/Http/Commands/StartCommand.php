@@ -13,13 +13,19 @@ class StartCommand extends Command
 
     public function handle(): void
     {
-        $button1 = Button::make(['text' => 'button1', 'url' => 'vk.com']);
-        $keyboard = [[$button1]];
+        $button1 = Button::make(['text' => 'Найти жилье в аренду', 'url' => 'start.ru']);
+        $button2 = Button::make(['text' => 'Купить жильё', 'url' => 'vk.com']);
+        $button3 = Button::make(['text' => 'Разместить объект недвижимости для аренды или продажи', 'url' => 'vk.com']);
+
+        $keyboard = [
+            [$button1], [$button2], [$button3]
+        ];
+
         $reply_markup = Keyboard::make(['inline_keyboard' => $keyboard]);
+
         $this->replyWithMessage([
-            'text' => 'test inline buttons',
+            'text' => 'Что вы хотите?',
             'reply_markup' => $reply_markup
         ]);
-
     }
 }
