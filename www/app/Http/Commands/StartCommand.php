@@ -3,6 +3,8 @@
 namespace App\Http\Commands;
 
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Keyboard\Button;
+use Telegram\Bot\Keyboard\Keyboard;
 
 class StartCommand extends Command
 {
@@ -11,21 +13,13 @@ class StartCommand extends Command
 
     public function handle(): void
     {
-        $message = '<b>жирный текст</b>'
-            . PHP_EOL . '<i>курсивный текст</i>'
-            . PHP_EOL . '<u>подчеркнутный текст</u>'
-            . PHP_EOL . '<s>перечеркнутный текст</s>'
-            . PHP_EOL . '<span class="tg-spoiler">Какой то спойлер Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit, voluptate!</span>'
-            . PHP_EOL . '<b>жирный текст <i>еще и курсивный <s>еще и перечеркнутый </s></i></b>'
-            . PHP_EOL . '<a href="https://www.example.com/">Ссылка в текстом</a>'
-            . PHP_EOL . '<a href="tg://user?id=264493118">упоминание пользователя</a>'
-            . PHP_EOL . '<code>код фиксированной ширины</code>'
-            . PHP_EOL . '<pre>предварительно отформатированный блок кода фиксированной ширины</pre>'
-            . PHP_EOL . '<pre><code class="language-python">предварительно отформатированный блок кода фиксированной ширины, написанный на языке программирования Python</code></pre>';
-
+        $button1 = Button::make(['text' => 'button1', 'url' => 'vk.com']);
+        $keyboard = [[$button1]];
+        $reply_markup = Keyboard::make(['inline_keyboard' => $keyboard]);
         $this->replyWithMessage([
-            'text' => $message,
-            'parse_mode' => 'HTML'
+            'text' => 'test inline buttons',
+            'reply_markup' => $reply_markup
         ]);
+
     }
 }
