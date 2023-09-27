@@ -2,25 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Telegram\Bot\BotsManager;
+use SergiX44\Nutgram\Nutgram;
 
 class WebhookController extends Controller
 {
-    protected BotsManager $botsManager;
-
-    public function __construct(BotsManager $botsManager)
-    {
-        $this->botsManager = $botsManager;
-    }
-
     /**
-     * Handle the incoming request.
+     * Handle the telegram webhook request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Nutgram $bot): void
     {
-        $this->botsManager->bot()->commandsHandler(true);
-        return response(null, 200);
+        $bot->run();
     }
 }
