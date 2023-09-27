@@ -9,7 +9,7 @@ use Telegram\Bot\Methods\Update;
 
 class StartCommand extends Command
 {
-    use Update;
+//    use Update;
 
     protected string $name = 'start';
     protected string $description = 'Запуск / Перезапуск бота';
