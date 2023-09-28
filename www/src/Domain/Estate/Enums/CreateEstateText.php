@@ -3,6 +3,6 @@
 namespace Domain\Estate\Enums;
 enum CreateEstateText: string
 {
-    case DealType = 'Сдать в аренду или продать?';
+    case DealType = 'Что вы бы хотели сделать с недвижимостью?';
 
 }
