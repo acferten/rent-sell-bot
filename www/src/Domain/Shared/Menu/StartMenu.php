@@ -3,7 +3,6 @@
 namespace Domain\Shared\Menu;
 
 use Domain\Estate\Enums\EstateCallbacks;
-use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -11,43 +10,62 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
 class StartMenu extends InlineMenu
 {
-    public function start(Nutgram $bot): void
+    public function menuLayout(
+        MessageText     $text,
+        EstateCallbacks $button1,
+        EstateCallbacks $button2,
+        string          $funcName): self
     {
-        $this->menuText(MessageText::StartCommandText->value)
-            ->addButtonRow(InlineKeyboardButton::make(
-                EstateCallbacks::CreateEstate->value,
-                callback_data: EstateCallbacks::CreateEstate->name . "@handleStartChoice")
+        return $this->menuText($text->value)
+            ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
+                $button1->value,
+                callback_data: "{$button1->name}@{$funcName}")
             )
             ->addButtonRow(InlineKeyboardButton::make(
-                EstateCallbacks::GetRentEstates->value,
-                callback_data: EstateCallbacks::GetRentEstates->name . "@handleStartChoice")
-            )->orNext('none')
-            ->showMenu();
+                $button2->value,
+                callback_data: "{$button2->name}@{$funcName}")
+            );
+    }
+
+    public function start(Nutgram $bot): void
+    {
+        $this->menuLayout(
+            MessageText::StartCommandText,
+            EstateCallbacks::StartCreateRentEstate,
+            EstateCallbacks::StartGetEstates,
+            'handleStartChoice'
+        )->showMenu();
     }
 
     public function handleStartChoice(Nutgram $bot): void
     {
-        if ($bot->callbackQuery()->data == EstateCallbacks::CreateEstate->name) {
-            $this->menuText("текст об условиях размещения и цене")
-                ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
-                    '🏡 Разместить объект',
-                    callback_data: EstateCallbacks::CreateEstate->name . "@handleChoice")
-                )
-                ->addButtonRow(InlineKeyboardButton::make(
-                    '🙋‍ Написать менеджеру',
-                    callback_data: EstateCallbacks::GetRentEstates->name . "@handleChoice")
-        )->showMenu();
+        if ($bot->callbackQuery()->data == EstateCallbacks::StartCreateRentEstate->name) {
+            $this->menuLayout(
+                MessageText::StartCommandText,
+                EstateCallbacks::CreateRentEstate,
+                EstateCallbacks::CallManager,
+                'handleCreateEstateChoice'
+            )->showMenu();
+        } else {
+            $this->menuLayout(
+                MessageText::GetEstatesText,
+                EstateCallbacks::GetEstates,
+                EstateCallbacks::GetFilteredEstates,
+                'handleGetEstatesChoice'
+            )->showMenu();
         }
-//        $bot->onCallbackQueryData(EstateCallbacks::GetRentEstates->name, CreateEstateMenu::begin($bot));
-//        $bot->onCallbackQueryData(EstateCallbacks::GetSellEstates->name, CreateEstateMenu::begin($bot));
     }
 
-    public function handleChoice(Nutgram $bot): void
+    public function handleCreateEstateChoice(Nutgram $bot): void
     {
-//        $bot->onCallbackQueryData(EstateCallbacks::CreateEstate->name, CreateEstateMenu::begin($bot));
-//        $bot->onCallbackQueryData(EstateCallbacks::GetRentEstates->name, CreateEstateMenu::begin($bot));
-//        $bot->onCallbackQueryData(EstateCallbacks::GetSellEstates->name, CreateEstateMenu::begin($bot));
+
     }
+
+    public function handleGetEstatesChoice(Nutgram $bot): void
+    {
+
+    }
+
 
     public function none(Nutgram $bot): void
     {
