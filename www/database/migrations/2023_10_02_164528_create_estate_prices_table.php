@@ -7,14 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('deal_types', function (Blueprint $table) {
+        Schema::create('estate_prices', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 100)->comment('Название типа сделки');
+            $table->integer('estate_id');
+            $table->string('period');
+            $table->integer('price');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('deal_types');
+        Schema::dropIfExists('estate_prices');
     }
 };
