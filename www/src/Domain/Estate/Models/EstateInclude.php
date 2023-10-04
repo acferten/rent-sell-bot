@@ -14,12 +14,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class EstateInclude extends BaseModel
 {
+    protected $table = 'includes';
+
     protected $fillable = [
         'title'
     ];
 
     // Relations
-    public function estate(): BelongsToMany
+    public function estates(): BelongsToMany
     {
         return $this->belongsToMany(Estate::class, 'estate_includes', 'include_id', 'estate_id');
     }

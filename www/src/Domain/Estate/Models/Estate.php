@@ -2,9 +2,7 @@
 
 namespace Domain\Estate\Models;
 
-use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
-use Domain\Estate\Enums\EstateTypes;
 use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\Geoposition\Geoposition;
@@ -30,6 +28,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Estate extends BaseModel
 {
+    protected $fillable = [
+        'description',
+        'bathrooms',
+        'bedrooms',
+        'conditioners',
+        'views',
+        'chattings',
+        'video_review',
+        'status',
+        'deal_type',
+        'status',
+        'house_type_id',
+        'user_id',
+        'geoposition_id'
+    ];
+
     public function status(): EstateStatus
     {
         return EstateStatus::from($this->status);
@@ -64,5 +78,10 @@ class Estate extends BaseModel
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(EstateTypes::class);
     }
 }

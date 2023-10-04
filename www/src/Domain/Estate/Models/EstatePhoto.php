@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class EstatePhoto extends BaseModel
 {
+    protected $table = 'estate_photos';
+
     // Relations
     public function estate(): BelongsTo
     {

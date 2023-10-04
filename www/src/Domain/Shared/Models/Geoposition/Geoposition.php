@@ -9,4 +9,5 @@ use Domain\Shared\Models\BaseModel;
  */
 class Geoposition extends BaseModel
 {
+
 }
