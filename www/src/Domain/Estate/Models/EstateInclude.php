@@ -5,6 +5,7 @@ namespace Domain\Estate\Models;
 use Domain\Estate\Enums\Includes;
 use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -13,14 +14,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class EstateInclude extends BaseModel
 {
-    public function include(): Includes
-    {
-        return Includes::from($this->include);
-    }
+    protected $fillable = [
+        'title'
+    ];
 
     // Relations
-    public function estate(): BelongsTo
+    public function estate(): BelongsToMany
     {
-        return $this->belongsTo(Estate::class);
+        return $this->belongsToMany(Estate::class, 'estate_includes', 'include_id', 'estate_id');
     }
 }

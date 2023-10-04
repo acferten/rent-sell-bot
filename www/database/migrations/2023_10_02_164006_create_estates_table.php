@@ -9,16 +9,17 @@ return new class extends Migration {
     {
         Schema::create('estates', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->string('house_type');
+            $table->bigInteger('user_id');
             $table->string('deal_type');
             $table->integer('geoposition_id');
             $table->string('video_review', 100)->nullable();
             $table->integer('bedrooms');
+            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре'])
+                ->default('Активно');
             $table->integer('bathrooms');
+            $table->integer('house_type_id');
             $table->integer('conditioners');
             $table->string('description', 1000);
-            $table->string('status');
             $table->integer('views');
             $table->integer('chattings');
             $table->timestamps();

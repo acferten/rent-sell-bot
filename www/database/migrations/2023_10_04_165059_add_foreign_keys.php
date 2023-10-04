@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::table('estates', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('geoposition_id')->references('id')->on('geopositions');
+            $table->foreign('house_type_id')->references('id')->on('house_types');
         });
 
         Schema::table('estate_prices', function (Blueprint $table) {
@@ -22,6 +23,7 @@ return new class extends Migration {
 
         Schema::table('estate_includes', function (Blueprint $table) {
             $table->foreign('estate_id')->references('id')->on('estates');
+            $table->foreign('include_id')->references('id')->on('includes');
         });
 
         Schema::table('reports', function (Blueprint $table) {

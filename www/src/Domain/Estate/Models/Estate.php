@@ -10,6 +10,7 @@ use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\Geoposition\Geoposition;
 use Domain\Shared\Models\Reports\Report;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -40,9 +41,9 @@ class Estate extends BaseModel
         return $this->belongsTo(Geoposition::class);
     }
 
-    public function includes(): HasMany
+    public function includes(): BelongsToMany
     {
-        return $this->hasMany(EstateInclude::class);
+        return $this->belongsToMany(EstateInclude::class, 'estate_includes', 'estate_id', 'include_id');
     }
 
     public function reports(): HasMany
@@ -52,7 +53,7 @@ class Estate extends BaseModel
 
     public function photos(): HasMany
     {
-        return $this->hasMany(EstatePhotos::class);
+        return $this->hasMany(EstatePhoto::class);
     }
 
     public function prices(): HasMany
