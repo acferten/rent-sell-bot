@@ -12,6 +12,5 @@ enum EstateCallbacks: string
     case GetFilteredEstates = '🎯 Настроить фильтр';
     case GetSellEstates = 'Купить жилье';
 
-
-
+    case GoBack = '◀️ Вернуться назад';
 }

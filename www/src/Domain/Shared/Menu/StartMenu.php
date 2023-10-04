@@ -3,6 +3,7 @@
 namespace Domain\Shared\Menu;
 
 use Domain\Estate\Enums\EstateCallbacks;
+use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -17,14 +18,22 @@ class StartMenu extends InlineMenu
         string          $funcName): self
     {
         return $this->menuText($text->value)
-            ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
+            ->clearButtons()
+            ->addButtonRow(InlineKeyboardButton::make(
                 $button1->value,
                 callback_data: "{$button1->name}@{$funcName}")
             )
             ->addButtonRow(InlineKeyboardButton::make(
                 $button2->value,
                 callback_data: "{$button2->name}@{$funcName}")
-            );
+            )->orNext('none');
+    }
+
+    public function backButton(): self
+    {
+        return $this->addButtonRow(InlineKeyboardButton::make(
+            EstateCallbacks::GoBack->value,
+            callback_data: EstateCallbacks::GoBack->name . "@handleBack"));
     }
 
     public function start(Nutgram $bot): void
@@ -40,25 +49,35 @@ class StartMenu extends InlineMenu
     public function handleStartChoice(Nutgram $bot): void
     {
         if ($bot->callbackQuery()->data == EstateCallbacks::StartCreateRentEstate->name) {
-            $this->menuLayout(
-                MessageText::StartCommandText,
-                EstateCallbacks::CreateRentEstate,
-                EstateCallbacks::CallManager,
-                'handleCreateEstateChoice'
-            )->showMenu();
+            $this->menuText(MessageText::StartCommandText->value)
+                ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
+                    EstateCallbacks::CreateRentEstate->value,
+                    callback_data: EstateCallbacks::CreateRentEstate->name . "@handleCreateEstateChoice")
+                )
+                ->addButtonRow(InlineKeyboardButton::make(
+                    EstateCallbacks::CallManager->value,
+                    url: MessageText::ManagerUrl->value)
+                )
+                ->backButton()
+                ->showMenu();
         } else {
             $this->menuLayout(
                 MessageText::GetEstatesText,
                 EstateCallbacks::GetEstates,
                 EstateCallbacks::GetFilteredEstates,
-                'handleGetEstatesChoice'
-            )->showMenu();
+                'handleGetEstatesChoice')
+                ->backButton()
+                ->showMenu();
         }
     }
 
     public function handleCreateEstateChoice(Nutgram $bot): void
     {
+        $bot->onCallbackQueryData(EstateCallbacks::CreateRentEstate->name, CreateEstateMenu::begin($bot));
+//        $bot->onCallbackQueryData(EstateCallbacks::GetEstates->name, f);
+//        $bot->onCallbackQueryData(EstateCallbacks::GetFilteredEstates->name, f);
 
+//        $this->end();
     }
 
     public function handleGetEstatesChoice(Nutgram $bot): void
@@ -67,9 +86,8 @@ class StartMenu extends InlineMenu
     }
 
 
-    public function none(Nutgram $bot): void
+    public function handleBack(Nutgram $bot): void
     {
-        $bot->sendMessage('Bye!');
-        $this->end();
+        $this->start($bot);
     }
 }

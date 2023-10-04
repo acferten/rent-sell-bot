@@ -11,13 +11,11 @@ class CreateEstateMenu extends InlineMenu
 {
     protected ?string $step = 'askDealType';
 
-    public $cupSize = '';
-
     public function askDealType(Nutgram $bot): void
     {
         $this->clearButtons()
             ->menuText(CreateEstateText::DealType->value)
-            ->addButtonRow(InlineKeyboardButton::make('Сдать на долгий срок, от 1-го месяца', callback_data: 'createEstate-DealType-Rent@handleType'))
+            ->addButtonRow(InlineKeyboardButton::make('Сдать на долгий срок, от 1-го месяца', callback_data: 'c@handleType'))
             ->addButtonRow(InlineKeyboardButton::make('Продать', callback_data: 'createEstate-DealType-Sell@handleType'))
             ->orNext('none')
             ->showMenu();
