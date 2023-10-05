@@ -2,7 +2,7 @@
 
 namespace Domain\Estate\Enums;
 
-enum EstateCallbacks: string
+enum  EstateCallbacks: string
 {
     case StartCreateEstate = '👨‍💼 Сдать \ продать жильё';
     case CreateEstate = '🏡 Разместить объект';

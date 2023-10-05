@@ -8,6 +8,7 @@ use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class StartMenu extends InlineMenu
 {
@@ -56,7 +57,7 @@ class StartMenu extends InlineMenu
                 )
                 ->addButtonRow(InlineKeyboardButton::make(
                     EstateCallbacks::CallManager->value,
-                    url: MessageText::ManagerUrl->value)
+                    web_app: new WebAppInfo('https://1ab5-79-136-237-88.ngrok-free.app/estate/create'))
                 )
                 ->backButton()
                 ->showMenu();

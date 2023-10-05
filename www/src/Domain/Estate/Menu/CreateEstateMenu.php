@@ -53,4 +53,5 @@ class CreateEstateMenu extends InlineMenu
         $bot->sendMessage("You want an $this->cupSize cup with this flavors: $flavors");
         $this->end();
     }
+
 }
