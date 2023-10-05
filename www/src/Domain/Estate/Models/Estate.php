@@ -38,7 +38,6 @@ class Estate extends BaseModel
         'video_review',
         'status',
         'deal_type',
-        'status',
         'house_type_id',
         'user_id',
         'geoposition_id'

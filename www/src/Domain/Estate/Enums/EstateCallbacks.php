@@ -4,8 +4,8 @@ namespace Domain\Estate\Enums;
 
 enum EstateCallbacks: string
 {
-    case StartCreateRentEstate = '👨‍💼 Сдать жильё';
-    case CreateRentEstate = '🏡 Разместить объект';
+    case StartCreateEstate = '👨‍💼 Сдать \ продать жильё';
+    case CreateEstate = '🏡 Разместить объект';
     case CallManager = '🙋‍ Написать менеджеру';
     case StartGetEstates = '🕵 Найти жильё';
     case GetEstates = '🏡 Посмотреть все';
