@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use Domain\Estate\Actions\CreateEstateAction;
+use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\Includes;
 use Domain\Estate\Models\Estate;
@@ -38,27 +40,9 @@ class EstateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EstateData $data)
     {
-        // Form validation
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'subject' => 'required',
-            'message' => 'required'
-        ]);
-        //  Store data in database
-        Estate::create([
-            'house_type_id' => $request->input('estate_type'),
-            'description' => $request->input('description'),
-            'bathrooms' => $request->input('bathrooms'),
-            'bedrooms' => $request->input('bedrooms'),
-            'conditioners' => $request->input('conditioners'),
-            'deal_type' => $request->input('deal_type'),
-        ]);
-        //
-        return back()->with('success', 'We have received your message and would like to thank you for wri');
+        return CreateEstateAction::execute($data);
     }
 
     /**

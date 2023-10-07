@@ -34,7 +34,6 @@
         </div>
     @endif
     <form method="post" action="{{ route('estate.create') }}">
-        <!-- CROSS Site Request Forgery Protection -->
         @csrf
         <div class="form-group">
             <label>Сделка</label>
@@ -44,6 +43,11 @@
                     <label for="{{$deal_type->value}}">{{$deal_type->value}}</label>
                 @endforeach
             </p>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Цена</label>
+            <input type="number" class="form-control" name="price" id="price">
         </div>
 
         <div class="form-group">
@@ -75,21 +79,37 @@
             <label for="photo">Фото</label>
             <input type="file" name="photo" id="photo" multiple>
         </div>
+
         <div class="form-group">
-            <label for="price">Цена</label>
-            <input type="number" class="form-control" name="price" id="price">
+            <label for="country">Страна</label>
+            <input type="text" class="form-control" name="country" id="country">
+        </div>
+
+        <div class="form-group">
+            <label for="town">Город</label>
+            <input type="text" class="form-control" name="town" id="town">
+        </div>
+
+        <div class="form-group">
+            <label for="district">Район</label>
+            <input type="text" class="form-control" name="district" id="district">
+        </div>
+
+        <div class="form-group">
+            <label for="street">Улица</label>
+            <input type="text" class="form-control" name="street" id="street">
         </div>
 
         <div class="form-group">
             <label>Включено в стоимость</label>
-            <p>
-                @foreach($includes as $include)
+            @foreach($includes as $include)
+                <p>
                     <label>
                         <input type="checkbox" name="include_ids[]" value="{{$include->id}}">
                         {{$include->title}}
                     </label>
-                @endforeach
-            </p>
+                </p>
+            @endforeach
         </div>
 
         <div class="form-group">
@@ -97,7 +117,7 @@
             <textarea class="form-control" name="description" id="description" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-dark btn-block"> Create</button>
+        <button type="submit" class="btn btn-dark btn-block">Сохранить</button>
     </form>
 </div>
 </body>

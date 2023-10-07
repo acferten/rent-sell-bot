@@ -20,6 +20,10 @@ return new class extends Migration {
             $table->integer('house_type_id');
             $table->integer('conditioners');
             $table->string('description', 1000);
+            $table->string('country');
+            $table->string('town');
+            $table->string('district');
+            $table->string('street');
             $table->integer('views')->default(0);
             $table->integer('chattings')->default(0);
             $table->timestamps();

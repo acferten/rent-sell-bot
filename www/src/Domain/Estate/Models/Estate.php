@@ -40,7 +40,11 @@ class Estate extends BaseModel
         'deal_type',
         'house_type_id',
         'user_id',
-        'geoposition_id'
+        'geoposition_id',
+        'country',
+        'town',
+        'district',
+        'street',
     ];
 
     public function status(): EstateStatus
