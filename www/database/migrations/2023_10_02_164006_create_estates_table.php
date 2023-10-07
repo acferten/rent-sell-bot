@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('town');
             $table->string('district');
             $table->string('street');
+            $table->integer('price')->nullable();
             $table->integer('views')->default(0);
             $table->integer('chattings')->default(0);
             $table->timestamps();

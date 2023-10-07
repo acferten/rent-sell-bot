@@ -8,10 +8,12 @@ use Illuminate\Http\RedirectResponse;
 
 class CreateEstateAction
 {
-    public static function execute(EstateData $data): RedirectResponse
+    public static function execute(EstateData $data)
     {
-        Estate::create([]);
+        dd($data);
 
-        return back()->with('success', 'We have received your message and would like to thank you for wri');
+//        Estate::create([]);
+//
+//        return back()->with('success', 'We have received your message and would like to thank you for wri');
     }
 }

@@ -45,6 +45,7 @@ class Estate extends BaseModel
         'town',
         'district',
         'street',
+        'price'
     ];
 
     public function status(): EstateStatus

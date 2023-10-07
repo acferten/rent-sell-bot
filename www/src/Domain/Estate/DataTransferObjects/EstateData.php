@@ -2,24 +2,35 @@
 
 namespace Domain\Estate\DataTransferObjects;
 
+use Domain\Estate\Enums\DealTypes;
+use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\EstateStatus;
-
-use Domain\Estate\Models\EstateType;
+use Domain\Estate\Models\EstateInclude;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
-use Spatie\LaravelData\Lazy;
 
 class EstateData extends Data
 {
     public function __construct(
-        public string                            $description,
-        public int                               $bathrooms,
-        public int                               $bedrooms,
-        public int                               $conditioners,
-        public int                               $price,
-        public readonly null|Lazy|DataCollection $includes,
-        public EstateStatus                      $status = EstateStatus::active
+        public string                       $description,
+        public string                       $country,
+        public string                       $town,
+        public string                       $district,
+        public string                       $street,
+        public int                          $bedrooms,
+        public int                          $conditioners,
+        public null|int                     $price,
+        /** @var DataCollection<EstateIncludeData> */
+        public readonly null|DataCollection $includes,
+        public readonly UploadedFile        $photo,
+        public readonly null|UploadedFile   $video_review,
+        public readonly null|EstatePeriods  $period,
+        public readonly null|int            $period_price,
+        public readonly int                 $house_type_id,
+        public readonly DealTypes           $deal_type,
+        public EstateStatus                 $status = EstateStatus::active
     )
     {
     }
@@ -28,8 +39,8 @@ class EstateData extends Data
     {
         return self::from([
             ...$request->all(),
-            'specialties' => EstateTypeData::collection(
-                EstateType::whereIn('id', $request->collect('include_ids'))->get()
+            'includes' => EstateIncludeData::collection(
+                EstateInclude::whereIn('id', $request->collect('include_ids'))->get()
             ),
         ]);
     }
@@ -37,16 +48,21 @@ class EstateData extends Data
     public static function rules(): array
     {
         return [
-            'header' => 'required|string|between:10,60',
             'description' => 'required|string|max:1000',
-            'end_date' => 'required|int|between:1,30',
+            'country' => 'required|string',
+            'town' => 'required|string',
+            'district' => 'required|string',
+            'street' => 'required|string',
             'bedrooms' => 'required|int|between:1,10',
-            'price' => 'required|int|between:0,100000',
-            'address' => 'required|string',
-            'include_ids' => 'array|between:0,5|exists:includes,id',
-            'time_execute' => ['required', 'string', 'regex:/(^1[0-9]:00$)|(^[1-9]:00$)|(^2[0-4]:00$)|(^0[1-9]:00$)/u'],
-            'status' => 'prohibited',
-            'id' => 'prohibited'
+            'bathrooms' => 'required|int|between:1,10',
+            'conditioners' => 'required|int|between:1,25',
+            'price' => 'required_if:deal_type,Продажа|int|between:0,100000',
+            'include_ids' => 'array|exists:includes,id',
+            'photo' => 'required|image|max:5120|mimes:jpg,png',
+            'video_review' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
+            'period' => 'required_if:deal_type,Аренда|string',
+            'period_price' => 'required_if:deal_type,Аренда|int',
+            'house_type_id' => 'required|exists:house_types,id'
         ];
     }
 

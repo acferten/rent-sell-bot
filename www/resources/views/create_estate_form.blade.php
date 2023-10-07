@@ -33,8 +33,7 @@
             {{Session::get('success')}}
         </div>
     @endif
-    <form method="post" action="{{ route('estate.create') }}">
-        @csrf
+    <form method="post" action="{{ route('estate.store') }}/">
         <div class="form-group">
             <label>Сделка</label>
             <p>
@@ -54,7 +53,7 @@
             <label>Тип недвижимости</label>
             <p>
                 @foreach($estate_types as $estate_type)
-                    <input type="radio" name="estate_type" value="{{$estate_type->id}}" id="{{$estate_type->title}}">
+                    <input type="radio" name="house_type_id" value="{{$estate_type->id}}" id="{{$estate_type->title}}">
                     <label for="{{$estate_type->title}}">{{$estate_type->title}}</label>
                 @endforeach
             </p>
@@ -89,6 +88,9 @@
             <label for="town">Город</label>
             <input type="text" class="form-control" name="town" id="town">
         </div>
+        @error('town')
+        <div>{{ $message }}</div>
+        @enderror
 
         <div class="form-group">
             <label for="district">Район</label>

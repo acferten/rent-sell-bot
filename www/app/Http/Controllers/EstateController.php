@@ -27,7 +27,6 @@ class EstateController extends Controller
      */
     public function create()
     {
-
         $data = [
             'includes' => EstateInclude::all(),
             'deal_types' => DealTypes::cases(),
@@ -42,6 +41,7 @@ class EstateController extends Controller
      */
     public function store(EstateData $data)
     {
+        dd($data);
         return CreateEstateAction::execute($data);
     }
 

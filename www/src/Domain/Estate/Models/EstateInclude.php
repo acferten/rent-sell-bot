@@ -2,9 +2,8 @@
 
 namespace Domain\Estate\Models;
 
-use Domain\Estate\Enums\Includes;
+use Domain\Estate\DataTransferObjects\EstateIncludeData;
 use Domain\Shared\Models\BaseModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -15,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class EstateInclude extends BaseModel
 {
     protected $table = 'includes';
-
+    protected string $dataClass = EstateIncludeData::class;
     protected $fillable = [
         'title'
     ];

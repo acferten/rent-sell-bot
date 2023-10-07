@@ -2,10 +2,10 @@
 
 namespace Domain\Estate\DataTransferObjects;
 
-use Domain\Estate\Models\EstateType;
+use Domain\Estate\Models\EstateInclude;
 use Spatie\LaravelData\Data;
 
-class EstateTypeData extends Data
+class EstateIncludeData extends Data
 {
     public function __construct(
         public readonly int    $id,
@@ -14,12 +14,9 @@ class EstateTypeData extends Data
     {
     }
 
-    /**
-     * Return id and name of specialty
-     */
-    public static function fromModel(EstateType $model): EstateTypeData
+    public static function fromModel(EstateInclude $model): EstateIncludeData
     {
-        return new EstateTypeData(
+        return new EstateIncludeData(
             id: $model->id,
             title: $model->title,
         );
