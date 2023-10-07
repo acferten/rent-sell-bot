@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 
+use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\Includes;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
 
 class EstateController extends Controller
@@ -26,6 +28,8 @@ class EstateController extends Controller
 
         $data = [
             'includes' => EstateInclude::all(),
+            'deal_types' => DealTypes::cases(),
+            'estate_types' => EstateType::all()
         ];
 
         return view('create_estate_form', $data);
@@ -45,7 +49,14 @@ class EstateController extends Controller
             'message' => 'required'
         ]);
         //  Store data in database
-        Estate::create($request->all());
+        Estate::create([
+            'house_type_id' => $request->input('estate_type'),
+            'description' => $request->input('description'),
+            'bathrooms' => $request->input('bathrooms'),
+            'bedrooms' => $request->input('bedrooms'),
+            'conditioners' => $request->input('conditioners'),
+            'deal_type' => $request->input('deal_type'),
+        ]);
         //
         return back()->with('success', 'We have received your message and would like to thank you for wri');
     }

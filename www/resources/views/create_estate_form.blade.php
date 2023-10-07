@@ -5,8 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{--   <link rel="stylesheet" type="text/css" href="{{asset('public/css/estate_form.css')}}">--}}
-    <link rel="stylesheet" href="https://1ab5-79-136-237-88.ngrok-free.app/public/css/estate_form.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('public/css/estate_form.css')}}">
+    {{--    <link rel="stylesheet" href="https://a625-79-136-237-88.ngrok-free.app/public/css/estate_form.css">--}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     <title>Document</title>
@@ -37,35 +37,66 @@
         <!-- CROSS Site Request Forgery Protection -->
         @csrf
         <div class="form-group">
-            <p>Включено в стоимость</p>
-            @foreach($includes as $include)
-                <label>
-                    <input type="checkbox" name="include_ids[]" value="{{$include->id}}">
-                    {{$include->title}}
-                </label>
-            @endforeach
+            <label>Сделка</label>
+            <p>
+                @foreach($deal_types as $deal_type)
+                    <input type="radio" name="deal_type" value="{{$deal_type->value}}" id="{{$deal_type->value}}">
+                    <label for="{{$deal_type->value}}">{{$deal_type->value}}</label>
+                @endforeach
+            </p>
         </div>
 
         <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" name="name" id="name">
+            <label>Тип недвижимости</label>
+            <p>
+                @foreach($estate_types as $estate_type)
+                    <input type="radio" name="estate_type" value="{{$estate_type->id}}" id="{{$estate_type->title}}">
+                    <label for="{{$estate_type->title}}">{{$estate_type->title}}</label>
+                @endforeach
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label for="bedrooms">Количество спален</label>
+            <input type="number" class="form-control" name="bedrooms" id="bedrooms">
+        </div>
+
+        <div class="form-group">
+            <label for="bathrooms">Количество ванных комнат</label>
+            <input type="number" class="form-control" name="bathrooms" id="bathrooms">
+        </div>
+
+        <div class="form-group">
+            <label for="conditioners">Количество кондиционеров</label>
+            <input type="number" class="form-control" name="conditioners" id="conditioners">
+        </div>
+
+        <div class="form-group">
+            <label for="photo">Фото</label>
+            <input type="file" name="photo" id="photo" multiple>
         </div>
         <div class="form-group">
-            <label>Email</label>
-            <input type="email" class="form-control" name="email" id="email">
+            <label for="price">Цена</label>
+            <input type="number" class="form-control" name="price" id="price">
         </div>
+
         <div class="form-group">
-            <label>Phone</label>
-            <input type="text" class="form-control" name="phone" id="phone">
+            <label>Включено в стоимость</label>
+            <p>
+                @foreach($includes as $include)
+                    <label>
+                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}">
+                        {{$include->title}}
+                    </label>
+                @endforeach
+            </p>
         </div>
+
         <div class="form-group">
-            <label>Subject</label>
-            <input type="text" class="form-control" name="subject" id="subject">
+            <label for="description">Описание</label>
+            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
         </div>
-        <div class="form-group">
-            <label>Message</label>
-            <textarea class="form-control" name="message" id="message" rows="4"></textarea>
-        </div>
+
         <button type="submit" class="btn btn-dark btn-block"> Create</button>
     </form>
 </div>

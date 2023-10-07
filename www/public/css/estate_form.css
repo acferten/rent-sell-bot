@@ -18,7 +18,7 @@ form {
 
 label {
     font-weight: 600;
-    color: red;
+    color: darkslategrey;
 }
 
 .error {
@@ -35,7 +35,7 @@ label {
 }
 
 h1 {
-    color: red;
+    color: darkslategrey;
 }
 
 body {
