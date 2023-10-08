@@ -41,7 +41,6 @@ class EstateController extends Controller
      */
     public function store(EstateData $data)
     {
-        dd($data);
         return CreateEstateAction::execute($data);
     }
 

@@ -11,11 +11,11 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('user_id');
             $table->string('deal_type');
-            $table->integer('geoposition_id');
+            $table->integer('geoposition_id')->nullable();
             $table->string('video_review', 100)->nullable();
             $table->integer('bedrooms');
-            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре'])
-                ->default('Активно');
+            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре', 'Ожидает подтверждения'])
+                ->default('Ожидает подтверждения');
             $table->integer('bathrooms');
             $table->integer('house_type_id');
             $table->integer('conditioners');

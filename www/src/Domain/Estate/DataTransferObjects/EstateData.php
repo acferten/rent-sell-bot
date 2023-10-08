@@ -21,6 +21,7 @@ class EstateData extends Data
         public string                       $street,
         public int                          $bedrooms,
         public int                          $conditioners,
+        public int                          $bathrooms,
         public null|int                     $price,
         /** @var DataCollection<EstateIncludeData> */
         public readonly null|DataCollection $includes,
@@ -30,7 +31,7 @@ class EstateData extends Data
         public readonly null|int            $period_price,
         public readonly int                 $house_type_id,
         public readonly DealTypes           $deal_type,
-        public EstateStatus                 $status = EstateStatus::active
+        public EstateStatus                 $status = EstateStatus::pending
     )
     {
     }
@@ -55,7 +56,7 @@ class EstateData extends Data
             'street' => 'required|string',
             'bedrooms' => 'required|int|between:1,10',
             'bathrooms' => 'required|int|between:1,10',
-            'conditioners' => 'required|int|between:1,25',
+            'conditioners' => 'required|int|between:0,25',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000',
             'include_ids' => 'array|exists:includes,id',
             'photo' => 'required|image|max:5120|mimes:jpg,png',

@@ -4,16 +4,21 @@ namespace Domain\Estate\Actions;
 
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Models\Estate;
-use Illuminate\Http\RedirectResponse;
 
 class CreateEstateAction
 {
     public static function execute(EstateData $data)
     {
-        dd($data);
+        $estate = Estate::create([
+            ...$data->all(),
+            'user_id' => 1,
 
-//        Estate::create([]);
-//
-//        return back()->with('success', 'We have received your message and would like to thank you for wri');
+        ]);
+
+        $estate->includes()->syncWithPivotValues($data->includes->toCollection()->pluck('id'), ['estate_id' => $estate->id]);
+
+        return back()->with('success', 'Создано.');
+
+//        return $estate->refresh();
     }
 }
