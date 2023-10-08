@@ -18,7 +18,7 @@ form {
 
 label {
     font-weight: 600;
-    color: darkslategrey;
+    color: var(--tg-theme-text-color);
 }
 
 .error {

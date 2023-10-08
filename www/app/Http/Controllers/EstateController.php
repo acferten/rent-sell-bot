@@ -6,11 +6,11 @@ namespace App\Http\Controllers;
 use Domain\Estate\Actions\CreateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
-use Domain\Estate\Enums\Includes;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EstateController extends Controller
 {
@@ -39,9 +39,18 @@ class EstateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EstateData $data)
+    public function store(Request $request)
     {
-        return CreateEstateAction::execute($data);
+        $request->validate(EstateData::rules());
+        Log::debug('validation passed');
+
+        $data = EstateData::fromRequest($request);
+        Log::debug('data object passed');
+
+        CreateEstateAction::execute($data);
+        Log::debug('action passed');
+
+        return to_route('estate.create')->withStatus('Created.');
     }
 
     /**

@@ -27,13 +27,9 @@
 </head>
 <body>
 <div class="container mt-5">
-    <!-- Success message -->
-    @if(Session::has('success'))
-        <div class="alert alert-success">
-            {{Session::get('success')}}
-        </div>
-    @endif
-    <form method="post" action="{{ route('estate.store') }}/">
+    <div>{{ session('status') }}</div>
+    <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
+        @csrf
         <div class="form-group">
             <label>Сделка</label>
             <p>
@@ -42,11 +38,17 @@
                     <label for="{{$deal_type->value}}">{{$deal_type->value}}</label>
                 @endforeach
             </p>
+            @error('deal_type')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="price">Цена</label>
             <input type="number" class="form-control" name="price" id="price">
+            @error('price')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -61,45 +63,67 @@
 
         <div class="form-group">
             <label for="bedrooms">Количество спален</label>
-            <input type="number" class="form-control" name="bedrooms" id="bedrooms">
+            <input type="text" class="form-control" name="bedrooms" id="bedrooms">
+            @error('bedrooms')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="bathrooms">Количество ванных комнат</label>
-            <input type="number" class="form-control" name="bathrooms" id="bathrooms">
+            <input type="number" min="1" class="form-control" name="bathrooms" id="bathrooms">
+            @error('bathrooms')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="conditioners">Количество кондиционеров</label>
-            <input type="number" class="form-control" name="conditioners" id="conditioners">
+            <input type="number" min="0" class="form-control" name="conditioners" id="conditioners">
+            @error('conditioners')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="photo">Фото</label>
             <input type="file" name="photo" id="photo" multiple>
+            @error('photo')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="country">Страна</label>
             <input type="text" class="form-control" name="country" id="country">
+            @error('country')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="town">Город</label>
             <input type="text" class="form-control" name="town" id="town">
+            @error('town')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
-        @error('town')
-        <div>{{ $message }}</div>
-        @enderror
+
 
         <div class="form-group">
             <label for="district">Район</label>
             <input type="text" class="form-control" name="district" id="district">
+            @error('district')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
             <label for="street">Улица</label>
             <input type="text" class="form-control" name="street" id="street">
+            @error('street')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -117,6 +141,9 @@
         <div class="form-group">
             <label for="description">Описание</label>
             <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+            @error('description')
+            <div>{{ $message }}</div>
+            @enderror
         </div>
 
         <button type="submit" class="btn btn-dark btn-block">Сохранить</button>

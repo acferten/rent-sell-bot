@@ -28,6 +28,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Estate extends BaseModel
 {
+    protected string $dataClass = Estate::class;
+
     protected $fillable = [
         'description',
         'bathrooms',

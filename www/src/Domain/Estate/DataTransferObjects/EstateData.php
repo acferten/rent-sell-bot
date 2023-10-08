@@ -8,6 +8,7 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\EstateInclude;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
@@ -36,8 +37,10 @@ class EstateData extends Data
     {
     }
 
-    public static function fromRequest(Request $request): self
+    public static function fromRequest(Request $request): static
     {
+        Log::debug("REQUEST =====> {$request}");
+
         return self::from([
             ...$request->all(),
             'includes' => EstateIncludeData::collection(

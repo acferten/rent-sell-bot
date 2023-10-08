@@ -22,7 +22,7 @@ return new class extends Migration {
         });
 
         Schema::table('estate_includes', function (Blueprint $table) {
-            $table->foreign('estate_id')->references('id')->on('estates');
+            $table->foreign('estate_id')->references('id')->on('estates')->onDelete('cascade');;
             $table->foreign('include_id')->references('id')->on('includes');
         });
 
