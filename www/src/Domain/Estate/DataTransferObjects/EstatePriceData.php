@@ -2,23 +2,26 @@
 
 namespace Domain\Estate\DataTransferObjects;
 
-use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Enums\EstatePeriods;
+use Domain\Estate\Models\EstatePrice;
 use Spatie\LaravelData\Data;
 
 class EstatePriceData extends Data
 {
     public function __construct(
-        public readonly int    $id,
-        public readonly string $title,
+        public readonly int           $id,
+        public readonly int           $price,
+        public readonly EstatePeriods $period
     )
     {
     }
 
-    public static function fromModel(EstateInclude $model): EstateIncludeData
+    public static function fromModel(EstatePrice $model): EstatePriceData
     {
-        return new EstateIncludeData(
+        return new self(
             id: $model->id,
-            title: $model->title,
+            price: $model->price,
+            period: $model->period()
         );
     }
 }

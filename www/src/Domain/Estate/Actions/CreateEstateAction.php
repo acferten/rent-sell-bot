@@ -5,7 +5,6 @@ namespace Domain\Estate\Actions;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstatePrice;
-use Illuminate\Support\Facades\Log;
 
 class CreateEstateAction
 {
