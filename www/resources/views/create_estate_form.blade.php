@@ -17,7 +17,7 @@
     <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <p class="form-group__title">Тип услуги</p>
+            <label class="form-group__title">Тип услуги</label>
             <div class="type_announcement">
                 @foreach($deal_types as $deal_type)
                     <div class="type_announcement__item">
@@ -30,11 +30,6 @@
                 @endforeach
             </div>
         </div>
-
-
-
-
-
         <div class="form-group">
             <div class="form-group">
                 <label class="form-group__title" for="price">Цена</label>
@@ -61,7 +56,8 @@
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
             <div class="form-outline">
-                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="0" max="10" step="1" placeholder="2"/>
+                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="0" max="10" step="1"
+                       placeholder="2"/>
             </div>
             @error('bedrooms')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -70,82 +66,69 @@
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
             <div class="form-outline">
-                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="0" max="10" step="1" placeholder="1"/>
+                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="0" max="10" step="1"
+                       placeholder="1"/>
             </div>
             @error('bathrooms')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-
-
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
             <div class="form-outline">
-                <input type="number" id="conditioners" name="conditioners" class="form-control" min="0" max="10" step="1" placeholder="1"/>
+                <input type="number" id="conditioners" name="conditioners" class="form-control" min="0" max="10"
+                       step="1" placeholder="1"/>
             </div>
             @error('conditioners')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
             <label class="form-group__title" for="photo">Фото</label>
             <div class="form-outline">
-                <input type="file" id="photo" name="photo" class="form-control" multiple/>
+                <input type="file" id="photo" accept=" image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="photo" class="form-control" multiple/>
             </div>
             @error('photo')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-
-
-
         <div class="form-group">
             <label class="form-group__title" for="country">Страна</label>
             <div class="form-outline">
-                <input type="text" id="country" name="country" class="form-control"/>
+                <input type="text" id="country" name="country" class="form-control" placeholder="Россия"/>
             </div>
             @error('country')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
             <label class="form-group__title" for="town">Город</label>
             <div class="form-outline">
-                <input type="text" id="town" name="town" class="form-control"/>
+                <input type="text" id="town" name="town" class="form-control" placeholder="Москва"/>
             </div>
             @error('town')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-
         <div class="form-group">
             <label class="form-group__title" for="district">Район</label>
             <div class="form-outline">
-                <input type="text" id="district" name="district" class="form-control"/>
+                <input type="text" id="district" name="district" class="form-control" placeholder="Марьино"/>
             </div>
             @error('district')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-
-
         <div class="form-group">
             <label class="form-group__title" for="street">Улица</label>
             <div class="form-outline">
-                <input type="text" id="street" name="street" class="form-control"/>
+                <input type="text" id="street" name="street" class="form-control" placeholder="Иловайская улица"/>
             </div>
             @error('street')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
-
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
@@ -161,13 +144,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="description">Описание</label>
-            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+            <label class="form-group__title" for="description">Описание</label>
+            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Подробное описание вашего объекта"></textarea>
             @error('description')
             <div>{{ $message }}</div>
             @enderror
         </div>
-        <button type="submit" class="btn btn-dark btn-block">Сохранить</button>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn">Сохранить</button>
+        </div>
     </form>
 </div>
 </body>

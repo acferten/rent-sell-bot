@@ -44,9 +44,10 @@ body {
     cursor: pointer;
 }
 
-.type_announcement__item input[type="radio"]:checked + label .radio-label {
+.form-group input[type="radio"]:checked + label .radio-label {
     background-color: var(--tg-theme-button-color);
     border-color: var(--tg-theme-button-color);
+    color: #fff;
 }
 
 .radio-label {
@@ -60,7 +61,7 @@ body {
     line-height: 1;
     border-radius: var(--bs-border-radius);
     border: var(--bs-border-width) solid var(--tg-theme-hint-color);
-    color: var(--tg-theme-button-text-color);
+    color: var(--tg-theme-text-color);
 }
 
 /* Estate type styles */
@@ -85,9 +86,10 @@ body {
     cursor: pointer;
 }
 
-.estate_types__item input[type="radio"]:checked + label .radio-label {
-    background-color: var(--tg-theme-button-color);
-    border-color: var(--tg-theme-button-color);
+@media screen and (max-width: 576px) {
+    .estate_types {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Estate includes styles */
@@ -119,4 +121,11 @@ body {
 .estate_includes__item input[type="checkbox"]:checked + label .radio-label {
     background-color: var(--tg-theme-button-color);
     border-color: var(--tg-theme-button-color);
+    color: #fff;
+}
+
+@media screen and (max-width: 576px) {
+    .estate_includes {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

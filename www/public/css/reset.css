@@ -28,3 +28,14 @@ form .form-control:-ms-input-placeholder {
 form .form-control:placeholder {
     color: #808080;
 }
+
+textarea {
+    resize: none !important;
+}
+
+.btn {
+    font-size: 18px !important;
+    background-color: var(--tg-theme-button-color) !important;
+    color: var(--tg-theme-button-text-color) !important;
+    margin-bottom: 30px;
+}
