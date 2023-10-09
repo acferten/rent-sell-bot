@@ -53,6 +53,7 @@ class EstateData extends Data
         return [
             'description' => 'required|string|max:1000',
             'country' => 'required|string',
+            'deal_type' => 'required',
             'town' => 'required|string',
             'district' => 'required|string',
             'street' => 'required|string',

@@ -53,14 +53,14 @@ class StartMenu extends InlineMenu
             $this->menuText(MessageText::StartCommandText->value)
                 ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
                     EstateCallbacks::CreateEstate->value,
-                    web_app: new WebAppInfo('https://cb3f-5-136-65-63.ngrok-free.app/estate/create'))
-                )
-                ->addButtonRow(InlineKeyboardButton::make(
-                    EstateCallbacks::CallManager->value,
-                    url: MessageText::ManagerUrl->value
+                    callback_data: EstateCallbacks::CreateEstate->name . '@handleCreateEstateChoice'
                 ))
-                ->backButton()
-                ->showMenu();
+                    ->addButtonRow(InlineKeyboardButton::make(
+                        EstateCallbacks::CallManager->value,
+                        url: MessageText::ManagerUrl->value
+                    ))
+                    ->backButton()
+                    ->showMenu();
         } else {
             $this->menuLayout(
                 MessageText::GetEstatesText,

@@ -3,10 +3,10 @@
 namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\CreateEstateText;
-use Domain\Estate\Enums\DealTypes;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class CreateEstateMenu extends InlineMenu
 {
@@ -15,34 +15,21 @@ class CreateEstateMenu extends InlineMenu
     public function firstStep(Nutgram $bot): void
     {
         $this->clearButtons()
-            ->menuText(CreateEstateText::DealType->value);
+            ->menuText(CreateEstateText::FirstStepHeader->value
+                . CreateEstateText::FirstStepDescription->value, ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make(
+                CreateEstateText::FillEstateFormText->value,
+                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrl->value))
+            )->orNext('none')->showMenu();
 
-        foreach (DealTypes::cases() as $deal) {
-            $this->addButtonRow(InlineKeyboardButton::make($deal->value, callback_data: 'createEstate-DealType-Sell@handleType'));
-        }
-
-        $this->orNext('none')
-            ->showMenu();
     }
 
-
-    public function handleType(Nutgram $bot): void
+    public function none(Nutgram $bot)
     {
-        $dealType = $bot->callbackQuery()->data;
-
-        $this->clearButtons()
-            ->menuText('aaaaaa')
-            ->addButtonRow(InlineKeyboardButton::make('bbbb', callback_data: 'crea@recap'))
-            ->addButtonRow(InlineKeyboardButton::make('Назад', callback_data: 'crea@recap'))
-            ->showMenu();
-    }
-
-
-    public function recap(Nutgram $bot)
-    {
-        $flavors = $bot->message()->text;
-        $bot->sendMessage("You want an $this->cupSize cup with this flavors: $flavors");
+        $bot->sendMessage('Выберите команду из меню.');
         $this->end();
     }
+
+    //TODO: back button
 
 }

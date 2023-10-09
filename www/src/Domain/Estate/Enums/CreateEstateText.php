@@ -3,7 +3,11 @@
 namespace Domain\Estate\Enums;
 enum CreateEstateText: string
 {
-    case DealType = 'Что вы бы хотели сделать с недвижимостью?';
-    case StartCreateRentEstate = 'текст об условиях размещения и цене';
+    case FirstStepHeader = '<b>Шаг 1</b>
+';
+    case FirstStepDescription = 'Заполните основные данные об объекте, который Вы хотите продать или сдать в аренду.';
 
+    case FillEstateFormText = '✍️ Заполнить форму';
+
+    case FillEstateFormUrl = 'https://9288-79-136-237-88.ngrok-free.app/estate/create';
 }
