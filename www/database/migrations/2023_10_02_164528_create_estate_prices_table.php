@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('estate_prices', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->autoIncrement();
             $table->integer('estate_id');
             $table->string('period');
             $table->integer('price');
