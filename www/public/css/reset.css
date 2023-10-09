@@ -1,0 +1,30 @@
+/* Изменение стилей bootstrap */
+
+.form-control {
+    box-shadow: none !important;
+    background-color: var(--tg-theme-bg-color) !important;
+    color: var(--tg-theme-text-color) !important;
+    border-color: var(--tg-theme-text-color) !important;
+    border: var(--bs-border-width) solid var(--tg-theme-hint-color) !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    background-color: var(--tg-theme-bg-color) !important;
+    color: var(--tg-theme-text-color) !important;
+    border-color: var(--tg-theme-button-color) !important;
+}
+
+form .form-control::-webkit-input-placeholder {
+    color: #808080;
+}
+
+form .form-control::-moz-placeholder {
+    color: #808080;
+}
+form .form-control:-ms-input-placeholder {
+    color: #808080;
+}
+form .form-control:placeholder {
+    color: #808080;
+}

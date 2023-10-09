@@ -1,49 +1,122 @@
-.container {
-    max-width: 500px;
-    margin: 50px auto;
-    text-align: left;
-    font-family: sans-serif;
-}
-
-form {
-    border: 1px solid #1A33FF;
-    background: #ecf5fc;
-    padding: 20px;
-}
-
-.form-control:focus {
-    border-color: #000;
-    box-shadow: none;
-}
-
-label {
-    font-weight: 600;
-    color: var(--tg-theme-text-color);
-}
-
-.error {
-    color: red;
-    font-weight: 400;
-    display: block;
-    padding: 6px 0;
-    font-size: 14px;
-}
-
-.form-control.error {
-    border-color: red;
-    padding: .375rem .75rem;
-}
-
-h1 {
-    color: darkslategrey;
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
 }
 
 body {
+    background-color: var(--tg-theme-bg-color) !important;
+}
+
+.page-title {
     color: var(--tg-theme-text-color);
-    background: var(--tg-theme-bg-color);
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.btn-secondary {
-    margin-bottom: 0;
+.form-group {
+    margin-bottom: 20px;
 }
 
+.form-group__title {
+    color: var(--tg-theme-text-color);
+    font-size: 18px;
+    font-weight: 500;
+    margin-block-end: 5px;
+}
+
+.type_announcement {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.type_announcement__item {
+    width: 100%;
+}
+
+.type_announcement__item input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.type_announcement__item label {
+    display: block;
+    cursor: pointer;
+}
+
+.type_announcement__item input[type="radio"]:checked + label .radio-label {
+    background-color: var(--tg-theme-button-color);
+    border-color: var(--tg-theme-button-color);
+}
+
+.radio-label {
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--tg-theme-hint-color);
+    color: var(--tg-theme-button-text-color);
+}
+
+/* Estate type styles */
+
+.estate_types {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.estate_types__item {
+    width: 100%;
+}
+
+.estate_types__item input[type="radio"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.estate_types__item label {
+    display: block;
+    cursor: pointer;
+}
+
+.estate_types__item input[type="radio"]:checked + label .radio-label {
+    background-color: var(--tg-theme-button-color);
+    border-color: var(--tg-theme-button-color);
+}
+
+/* Estate includes styles */
+.estate_includes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.estate_includes__item {
+    width: 100%;
+}
+
+.estate_includes__item input[type="checkbox"] {
+    position: absolute;
+    visibility: hidden;
+}
+
+.estate_includes__item label {
+    text-align: center;
+    display: block;
+    cursor: pointer;
+}
+
+.estate_includes__item .radio-label {
+    height: 60px;
+}
+
+.estate_includes__item input[type="checkbox"]:checked + label .radio-label {
+    background-color: var(--tg-theme-button-color);
+    border-color: var(--tg-theme-button-color);
+}

@@ -5,170 +5,161 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/estate_form.css')}}">
-    {{--    <link rel="stylesheet" href="https://a625-79-136-237-88.ngrok-free.app/public/css/estate_form.css">--}}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cb3f-5-136-65-63.ngrok-free.app/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-            defer></script>
-    <title>Document</title>
-
-    <style>
-        body {
-            color: var(--tg-theme-text-color);
-            background: var(--tg-theme-bg-color);
-        }
-
-        button {
-            color: var(--tg-theme-button-color);
-            background: var(--tg-theme-button-text-color);
-
-        }
-
-        .form-label {
-            font-size: 0.85rem;
-        }
-
-        .form-outline .form-control ~ .form-label {
-            padding-top: 0.5rem;
-        }
-    </style>
-
+    <title>Размещение объекта</title>
 </head>
 <body>
 <div class="container mt-5">
+    <h1 class="page-title">Размещение объекта</h1>
     <div>{{ session('status') }}</div>
     <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <p>Сделка</p>
-            <div class="btn-group">
+            <p class="form-group__title">Тип услуги</p>
+            <div class="type_announcement">
                 @foreach($deal_types as $deal_type)
-                    <input type="radio" class="btn-check" name="deal_type" value="{{$deal_type->value}}"
-                           id="{{$deal_type->value}}" autocomplete="off" checked/>
-                    <label class="btn btn-secondary" for="{{$deal_type->value}}">{{$deal_type->value}}</label>
+                    <div class="type_announcement__item">
+                        <input type="radio" name="deal_type" value="{{$deal_type->value}}"
+                               id="{{$deal_type->value}}"/>
+                        <label for="{{$deal_type->value}}">
+                            <span class="radio-label">{{$deal_type->value}}</span>
+                        </label>
+                    </div>
                 @endforeach
             </div>
-            @error('deal_type')
-            <div>{{ $message }}</div>
-            @enderror
         </div>
 
+
+
+
+
         <div class="form-group">
-            <div class="form-outline">
-                <input type="number" id="typeNumber" name="price" class="form-control" min="0"/>
-                <label class="form-label" for="typeNumber">Цена</label>
+            <div class="form-group">
+                <label class="form-group__title" for="price">Цена</label>
+                <input type="number" class="form-control" id="price" placeholder="5000">
             </div>
             @error('price')
             <div>{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
-        </div>
-        <div class="form-group">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Тип недвижимости</option>
+            <p class="form-group__title">Вид недвижимости</p>
+            <div class="estate_types">
                 @foreach($estate_types as $estate_type)
-                    <option name="house_type_id" value="{{$estate_type->id}}">{{$estate_type->title}}</option>
+                    <div class="estate_types__item">
+                        <input type="radio" name="estate_type" value="{{$estate_type->id}}"
+                               id="{{$estate_type->id}}"/>
+                        <label for="{{$estate_type->id}}">
+                            <span class="radio-label">{{$estate_type->title}}</span>
+                        </label>
+                    </div>
                 @endforeach
-            </select>
+            </div>
         </div>
-
         <div class="form-group">
+            <label class="form-group__title" for="bedrooms">Количество спален</label>
             <div class="form-outline">
-                <input type="number" id="typeNumber" name="bedrooms" class="form-control" min="0" max="10" step="1"/>
-                <label class="form-label" for="typeNumber">Количество спален</label>
+                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="0" max="10" step="1" placeholder="2"/>
             </div>
             @error('bedrooms')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
+            <label class="form-group__title" for="bathrooms">Количество ванн</label>
             <div class="form-outline">
-                <input type="number" id="typeNumber" name="bathrooms" class="form-control" min="0" max="10" step="1"/>
-                <label class="form-label" for="typeNumber">Количество ванн</label>
+                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="0" max="10" step="1" placeholder="1"/>
             </div>
             @error('bathrooms')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
+
+
         <div class="form-group">
+            <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
             <div class="form-outline">
-                <input type="number" id="typeNumber" name="conditioners" class="form-control" min="0" max="10"
-                       step="1"/>
-                <label class="form-label" for="typeNumber">Количество кондиционеров</label>
+                <input type="number" id="conditioners" name="conditioners" class="form-control" min="0" max="10" step="1" placeholder="1"/>
             </div>
             @error('conditioners')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Фото</label>
-                <input class="form-control" name="photo" type="file" id="formFile" multiple>
+            <label class="form-group__title" for="photo">Фото</label>
+            <div class="form-outline">
+                <input type="file" id="photo" name="photo" class="form-control" multiple/>
             </div>
             @error('photo')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
+
+
+
         <div class="form-group">
+            <label class="form-group__title" for="country">Страна</label>
             <div class="form-outline">
-                <input type="text" id="form12" name="country" class="form-control"/>
-                <label class="form-label" for="form12">Страна</label>
+                <input type="text" id="country" name="country" class="form-control"/>
             </div>
             @error('country')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
+            <label class="form-group__title" for="town">Город</label>
             <div class="form-outline">
-                <input type="text" id="form12" name="town" class="form-control"/>
-                <label class="form-label" for="form12">Город</label>
+                <input type="text" id="town" name="town" class="form-control"/>
             </div>
             @error('town')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
 
         <div class="form-group">
+            <label class="form-group__title" for="district">Район</label>
             <div class="form-outline">
-                <input type="text" id="form12" name="district" class="form-control"/>
-                <label class="form-label" for="form12">Район</label>
+                <input type="text" id="district" name="district" class="form-control"/>
             </div>
             @error('district')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
+
+
         <div class="form-group">
+            <label class="form-group__title" for="street">Улица</label>
             <div class="form-outline">
-                <input type="text" id="form12" name="street" class="form-control"/>
-                <label class="form-label" for="form12">Улица</label>
+                <input type="text" id="street" name="street" class="form-control"/>
             </div>
             @error('street')
-            <div>{{ $message }}</div>
+            <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
-        <div class="form-group">
-            <label>Включено в стоимость</label>
-            @foreach($includes as $include)
-                <p>
-                    <label>
-                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}">
-                        {{$include->title}}
-                    </label>
-                </p>
-            @endforeach
-        </div>
 
+        <div class="form-group">
+            <label class="form-group__title">Включено в стоимость</label>
+            <div class="estate_includes">
+                @foreach($includes as $include)
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}"
+                               id="{{$include->title}}-{{$include->id}}"/>
+                        <label for="{{$include->title}}-{{$include->id}}">
+                            <span class="radio-label">{{$include->title}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
         <div class="form-group">
             <label for="description">Описание</label>
             <textarea class="form-control" name="description" id="description" rows="3"></textarea>
@@ -176,7 +167,6 @@
             <div>{{ $message }}</div>
             @enderror
         </div>
-
         <button type="submit" class="btn btn-dark btn-block">Сохранить</button>
     </form>
 </div>
