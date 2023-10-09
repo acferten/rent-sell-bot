@@ -5,10 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/css/estate_form.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/estate_form.css')}}">
     {{--    <link rel="stylesheet" href="https://a625-79-136-237-88.ngrok-free.app/public/css/estate_form.css">--}}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css"/>
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+            defer></script>
     <title>Document</title>
 
     <style>
@@ -22,6 +25,14 @@
             background: var(--tg-theme-button-text-color);
 
         }
+
+        .form-label {
+            font-size: 0.85rem;
+        }
+
+        .form-outline .form-control ~ .form-label {
+            padding-top: 0.5rem;
+        }
     </style>
 
 </head>
@@ -31,79 +42,95 @@
     <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label>Сделка</label>
-            <p>
+            <p>Сделка</p>
+            <div class="btn-group">
                 @foreach($deal_types as $deal_type)
-                    <input type="radio" name="deal_type" value="{{$deal_type->value}}" id="{{$deal_type->value}}">
-                    <label for="{{$deal_type->value}}">{{$deal_type->value}}</label>
+                    <input type="radio" class="btn-check" name="deal_type" value="{{$deal_type->value}}"
+                           id="{{$deal_type->value}}" autocomplete="off" checked/>
+                    <label class="btn btn-secondary" for="{{$deal_type->value}}">{{$deal_type->value}}</label>
                 @endforeach
-            </p>
+            </div>
             @error('deal_type')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="price">Цена</label>
-            <input type="number" class="form-control" name="price" id="price">
+            <div class="form-outline">
+                <input type="number" id="typeNumber" name="price" class="form-control" min="0"/>
+                <label class="form-label" for="typeNumber">Цена</label>
+            </div>
             @error('price')
             <div>{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
-            <label>Тип недвижимости</label>
-            <p>
+        </div>
+        <div class="form-group">
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Тип недвижимости</option>
                 @foreach($estate_types as $estate_type)
-                    <input type="radio" name="house_type_id" value="{{$estate_type->id}}" id="{{$estate_type->title}}">
-                    <label for="{{$estate_type->title}}">{{$estate_type->title}}</label>
+                    <option name="house_type_id" value="{{$estate_type->id}}">{{$estate_type->title}}</option>
                 @endforeach
-            </p>
+            </select>
         </div>
 
         <div class="form-group">
-            <label for="bedrooms">Количество спален</label>
-            <input type="text" class="form-control" name="bedrooms" id="bedrooms">
+            <div class="form-outline">
+                <input type="number" id="typeNumber" name="bedrooms" class="form-control" min="0" max="10" step="1"/>
+                <label class="form-label" for="typeNumber">Количество спален</label>
+            </div>
             @error('bedrooms')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="bathrooms">Количество ванных комнат</label>
-            <input type="number" min="1" class="form-control" name="bathrooms" id="bathrooms">
+            <div class="form-outline">
+                <input type="number" id="typeNumber" name="bathrooms" class="form-control" min="0" max="10" step="1"/>
+                <label class="form-label" for="typeNumber">Количество ванн</label>
+            </div>
             @error('bathrooms')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="conditioners">Количество кондиционеров</label>
-            <input type="number" min="0" class="form-control" name="conditioners" id="conditioners">
+            <div class="form-outline">
+                <input type="number" id="typeNumber" name="conditioners" class="form-control" min="0" max="10"
+                       step="1"/>
+                <label class="form-label" for="typeNumber">Количество кондиционеров</label>
+            </div>
             @error('conditioners')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="photo">Фото</label>
-            <input type="file" name="photo" id="photo" multiple>
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Фото</label>
+                <input class="form-control" name="photo" type="file" id="formFile" multiple>
+            </div>
             @error('photo')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="country">Страна</label>
-            <input type="text" class="form-control" name="country" id="country">
+            <div class="form-outline">
+                <input type="text" id="form12" name="country" class="form-control"/>
+                <label class="form-label" for="form12">Страна</label>
+            </div>
             @error('country')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="town">Город</label>
-            <input type="text" class="form-control" name="town" id="town">
+            <div class="form-outline">
+                <input type="text" id="form12" name="town" class="form-control"/>
+                <label class="form-label" for="form12">Город</label>
+            </div>
             @error('town')
             <div>{{ $message }}</div>
             @enderror
@@ -111,16 +138,20 @@
 
 
         <div class="form-group">
-            <label for="district">Район</label>
-            <input type="text" class="form-control" name="district" id="district">
+            <div class="form-outline">
+                <input type="text" id="form12" name="district" class="form-control"/>
+                <label class="form-label" for="form12">Район</label>
+            </div>
             @error('district')
             <div>{{ $message }}</div>
             @enderror
         </div>
 
         <div class="form-group">
-            <label for="street">Улица</label>
-            <input type="text" class="form-control" name="street" id="street">
+            <div class="form-outline">
+                <input type="text" id="form12" name="street" class="form-control"/>
+                <label class="form-label" for="form12">Улица</label>
+            </div>
             @error('street')
             <div>{{ $message }}</div>
             @enderror

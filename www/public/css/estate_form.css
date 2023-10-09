@@ -8,7 +8,7 @@
 form {
     border: 1px solid #1A33FF;
     background: #ecf5fc;
-    padding: 40px 50px 45px;
+    padding: 20px;
 }
 
 .form-control:focus {
@@ -41,5 +41,9 @@ h1 {
 body {
     color: var(--tg-theme-text-color);
     background: var(--tg-theme-bg-color);
+}
+
+.btn-secondary {
+    margin-bottom: 0;
 }
 
