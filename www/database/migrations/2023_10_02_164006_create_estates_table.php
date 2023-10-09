@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('estates', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->autoIncrement();
             $table->bigInteger('user_id');
             $table->string('deal_type');
             $table->integer('geoposition_id')->nullable();

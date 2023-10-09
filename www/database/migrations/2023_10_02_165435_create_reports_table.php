@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->autoIncrement();
             $table->integer('estate_id');
             $table->enum('reason', ['Уже не актуально', 'Владелец не отвечает', 'Владелец невежливый']);
             $table->timestamps();
