@@ -29,14 +29,15 @@
                     </div>
                 @endforeach
             </div>
+            @error('deal_type')
+            <div class="invalid-field">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
-            <div class="form-group">
-                <label class="form-group__title" for="price">Цена</label>
-                <input type="number" class="form-control" id="price" placeholder="5000">
-            </div>
+            <label class="form-group__title" for="price">Цена</label>
+            <input type="number" class="form-control" id="price" placeholder="5000" min="0">
             @error('price')
-            <div>{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -52,6 +53,9 @@
                     </div>
                 @endforeach
             </div>
+            @error('estate_type')
+            <div class="invalid-field">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
@@ -60,7 +64,7 @@
                        placeholder="2"/>
             </div>
             @error('bedrooms')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -70,7 +74,7 @@
                        placeholder="1"/>
             </div>
             @error('bathrooms')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -80,7 +84,7 @@
                        step="1" placeholder="1"/>
             </div>
             @error('conditioners')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -90,7 +94,7 @@
   image/tiff, .tif" name="photo" class="form-control" multiple/>
             </div>
             @error('photo')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -99,7 +103,7 @@
                 <input type="text" id="country" name="country" class="form-control" placeholder="Россия"/>
             </div>
             @error('country')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -108,7 +112,7 @@
                 <input type="text" id="town" name="town" class="form-control" placeholder="Москва"/>
             </div>
             @error('town')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -117,7 +121,7 @@
                 <input type="text" id="district" name="district" class="form-control" placeholder="Марьино"/>
             </div>
             @error('district')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -126,7 +130,7 @@
                 <input type="text" id="street" name="street" class="form-control" placeholder="Иловайская улица"/>
             </div>
             @error('street')
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group">
@@ -145,9 +149,10 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="description">Описание</label>
-            <textarea class="form-control" name="description" id="description" rows="3" placeholder="Подробное описание вашего объекта"></textarea>
+            <textarea class="form-control" name="description" id="description" rows="3"
+                      placeholder="Подробное описание вашего объекта"></textarea>
             @error('description')
-            <div>{{ $message }}</div>
+            <div class="invalid-field">{{ $message }}</div>
             @enderror
         </div>
         <div class="d-grid gap-2">
