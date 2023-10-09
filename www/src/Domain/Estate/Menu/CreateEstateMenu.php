@@ -10,18 +10,9 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
 class CreateEstateMenu extends InlineMenu
 {
-    protected ?string $step = 'askDealType';
-    public string $description;
-    public string $bathrooms;
-    public string $bedrooms;
-    public string $conditioners;
-    public string $views;
-    public string $chattings;
-    public string $video_review;
-    public string $status;
-    public string $deal_type;
+    protected ?string $step = 'firstStep';
 
-    public function askDealType(Nutgram $bot): void
+    public function firstStep(Nutgram $bot): void
     {
         $this->clearButtons()
             ->menuText(CreateEstateText::DealType->value);

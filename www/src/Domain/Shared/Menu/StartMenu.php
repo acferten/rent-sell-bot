@@ -57,8 +57,8 @@ class StartMenu extends InlineMenu
                 )
                 ->addButtonRow(InlineKeyboardButton::make(
                     EstateCallbacks::CallManager->value,
-                    web_app: new WebAppInfo('https://a625-79-136-237-88.ngrok-free.app/estate/create'))
-                )
+                    url: MessageText::ManagerUrl->value
+                ))
                 ->backButton()
                 ->showMenu();
         } else {
