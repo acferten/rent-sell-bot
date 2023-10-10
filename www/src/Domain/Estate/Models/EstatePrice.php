@@ -17,6 +17,12 @@ class EstatePrice extends BaseModel
 {
     protected string $dataClass = EstatePriceData::class;
 
+    protected $fillable = [
+        'price',
+        'period',
+        'estate_id'
+    ];
+
     public function period(): EstatePeriods
     {
         return EstatePeriods::from($this->period);

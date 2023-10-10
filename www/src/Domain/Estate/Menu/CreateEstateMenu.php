@@ -24,6 +24,18 @@ class CreateEstateMenu extends InlineMenu
 
     }
 
+    public function secondStep(Nutgram $bot): void
+    {
+        $this->clearButtons()
+            ->menuText(CreateEstateText::FirstStepHeader->value
+                . CreateEstateText::FirstStepDescription->value, ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make(
+                CreateEstateText::FillEstateFormText->value,
+                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrl->value))
+            )->orNext('none')->showMenu();
+
+    }
+
     public function none(Nutgram $bot)
     {
         $bot->sendMessage('Выберите команду из меню.');

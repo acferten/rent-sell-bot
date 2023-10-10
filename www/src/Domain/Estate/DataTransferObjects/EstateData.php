@@ -6,6 +6,7 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\EstateInclude;
+use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Spatie\LaravelData\Data;
@@ -28,6 +29,7 @@ class EstateData extends Data
         /** @var DataCollection<EstatePriceData> */
         public readonly null|DataCollection $per,
         public readonly UploadedFile        $photo,
+        public readonly UserData            $user,
         public readonly null|UploadedFile   $video_review,
         public readonly null|EstatePeriods  $period,
         public readonly null|int            $period_price,
@@ -45,6 +47,12 @@ class EstateData extends Data
             'includes' => EstateIncludeData::collection(
                 EstateInclude::whereIn('id', $request->collect('include_ids'))->get()
             ),
+            'user' => UserData::from([
+                'id' => $request->input('user_id'),
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'username' => $request->input('username'),
+            ]),
         ]);
     }
 
@@ -66,7 +74,10 @@ class EstateData extends Data
             'video_review' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
             'period' => 'required_if:deal_type,Аренда|string',
             'period_price' => 'required_if:deal_type,Аренда|int',
-            'house_type_id' => 'required|exists:house_types,id'
+            'house_type_id' => 'required|exists:house_types,id',
+//            'user_id' => 'required',
+//            'username' => 'required',
+//            'first_name' => 'required'
         ];
     }
 

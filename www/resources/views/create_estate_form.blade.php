@@ -6,16 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://9288-79-136-237-88.ngrok-free.app/public/css/bundle.css">
+    <link rel="stylesheet" href="https://0b80-176-65-56-39.ngrok-free.app/public/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script src="https://0b80-176-65-56-39.ngrok-free.app/public/js/script.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
+
 <div class="container mt-5">
     <h1 class="page-title">Размещение объекта</h1>
+
     <div>{{ session('status') }}</div>
     <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" id="username" name="username" value=""/>
+        <input type="hidden" id="user_id" name="user_id" value=""/>
+        <input type="hidden" id="first_name" name="first_name" value=""/>
+        <input type="hidden" id="last_name" name="last_name" value=""/>
+
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>
             <div class="type_announcement">
