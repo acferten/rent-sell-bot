@@ -2,45 +2,56 @@
 
 namespace Domain\Estate\Menu;
 
-use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\ViewModels\GetEstatesViewModel;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class GetEstatesMenu extends InlineMenu
 {
-    private int $page = 1;
-    private static int $PER_PAGE = 3;
     public function start(Nutgram $bot): void
     {
-        $this->estates = Estate::where('status', EstateStatus::active->value)
-            ->limit(self::$PER_PAGE)
-            ->offset($this->page * self::$PER_PAGE)
-            ->get();
-        $this->menuText('Выберите объект недвижимости:');
+        $data = $bot->callbackQuery()->data ?? null;
+        $estate = Estate::where('status', EstateStatus::active->value)
+            ->where('id', '=', $data ?? 0)
+            ->orderBy('id')
+            ->limit(1)
+            ->first();
+        $prevEstate = Estate::where('status', EstateStatus::active->value)
+            ->where('id', '<', $estate->id)
+            ->orderBy('id', 'desc')
+            ->limit(1)
+            ->first();
+        $nextEstate = Estate::where('status', EstateStatus::active->value)
+            ->where('id', '>', $estate->id)
+            ->orderBy('id')
+            ->limit(1)
+            ->first();
+        $this->menuText($estate->fullData() ?? 'Объектов нет');
         $this->clearButtons();
-        foreach ($this->estates as $estate) {
-            $this->addButtonRow(InlineKeyboardButton::make($estate->shortData(), callback_data: "$estate->id@estate_clicked"));
+        if ($prevEstate && $nextEstate) {
+            $this->addButtonRow(
+                InlineKeyboardButton::make('<<',
+                    callback_data: "{$prevEstate->id}@start"),
+                InlineKeyboardButton::make('>>',
+                    callback_data: "{$nextEstate->id}@start")
+            );
         }
-        $this->addButtonRow(
-            InlineKeyboardButton::make('<<', callback_data: 'next@page_clicked'),
-            InlineKeyboardButton::make('>>', callback_data: 'prev@page_clicked'),
-        );
+        elseif ($prevEstate) {
+            $this->addButtonRow(
+                InlineKeyboardButton::make('<<',
+                    callback_data: "{$prevEstate->id}@start")
+            );
+        }
+        elseif ($nextEstate) {
+            $this->addButtonRow(
+                InlineKeyboardButton::make('>>',
+                    callback_data: "{$nextEstate->id}@start")
+            );
+        }
         $this->showMenu();
-    }
-
-    public function estate_clicked(Nutgram $bot)
-    {
-        $this->menuText(Estate::find($bot->callbackQuery()->data)->fullData())
-            ->showMenu();
-    }
-
-    public function page_clicked(Nutgram $bot)
-    {
-        $this->page = $bot->callbackQuery()->data == 'next' ? $this->page + 1 : $this->page - 1;
-        $this->start($bot);
+        $estate->update(['views' => $estate->views + 1]);
     }
 }
