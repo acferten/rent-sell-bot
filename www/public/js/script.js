@@ -14,18 +14,19 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    fetch("https://098d-176-65-60-218.ngrok-free.app/estate", {
+    fetch("https://a48a-79-136-237-88.ngrok-free.app/estate", {
         method: "POST",
         body: JSON.stringify({
             initData: tg.initData,
             ...formData
         }),
         headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json",
+            "Accept": "application/json"
         }
     })
         .then((response) => response.json())
-        .then((json) => alert(JSON.stringify(json)))
+        .then((json) => console.log(json));
 })
 
 

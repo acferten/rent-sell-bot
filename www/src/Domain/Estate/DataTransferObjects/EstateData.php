@@ -15,27 +15,27 @@ use Spatie\LaravelData\DataCollection;
 class EstateData extends Data
 {
     public function __construct(
-        public string                       $description,
-        public string                       $country,
-        public string                       $town,
-        public string                       $district,
-        public string                       $street,
-        public int                          $bedrooms,
-        public int                          $conditioners,
-        public int                          $bathrooms,
-        public null|int                     $price,
+        public string                           $description,
+        public string                           $country,
+        public string                           $town,
+        public string                           $district,
+        public string                           $street,
+        public int                              $bedrooms,
+        public int                              $conditioners,
+        public int                              $bathrooms,
+        public null|int                         $price,
         /** @var DataCollection<EstateIncludeData> */
-        public readonly null|DataCollection $includes,
+        public readonly null|DataCollection     $includes,
         /** @var DataCollection<EstatePriceData> */
-        public readonly null|DataCollection $per,
-        public readonly UploadedFile        $photo,
-        public readonly UserData            $user,
-        public readonly null|UploadedFile   $video_review,
-        public readonly null|EstatePeriods  $period,
-        public readonly null|int            $period_price,
-        public readonly int                 $house_type_id,
-        public readonly DealTypes           $deal_type,
-        public EstateStatus                 $status = EstateStatus::pending
+        public readonly null|DataCollection     $per,
+        public readonly null|array|UploadedFile $photo,
+        public readonly UserData                $user,
+        public readonly null|UploadedFile       $video_review,
+        public readonly null|EstatePeriods      $period,
+        public readonly null|int                $period_price,
+        public readonly int                     $house_type_id,
+        public readonly DealTypes               $deal_type,
+        public EstateStatus                     $status = EstateStatus::pending
     )
     {
     }
@@ -70,7 +70,7 @@ class EstateData extends Data
             'conditioners' => 'required|int|between:0,25',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000',
             'include_ids' => 'array|exists:includes,id',
-            'photo' => 'required|image|max:5120|mimes:jpg,png',
+//            'photo' => 'required|image|max:5120|mimes:jpg,png',
             'video_review' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
             'period' => 'required_if:deal_type,Аренда|string',
             'period_price' => 'required_if:deal_type,Аренда|int',

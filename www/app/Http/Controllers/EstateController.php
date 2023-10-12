@@ -46,10 +46,9 @@ class EstateController extends Controller
     public function store(Request $request)
     {
         $bot = app(Nutgram::class);
+        Log::debug((string)$request);
 
-        $val = $request->validate(EstateData::rules());
-        $q = implode(",", $val);
-        Log::debug($q);
+        $request->validate(EstateData::rules());
 
         try {
             $webappData = $bot->validateWebAppData($request->input('initData'));

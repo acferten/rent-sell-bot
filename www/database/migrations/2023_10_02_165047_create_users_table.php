@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigInteger('id')->primary();
-            $table->char('phone', 20);
+            $table->string('phone')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('username');

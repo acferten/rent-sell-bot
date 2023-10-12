@@ -27,7 +27,7 @@ class CreateEstateAction
 
         $estate->includes()->syncWithPivotValues($data->includes->toCollection()->pluck('id'), ['estate_id' => $estate->id]);
 
-            $data->period ?? EstatePrice::create([
+            $data->period != null ?? EstatePrice::create([
             'period' => $data->period,
             'price' => $data->period_price,
             'estate_id' => $estate->id
