@@ -8,47 +8,24 @@ document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 
 tg.enableClosingConfirmation();
 
-tg.MainButton.show();
-
-function validateFormOnSubmit(value) {
-    return value
-}
-
 let form = document.getElementById('form');
 
-form.addEventListener('submit', () => {
-    fetch("https://098d-176-65-60-218.ngrok-free.app/api/webappdata", {
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+
+    fetch("https://098d-176-65-60-218.ngrok-free.app/estate", {
         method: "POST",
         body: JSON.stringify({
             initData: tg.initData,
-
+            ...formData
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
     })
         .then((response) => response.json())
-        .then((json) => console.log(json))
+        .then((json) => alert(JSON.stringify(json)))
 })
-
-// }
-
-
-// tg.onEvent('mainButtonClicked', () => {
-//     tg.MainButton.showProgress();
-//     fetch("https://098d-176-65-60-218.ngrok-free.app/api/webappdata", {
-//         method: "POST",
-//         body: JSON.stringify({
-//             initData: tg.initData,
-//
-//         }),
-//         headers: {
-//             "Content-type": "application/json; charset=UTF-8"
-//         }
-//     })
-//         .then((response) => response.json())
-//         .then((json) => console.log(json))
-// })
-
 
 

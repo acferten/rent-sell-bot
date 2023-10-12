@@ -11,14 +11,14 @@ class CreateEstateAction
 {
     public static function execute(EstateData $data): void
     {
-//        $user = User::updateOrCreate(
-//            [
-//                'id' => $data->user->id
-//            ],
-//            [
-//                ...$data->user->all()
-//            ]
-//        );
+        $user = User::updateOrCreate(
+            [
+                'id' => $data->user->id
+            ],
+            [
+                ...$data->user->all()
+            ]
+        );
 
         $estate = Estate::create([
             ...$data->all(),
