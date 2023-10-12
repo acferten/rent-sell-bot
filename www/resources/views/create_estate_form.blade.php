@@ -6,9 +6,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://0b80-176-65-56-39.ngrok-free.app/public/css/bundle.css">
+    <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/public/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
-    <script src="https://0b80-176-65-56-39.ngrok-free.app/public/js/script.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/public/js/script.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
     <h1 class="page-title">Размещение объекта</h1>
 
     <div>{{ session('status') }}</div>
-    <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
+    <form method="post" action="#" enctype="multipart/form-data" id="form">
         @csrf
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>
