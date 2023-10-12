@@ -11,14 +11,14 @@ class CreateEstateAction
 {
     public static function execute(EstateData $data): void
     {
-//        $user = User::updateOrCreate(
-//            [
-//                'id' => $data->user->id
-//            ],
-//            [
-//                ...$data->user->all()
-//            ]
-//        );
+        $user = User::updateOrCreate(
+            [
+                'id' => $data->user->id
+            ],
+            [
+                ...$data->user->all()
+            ]
+        );
 
         $estate = Estate::create([
             ...$data->all(),
@@ -27,7 +27,7 @@ class CreateEstateAction
 
         $estate->includes()->syncWithPivotValues($data->includes->toCollection()->pluck('id'), ['estate_id' => $estate->id]);
 
-            $data->period ?? EstatePrice::create([
+            $data->period != null ?? EstatePrice::create([
             'period' => $data->period,
             'price' => $data->period_price,
             'estate_id' => $estate->id

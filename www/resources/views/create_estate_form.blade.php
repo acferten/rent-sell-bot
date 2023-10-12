@@ -6,9 +6,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://0b80-176-65-56-39.ngrok-free.app/public/css/bundle.css">
+    <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/public/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
-    <script src="https://0b80-176-65-56-39.ngrok-free.app/public/js/script.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/public/js/script.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
@@ -16,9 +16,8 @@
 <div class="container mt-5">
     <h1 class="page-title">Размещение объекта</h1>
 
-    <div>{{ session('status') }}</div>
-    <form method="post" action="{{ route('estate.store') }}" enctype="multipart/form-data">
-        @csrf
+    <div id="test">{{ session('status') }}</div>
+    <form method="post" action="#" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>
         <input type="hidden" id="first_name" name="first_name" value=""/>
@@ -43,7 +42,7 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" placeholder="5000" min="0">
+            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0">
             @error('price')
             <div class="invalid-field">{{ $message }}</div>
             @enderror
@@ -53,7 +52,7 @@
             <div class="estate_types">
                 @foreach($estate_types as $estate_type)
                     <div class="estate_types__item">
-                        <input type="radio" name="estate_type" value="{{$estate_type->id}}"
+                        <input type="radio" name="house_type_id" value="{{$estate_type->id}}"
                                id="{{$estate_type->id}}"/>
                         <label for="{{$estate_type->id}}">
                             <span class="radio-label">{{$estate_type->title}}</span>
@@ -98,7 +97,7 @@
         <div class="form-group">
             <label class="form-group__title" for="photo">Фото</label>
             <div class="form-outline">
-                <input type="file" id="photo" accept=" image/jpg, image/jpeg, image/png, image/tif,
+                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif" name="photo" class="form-control" multiple/>
             </div>
             @error('photo')

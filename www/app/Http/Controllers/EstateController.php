@@ -11,6 +11,10 @@ use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use SergiX44\Nutgram\Exception\InvalidDataException;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
+use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
 
 class EstateController extends Controller
 {
@@ -41,16 +45,22 @@ class EstateController extends Controller
      */
     public function store(Request $request)
     {
+        $bot = app(Nutgram::class);
+        Log::debug((string)$request);
+
         $request->validate(EstateData::rules());
-        Log::debug('validation passed');
+
+        try {
+            $webappData = $bot->validateWebAppData($request->input('initData'));
+        } catch (InvalidDataException) {
+        }
 
         $data = EstateData::fromRequest($request);
-        Log::debug('data object passed');
 
         CreateEstateAction::execute($data);
-        Log::debug('action passed');
 
-        return to_route('estate.create')->withStatus('Created.');
+        $result = new InlineQueryResultArticle(1, 'Name', new InputTextMessageContent('aaaaaaaaaaaaaa'));
+        $bot->answerWebAppQuery($webappData->query_id, $result);
     }
 
     /**
