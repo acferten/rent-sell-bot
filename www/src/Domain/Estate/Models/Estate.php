@@ -42,12 +42,13 @@ class Estate extends BaseModel
         'deal_type',
         'house_type_id',
         'user_id',
-        'geoposition_id',
         'country',
         'town',
         'district',
         'street',
-        'price'
+        'price',
+        'latitude',
+        'longitude'
     ];
 
     public function shortData(): string
@@ -57,15 +58,15 @@ class Estate extends BaseModel
 
     public function fullData(): string
     {
-        return  "Описание: $this->description\n" .
-                "Количество спален: $this->bedrooms\n" .
-                "Количество ванных комнат: $this->bathrooms\n" .
-                "Количество кондиционеров: $this->conditioners\n" .
-                "Включено в стоимость: $this->includes\n" .
-                "Цена: $this->price\n" .
-                "Город: $this->town\n" .
-                "Район: $this->district\n" .
-                "Улица: $this->street\n";
+        return "Описание: $this->description\n" .
+            "Количество спален: $this->bedrooms\n" .
+            "Количество ванных комнат: $this->bathrooms\n" .
+            "Количество кондиционеров: $this->conditioners\n" .
+            "Включено в стоимость: $this->includes\n" .
+            "Цена: $this->price\n" .
+            "Город: $this->town\n" .
+            "Район: $this->district\n" .
+            "Улица: $this->street\n";
     }
 
     public function status(): EstateStatus

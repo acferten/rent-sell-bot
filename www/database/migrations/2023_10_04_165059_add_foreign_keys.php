@@ -9,7 +9,6 @@ return new class extends Migration {
     {
         Schema::table('estates', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('geoposition_id')->references('id')->on('geopositions');
             $table->foreign('house_type_id')->references('id')->on('house_types');
         });
 
