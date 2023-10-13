@@ -16,10 +16,6 @@ class EstateData extends Data
 {
     public function __construct(
         public string                           $description,
-        public string                           $country,
-        public string                           $town,
-        public string                           $district,
-        public string                           $street,
         public int                              $bedrooms,
         public int                              $conditioners,
         public int                              $bathrooms,
@@ -60,11 +56,7 @@ class EstateData extends Data
     {
         return [
             'description' => 'required|string|max:1000',
-            'country' => 'required|string',
             'deal_type' => 'required',
-            'town' => 'required|string',
-            'district' => 'required|string',
-            'street' => 'required|string',
             'bedrooms' => 'required|int|between:1,10',
             'bathrooms' => 'required|int|between:1,10',
             'conditioners' => 'required|int|between:0,25',
@@ -75,9 +67,9 @@ class EstateData extends Data
             'period' => 'required_if:deal_type,Аренда|string',
             'period_price' => 'required_if:deal_type,Аренда|int',
             'house_type_id' => 'required|exists:house_types,id',
-//            'user_id' => 'required',
-//            'username' => 'required',
-//            'first_name' => 'required'
+            'user_id' => 'required',
+            'username' => 'required',
+            'first_name' => 'required'
         ];
     }
 

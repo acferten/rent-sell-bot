@@ -9,7 +9,7 @@ use Domain\Shared\Models\Actor\User;
 
 class CreateEstateAction
 {
-    public static function execute(EstateData $data): void
+    public static function execute(EstateData $data): Estate
     {
         $user = User::updateOrCreate(
             [
@@ -32,5 +32,7 @@ class CreateEstateAction
             'price' => $data->period_price,
             'estate_id' => $estate->id
         ]); //TODO: ОТДЕЛЬНЫЙ DTO И ВЛОЖИТЬ ЕГО В ESTATE DATA
+
+        return $estate;
     }
 }

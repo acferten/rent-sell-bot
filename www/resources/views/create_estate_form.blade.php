@@ -17,7 +17,7 @@
     <h1 class="page-title">Размещение объекта</h1>
 
     <div id="test">{{ session('status') }}</div>
-    <form method="post" action="#" enctype="multipart/form-data" id="form">
+    <form method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>
         <input type="hidden" id="first_name" name="first_name" value=""/>
@@ -83,6 +83,7 @@
             </div>
             <div class="invalid-field" id="conditioners-error"></div>
         </div>
+
         <div class="form-group">
             <label class="form-group__title" for="photo">Фото</label>
             <div class="form-outline">
@@ -91,36 +92,7 @@
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>
-        <div class="form-group">
-            <label class="form-group__title" for="country">Страна</label>
-            <div class="form-outline">
-                <input type="text" id="country" name="country" class="form-control" placeholder="Россия"/>
-            </div>
-            <div class="invalid-field" id="country-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="town">Город</label>
-            <div class="form-outline">
-                <input type="text" id="town" name="town" class="form-control" placeholder="Москва"/>
-            </div>
-            <div class="invalid-field" id="town-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="district">Район</label>
-            <div class="form-outline">
-                <input type="text" id="district" name="district" class="form-control" placeholder="Марьино"/>
-            </div>
-            <div class="invalid-field" id="district-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="street">Улица</label>
-            <div class="form-outline">
-                <input type="text" id="street" name="street" class="form-control" placeholder="Иловайская улица"/>
-            </div>
 
-            <div class="invalid-field" id="street-error"></div>
-
-        </div>
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
