@@ -70,7 +70,7 @@ class EstateData extends Data
             'conditioners' => 'required|int|between:0,25',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000',
             'include_ids' => 'array|exists:includes,id',
-//            'photo' => 'required|image|max:5120|mimes:jpg,png',
+            'photo' => 'required|image|max:5120|mimes:jpg,png',
             'video_review' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
             'period' => 'required_if:deal_type,Аренда|string',
             'period_price' => 'required_if:deal_type,Аренда|int',

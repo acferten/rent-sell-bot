@@ -49,12 +49,12 @@ class EstateController extends Controller
         Log::debug((string)$request);
 
         $request->validate(EstateData::rules());
-
+        Log::debug('VALIDATED DATA');
         try {
             $webappData = $bot->validateWebAppData($request->input('initData'));
         } catch (InvalidDataException) {
         }
-
+        Log::debug('VALIDATED INIT DATA');
         $data = EstateData::fromRequest($request);
 
         CreateEstateAction::execute($data);

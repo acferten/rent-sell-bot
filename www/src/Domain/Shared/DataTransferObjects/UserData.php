@@ -10,7 +10,7 @@ class UserData extends Data
         public                 $id,
         public readonly string $username,
         public readonly string $first_name,
-        public readonly string $last_name
+        public readonly null|string $last_name
     )
     {
     }
