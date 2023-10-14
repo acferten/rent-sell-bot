@@ -6,9 +6,11 @@ namespace App\Http\Controllers;
 use Domain\Estate\Actions\CreateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
+use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
+use Domain\Shared\Menu\StartMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Exception\InvalidDataException;
@@ -34,7 +36,8 @@ class EstateController extends Controller
         $data = [
             'includes' => EstateInclude::all(),
             'deal_types' => DealTypes::cases(),
-            'estate_types' => EstateType::all()
+            'estate_types' => EstateType::all(),
+            'price_periods' => EstatePeriods::cases()
         ];
 
         return view('create_estate_form', $data);
@@ -52,6 +55,7 @@ class EstateController extends Controller
         try {
             $webappData = $bot->validateWebAppData($request->input('initData'));
         } catch (InvalidDataException) {
+            Log::debug('initData error');
         }
 
         $data = EstateData::fromRequest($request);
@@ -61,6 +65,8 @@ class EstateController extends Controller
             new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳\n"
                 . (string)$estate));
         $bot->answerWebAppQuery($webappData->query_id, $result);
+        Log::debug($bot->chatId());
+//        StartMenu::begin($bot, $request->input('user_id'), $bot->chatId());
     }
 
     /**

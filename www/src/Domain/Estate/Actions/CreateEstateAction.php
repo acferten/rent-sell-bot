@@ -3,9 +3,11 @@
 namespace Domain\Estate\Actions;
 
 use Domain\Estate\DataTransferObjects\EstateData;
+use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstatePrice;
 use Domain\Shared\Models\Actor\User;
+use Illuminate\Support\Facades\Log;
 
 class CreateEstateAction
 {
@@ -27,11 +29,21 @@ class CreateEstateAction
 
         $estate->includes()->syncWithPivotValues($data->includes->toCollection()->pluck('id'), ['estate_id' => $estate->id]);
 
-            $data->period != null ?? EstatePrice::create([
+            $data->deal_type == DealTypes::rent->value ?? EstatePrice::create([
             'period' => $data->period,
             'price' => $data->period_price,
             'estate_id' => $estate->id
-        ]); //TODO: ОТДЕЛЬНЫЙ DTO И ВЛОЖИТЬ ЕГО В ESTATE DATA
+        ]);
+
+        Log::debug($data->photo);
+
+
+//
+//        foreach ()
+//        $user->update([
+//            'avatar_path' => $data->avatar->storePublicly('', ['disk' => 'avatars']),
+//        ]);
+
 
         return $estate;
     }

@@ -17,12 +17,13 @@
     <h1 class="page-title">Размещение объекта</h1>
 
     <div id="test">{{ session('status') }}</div>
-    <form method="post"  enctype="multipart/form-data" id="form">
+    <form method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>
         <input type="hidden" id="first_name" name="first_name" value=""/>
         <input type="hidden" id="last_name" name="last_name" value=""/>
         <input type="hidden" id="initData" name="initData" value=""/>
+        <input type="hidden" id="chat_id" name="chat_id" value=""/>
 
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>
@@ -39,11 +40,36 @@
             </div>
             <div class="invalid-field" id="deal_type-error"></div>
         </div>
-        <div class="form-group">
+
+        <div class="form-group d-none" id="price-container">
             <label class="form-group__title" for="price">Цена</label>
             <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0">
             <div class="invalid-field" id="price-error"></div>
         </div>
+
+        <div class="form-group d-none" id="period-container">
+            <label class="form-group__title" for="period">Период аренды</label>
+            <div class="type_announcement">
+                @foreach($price_periods as $price_period)
+                    <div class="type_announcement__item">
+                        <input type="radio" name="period" value="{{$price_period->value}}"
+                               id="{{$price_period->value}}"/>
+                        <label for="{{$price_period->value}}">
+                            <span class="radio-label">{{$price_period->value}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            <div id="period-error"></div>
+        </div>
+
+        <div class="form-group d-none" id="period_price-container">
+            <label class="form-group__title" for="period_price">Цена за весь период</label>
+            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="period_price"
+                   id="period_price">
+            <div id="period_price-error"></div>
+        </div>
+
         <div class="form-group">
             <p class="form-group__title">Вид недвижимости</p>
             <div class="estate_types">
