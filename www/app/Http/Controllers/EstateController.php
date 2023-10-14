@@ -46,20 +46,20 @@ class EstateController extends Controller
     public function store(Request $request)
     {
         $bot = app(Nutgram::class);
-        Log::debug((string)$request);
 
         $request->validate(EstateData::rules());
-        Log::debug('VALIDATED DATA');
+
         try {
             $webappData = $bot->validateWebAppData($request->input('initData'));
         } catch (InvalidDataException) {
         }
-        Log::debug('VALIDATED INIT DATA');
+
         $data = EstateData::fromRequest($request);
+        $estate = CreateEstateAction::execute($data);
 
-        CreateEstateAction::execute($data);
-
-        $result = new InlineQueryResultArticle(1, 'Name', new InputTextMessageContent('aaaaaaaaaaaaaa'));
+        $result = new InlineQueryResultArticle(1, 'Успех',
+            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳\n"
+                . (string)$estate));
         $bot->answerWebAppQuery($webappData->query_id, $result);
     }
 
