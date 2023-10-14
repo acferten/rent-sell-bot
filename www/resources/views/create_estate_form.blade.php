@@ -6,9 +6,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/public/css/bundle.css">
+    <link rel="stylesheet" href="http://localhost/public/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
-    <script src="{{env('NGROK_SERVER')}}/public/js/script.js" defer></script>
+    <script src="http://localhost/public/js/script.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
     <h1 class="page-title">Размещение объекта</h1>
 
     <div id="test">{{ session('status') }}</div>
-    <form method="post" action="#" enctype="multipart/form-data" id="form">
+    <form method="post"  enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>
         <input type="hidden" id="first_name" name="first_name" value=""/>
@@ -91,36 +91,7 @@
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>
-        <div class="form-group">
-            <label class="form-group__title" for="country">Страна</label>
-            <div class="form-outline">
-                <input type="text" id="country" name="country" class="form-control" placeholder="Россия"/>
-            </div>
-            <div class="invalid-field" id="country-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="town">Город</label>
-            <div class="form-outline">
-                <input type="text" id="town" name="town" class="form-control" placeholder="Москва"/>
-            </div>
-            <div class="invalid-field" id="town-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="district">Район</label>
-            <div class="form-outline">
-                <input type="text" id="district" name="district" class="form-control" placeholder="Марьино"/>
-            </div>
-            <div class="invalid-field" id="district-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="street">Улица</label>
-            <div class="form-outline">
-                <input type="text" id="street" name="street" class="form-control" placeholder="Иловайская улица"/>
-            </div>
 
-            <div class="invalid-field" id="street-error"></div>
-
-        </div>
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">

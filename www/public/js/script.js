@@ -10,9 +10,19 @@ document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 tg.enableClosingConfirmation();
 
 let form = document.getElementById('form');
+console.log(form)
 
 form.addEventListener('submit', (e) => {
-    const elems = ['photo-error', 'description-error', 'country-error', 'street-error', 'district-error', 'town-error', 'deal_type-error', 'bathrooms-error', 'bedrooms-error', 'conditioners-error', 'house_type_id-error'];
+    console.log('in func')
+    const elems = [
+        'photo-error',
+        'description-error',
+        'deal_type-error',
+        'bathrooms-error',
+        'bedrooms-error',
+        'conditioners-error',
+        'house_type_id-error'
+    ];
     elems.forEach((elem) => {
         document.getElementById(elem).innerText = "";
     })
@@ -20,7 +30,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch("https://2267-176-65-60-218.ngrok-free.app/estate", {
+    fetch("https://7e84-79-136-237-88.ngrok-free.app/estate/", {
         headers: {
             Accept: "application/json"
         },
@@ -32,10 +42,6 @@ form.addEventListener('submit', (e) => {
         .then((json) => {
             if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
             if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
-            if (json?.errors?.country) document.getElementById('country-error').innerText = json.errors.country[0];
-            if (json?.errors?.street) document.getElementById('street-error').innerText = json.errors.street[0];
-            if (json?.errors?.district) document.getElementById('district-error').innerText = json.errors.district[0];
-            if (json?.errors?.town) document.getElementById('town-error').innerText = json.errors.town[0];
             if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
             if (json?.errors?.bathrooms) document.getElementById('bathrooms-error').innerText = json.errors.bathrooms[0];
             if (json?.errors?.bedrooms) document.getElementById('bedrooms-error').innerText = json.errors.bedrooms[0];
@@ -43,5 +49,3 @@ form.addEventListener('submit', (e) => {
             if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
         });
 })
-
-
