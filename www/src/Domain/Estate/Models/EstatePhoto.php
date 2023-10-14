@@ -14,6 +14,11 @@ class EstatePhoto extends BaseModel
 {
     protected $table = 'estate_photos';
 
+    protected $fillable = [
+        'photo',
+        'estate_id'
+    ];
+
     // Relations
     public function estate(): BelongsTo
     {

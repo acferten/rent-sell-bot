@@ -25,7 +25,7 @@ class EstateController extends Controller
      */
     public function index()
     {
-        //
+        return Estate::first()->photos;
     }
 
     /**
@@ -62,11 +62,9 @@ class EstateController extends Controller
         $estate = CreateEstateAction::execute($data);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
-            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳\n"
-                . (string)$estate));
+            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
+
         $bot->answerWebAppQuery($webappData->query_id, $result);
-        Log::debug($bot->chatId());
-//        StartMenu::begin($bot, $request->input('user_id'), $bot->chatId());
     }
 
     /**

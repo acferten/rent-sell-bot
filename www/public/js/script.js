@@ -8,7 +8,6 @@ document.getElementById('initData').value = tg.initData;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 console.log(tg.initDataUnsafe);
 
-
 tg.enableClosingConfirmation();
 
 let form = document.getElementById('form');
@@ -32,7 +31,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch("https://a4e4-79-136-237-88.ngrok-free.app/estate/", {
+    fetch("https://fda9-79-136-237-88.ngrok-free.app/estate/", {
         headers: {
             Accept: "application/json"
         },

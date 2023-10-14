@@ -5,5 +5,5 @@
 $bot->onCommand('start', \Domain\Shared\Menu\StartMenu::class);
 $bot->onCommand('myobjects', \Domain\Estate\Menu\UserEstatesMenu::class);
 $bot->onCommand('estates', \Domain\Estate\Menu\GetEstatesMenu::class);
-$bot->onCallbackQueryData('main_clicked', \Domain\Estate\Actions\CreateEstateAction::class);
+$bot->onText('Основные данные первого шага успешно переданы! 🥳', \Domain\Estate\Menu\CreateEstateSecondStep::class);
 

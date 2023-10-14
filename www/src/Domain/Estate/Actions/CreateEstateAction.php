@@ -5,6 +5,7 @@ namespace Domain\Estate\Actions;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
+use Domain\Estate\Models\EstatePhoto;
 use Domain\Estate\Models\EstatePrice;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Log;
@@ -35,15 +36,12 @@ class CreateEstateAction
             'estate_id' => $estate->id
         ]);
 
-        Log::debug($data->photo);
-
-
-//
-//        foreach ()
-//        $user->update([
-//            'avatar_path' => $data->avatar->storePublicly('', ['disk' => 'avatars']),
-//        ]);
-
+        foreach ($data->photo as $photo) {
+            EstatePhoto::create([
+                'photo' => $photo->storePublicly('', ['disk' => 'photos']),
+                'estate_id' => $estate->id
+            ]);
+        }
 
         return $estate;
     }

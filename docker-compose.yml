@@ -25,6 +25,7 @@ services:
       - web
     volumes:
       - ./www/public:/var/www/public
+      - ./www/storage:/var/www/storage
       - ./images/proxy:/etc/nginx/conf.d/
     networks:
       - nginx-php-postgres-network

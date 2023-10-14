@@ -6,9 +6,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="http://localhost/public/css/bundle.css">
+    <link rel="stylesheet" href="https://fda9-79-136-237-88.ngrok-free.app/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
-    <script src="http://localhost/public/js/script.js" defer></script>
+    <script src="https://fda9-79-136-237-88.ngrok-free.app/js/script.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
@@ -113,7 +113,7 @@
             <label class="form-group__title" for="photo">Фото</label>
             <div class="form-outline">
                 <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo" class="form-control" multiple/>
+  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>
