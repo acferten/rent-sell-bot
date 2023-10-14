@@ -64,7 +64,8 @@ class EstateController extends Controller
         $result = new InlineQueryResultArticle(1, 'Успех',
             new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
 
-        $bot->answerWebAppQuery($webappData->query_id, $result);
+        $messageid = $bot->answerWebAppQuery($webappData->query_id, $result);
+
     }
 
     /**
