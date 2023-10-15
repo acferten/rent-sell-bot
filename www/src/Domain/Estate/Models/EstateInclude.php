@@ -9,12 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @property int $id
  * @property int $estate_id
- * @property string $include
+ * @property string $title
  */
 class EstateInclude extends BaseModel
 {
     protected $table = 'includes';
-    protected string $dataClass = EstateIncludeData::class;
     protected $fillable = [
         'title'
     ];

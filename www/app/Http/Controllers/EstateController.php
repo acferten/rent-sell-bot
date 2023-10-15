@@ -24,7 +24,7 @@ class EstateController extends Controller
      */
     public function index()
     {
-        return EstateData::from(Estate::first());
+        return EstateData::from(Estate::first())->except('includes.id');
     }
 
     /**

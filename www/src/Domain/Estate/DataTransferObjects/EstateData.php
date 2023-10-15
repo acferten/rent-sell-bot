@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
 
 class EstateData extends Data
 {
@@ -23,10 +22,9 @@ class EstateData extends Data
         public int                                         $conditioners,
         public int                                         $bathrooms,
         public null|int                                    $price,
-        /** @var DataCollection<EstateIncludeData> */
-        public readonly null|DataCollection                $includes,
+        public readonly null|Collection|string             $includes,
         public readonly null|array|UploadedFile|Collection $photo,
-        public readonly ?UserData                           $user,
+        public readonly ?UserData                          $user,
         public readonly null|UploadedFile                  $video_review,
         public readonly null|EstatePeriods                 $period,
         public readonly null|int                           $period_price,
@@ -42,9 +40,9 @@ class EstateData extends Data
     {
         return self::from([
             ...$estate->toArray(),
-            'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()
-                ->each(fn() => $estate->photo),
-            'includes' =>   $estate->includes->each(fn() => $estate->title)
+            'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()->pluck('photo'),
+            'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray()),
+            'user' => UserData::from($estate->user)
         ]);
     }
 
@@ -52,10 +50,8 @@ class EstateData extends Data
     {
         return self::from([
             ...$request->all(),
-            'includes' => EstateIncludeData::collection(
-                EstateInclude::whereIn('id', $request->collect('include_ids'))->get()
-            ),
-                'photo' => $request->file('photo') ?? $request->file('photo'),
+            'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
+            'photo' => $request->file('photo') ?? $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),

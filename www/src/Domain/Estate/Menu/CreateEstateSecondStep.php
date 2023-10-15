@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Menu;
 
+use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Models\Estate;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Log;
@@ -55,7 +56,14 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function contact(Nutgram $bot)
     {
-        $preview = 'Превью:/n' . (string)$this->estate->fullData();
+        $data = EstateData::from($this->estate);
+        $preview = "Превью:\n" .
+            "Описание: $data->description\n" .
+            "Количество спален: $data->bedrooms\n" .
+            "Количество ванных комнат: $data->bathrooms\n" .
+            "Количество кондиционеров: $data->conditioners\n" .
+            "Включено в стоимость: $data->includes\n" .
+            "Цена: $data->price\n";
 
         User::where(['id' => $bot->userId()])
             ->first()

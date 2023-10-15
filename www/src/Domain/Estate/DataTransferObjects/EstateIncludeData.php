@@ -4,6 +4,7 @@ namespace Domain\Estate\DataTransferObjects;
 
 use Domain\Estate\Models\EstateInclude;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Lazy;
 
 class EstateIncludeData extends Data
 {

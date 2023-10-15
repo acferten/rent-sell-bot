@@ -28,7 +28,7 @@ class CreateEstateAction
             'user_id' => $user->id,
         ]);
 
-        $estate->includes()->syncWithPivotValues($data->includes->toCollection()->pluck('id'), ['estate_id' => $estate->id]);
+        $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
             $data->deal_type == DealTypes::rent->value ?? EstatePrice::create([
             'period' => $data->period,
