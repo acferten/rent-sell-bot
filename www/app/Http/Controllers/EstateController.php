@@ -10,7 +10,6 @@ use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
-use Domain\Shared\Menu\StartMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Exception\InvalidDataException;
@@ -64,7 +63,7 @@ class EstateController extends Controller
         $result = new InlineQueryResultArticle(1, 'Успех',
             new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
 
-        $messageid = $bot->answerWebAppQuery($webappData->query_id, $result);
+        $bot->answerWebAppQuery($webappData->query_id, $result);
 
     }
 

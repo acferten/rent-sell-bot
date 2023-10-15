@@ -5,46 +5,57 @@ namespace Domain\Estate\DataTransferObjects;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Models\EstatePhoto;
 use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
 class EstateData extends Data
 {
     public function __construct(
-        public string                           $description,
-        public int                              $bedrooms,
-        public int                              $conditioners,
-        public int                              $bathrooms,
-        public null|int                         $price,
+        public string                                      $description,
+        public int                                         $bedrooms,
+        public int                                         $conditioners,
+        public int                                         $bathrooms,
+        public null|int                                    $price,
         /** @var DataCollection<EstateIncludeData> */
-        public readonly null|DataCollection     $includes,
-        /** @var DataCollection<EstatePriceData> */
-        public readonly null|DataCollection     $per,
-        public readonly null|array|UploadedFile $photo,
-        public readonly UserData                $user,
-        public readonly null|UploadedFile       $video_review,
-        public readonly null|EstatePeriods      $period,
-        public readonly null|int                $period_price,
-        public readonly int                     $house_type_id,
-        public readonly null|int                $chat_id,
-        public readonly DealTypes               $deal_type,
-        public EstateStatus                     $status = EstateStatus::pending
+        public readonly null|DataCollection                $includes,
+        public readonly null|array|UploadedFile|Collection $photo,
+        public readonly UserData                           $user,
+        public readonly null|UploadedFile                  $video_review,
+        public readonly null|EstatePeriods                 $period,
+        public readonly null|int                           $period_price,
+        public readonly int                                $house_type_id,
+        public readonly null|int                           $chat_id,
+        public readonly DealTypes                          $deal_type,
+        public EstateStatus                                $status = EstateStatus::pending
     )
     {
     }
 
-    public static function fromRequest(Request $request): static
+    public static function fromModel(Estate $estate): self
+    {
+        return self::from([
+            ...$estate->toArray(),
+            'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()
+                ->each(fn() => $estate->status)
+        ]);
+    }
+
+    public static function fromRequest(Request $request): self
     {
         return self::from([
             ...$request->all(),
             'includes' => EstateIncludeData::collection(
                 EstateInclude::whereIn('id', $request->collect('include_ids'))->get()
             ),
-            'photo' => $request->file('photo'),
+                $request->file('photo') ??
+                'photo' => $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
