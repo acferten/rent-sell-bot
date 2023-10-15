@@ -14,7 +14,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 
 class CreateEstateSecondStep extends InlineMenu
 {
-    public $estate;
+    public Estate $estate;
 
     public function start(Nutgram $bot): void
     {
@@ -32,10 +32,12 @@ class CreateEstateSecondStep extends InlineMenu
         $location = $bot->message()->location;
 
         $this->estate = Estate::where(['user_id' => $bot->userId()])
-            ->latest()->update([
-                'latitude' => $location->latitude,
-                'longitude' => $location->longitude
-            ]);;
+            ->latest()->first();
+
+        $this->estate->update([
+            'latitude' => $location->latitude,
+            'longitude' => $location->longitude
+        ]);;
 
         $bot->sendMessage('Локация добавлена к объекту.');
 
@@ -53,6 +55,8 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function contact(Nutgram $bot)
     {
+        $preview = 'Превью:/n' . (string)$this->estate->fullData();
+
         User::where(['id' => $bot->userId()])
             ->first()
             ->update([
@@ -60,10 +64,6 @@ class CreateEstateSecondStep extends InlineMenu
             ]);
 
         $bot->sendMessage('Контактные данные сохранены.');
-
-        $preview = 'Превью: ' . $this->estate->fullData();
-
-        Log::debug($preview);
 
         $bot->sendMessage(
             text: $preview,

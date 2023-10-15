@@ -26,7 +26,7 @@ class EstateData extends Data
         /** @var DataCollection<EstateIncludeData> */
         public readonly null|DataCollection                $includes,
         public readonly null|array|UploadedFile|Collection $photo,
-        public readonly UserData                           $user,
+        public readonly ?UserData                           $user,
         public readonly null|UploadedFile                  $video_review,
         public readonly null|EstatePeriods                 $period,
         public readonly null|int                           $period_price,
@@ -43,7 +43,8 @@ class EstateData extends Data
         return self::from([
             ...$estate->toArray(),
             'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()
-                ->each(fn() => $estate->status)
+                ->each(fn() => $estate->photo),
+            'includes' =>   $estate->includes->each(fn() => $estate->title)
         ]);
     }
 
@@ -54,8 +55,7 @@ class EstateData extends Data
             'includes' => EstateIncludeData::collection(
                 EstateInclude::whereIn('id', $request->collect('include_ids'))->get()
             ),
-                $request->file('photo') ??
-                'photo' => $request->file('photo'),
+                'photo' => $request->file('photo') ?? $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),

@@ -24,7 +24,7 @@ class EstateController extends Controller
      */
     public function index()
     {
-        return Estate::first()->photos;
+        return EstateData::from(Estate::first());
     }
 
     /**
