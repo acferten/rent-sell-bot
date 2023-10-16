@@ -31,7 +31,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch("https://9811-176-65-60-218.ngrok-free.app/estate/", {
+    fetch("https://2f7b-79-136-237-88.ngrok-free.app/estate/", {
         headers: {
             Accept: "application/json"
         },

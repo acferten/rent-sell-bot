@@ -19,12 +19,13 @@ class CreateEstateSecondStep extends InlineMenu
 {
     public Estate $estate;
     public EstateData $data;
+    public string $preview;
 
     public function start(Nutgram $bot): void
     {
         $bot->sendMessage(
             text: "<b>Шаг 2 из 3</b>
-Отправьте геолокацию вашего объекта.",
+Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
             parse_mode: 'html'
         );
 
@@ -74,6 +75,8 @@ class CreateEstateSecondStep extends InlineMenu
 
         $preview .= $this->data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$this->data->period_price}\n"
             : "<b>Цена:</b> {$this->data->price}\n";
+
+        $this->preview = $preview;
 
         Log::debug($preview);
 
@@ -130,19 +133,19 @@ class CreateEstateSecondStep extends InlineMenu
     {
         if ($bot->callbackQuery()->data == 'tinkoff5') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате в чат менеджеру.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 1000 рублей.",
+                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 1000 рублей.",
                     ['parse_mode' => 'html'])->showMenu();
         } else if ($bot->callbackQuery()->data == 'tinkoff30') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате в чат менеджеру.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 3000 рублей.",
+                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 3000 рублей.",
                     ['parse_mode' => 'html'])->showMenu();
         } else if ($bot->callbackQuery()->data == 'indonesia5') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате в чат менеджеру.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много рупий.",
+                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много рупий.",
                     ['parse_mode' => 'html'])->showMenu();
         } else if ($bot->callbackQuery()->data == 'indonesia30') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате в чат менеджеру.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много30 рупий.",
+                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много30 рупий.",
                     ['parse_mode' => 'html'])->showMenu();
         }
 
@@ -151,8 +154,9 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function getPaymentCheque(Nutgram $bot): void
     {
-        $bot->sendMessage('test', '-1001875753187');
+        $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html');
         $bot->forwardMessage('-1001875753187', $bot->chatId(), $bot->message()->message_id);
+        $this->end();
     }
 
     public function none(Nutgram $bot)
