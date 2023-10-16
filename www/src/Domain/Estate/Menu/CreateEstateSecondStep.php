@@ -78,8 +78,6 @@ class CreateEstateSecondStep extends InlineMenu
 
         $this->preview = $preview;
 
-        Log::debug($preview);
-
         User::where(['id' => $bot->userId()])
             ->first()
             ->update([
@@ -95,7 +93,27 @@ class CreateEstateSecondStep extends InlineMenu
 //            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
 //            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
 //            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
-//            ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleCancelEstate'))
+            ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
+            ->showMenu();
+    }
+
+    public function handleConfirmCancelEstate(Nutgram $bot): void
+    {
+        $this->clearButtons()
+            ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите отменить публикацию объявления?",
+                ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make('Удалить💣', callback_data: 'cancel@handleCancelEstate'))
+            ->addButtonRow(InlineKeyboardButton::make('Отмена◀️', callback_data: '30days@handlePaymentPlan'))
+            ->showMenu();
+    }
+
+    public function handleCancelEstate(Nutgram $bot): void
+    {
+        Log::debug(get_class($this->estate));
+        Estate::where(['user_id' => $bot->userId()])
+            ->latest()->first()->delete();
+        $this->clearButtons()
+            ->menuText('Публикация успешно удалена. =(')
             ->showMenu();
     }
 

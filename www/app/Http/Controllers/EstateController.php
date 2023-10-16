@@ -96,6 +96,6 @@ class EstateController extends Controller
      */
     public function destroy(Estate $estate)
     {
-        //
+        $estate->delete();
     }
 }

@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EstateTypesSeeder::class,
-            EstateIncludesSeeder::class
+            EstateIncludesSeeder::class,
+            UserSeeder::class,
+            EstateSeeder::class
         ]);
     }
 }

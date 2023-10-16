@@ -11,10 +11,8 @@ console.log(tg.initDataUnsafe);
 tg.enableClosingConfirmation();
 
 let form = document.getElementById('form');
-console.log(form)
 
 form.addEventListener('submit', (e) => {
-    console.log('in func')
     const elems = [
         'photo-error',
         'description-error',
@@ -28,10 +26,12 @@ form.addEventListener('submit', (e) => {
         document.getElementById(elem).innerText = "";
     })
 
+    document.getElementById('btn-submit').disabled = true;
+
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch("https://2f7b-79-136-237-88.ngrok-free.app/estate/", {
+    fetch(`https://6765-37-21-168-91.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -41,6 +41,7 @@ form.addEventListener('submit', (e) => {
     })
         .then((response) => response.json())
         .then((json) => {
+            document.getElementById('btn-submit').disabled = false;
             if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
             if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
             if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
@@ -48,7 +49,8 @@ form.addEventListener('submit', (e) => {
             if (json?.errors?.bedrooms) document.getElementById('bedrooms-error').innerText = json.errors.bedrooms[0];
             if (json?.errors?.conditioners) document.getElementById('conditioners-error').innerText = json.errors.conditioners[0];
             if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
-        });
+        })
+        .finally();
 })
 
 document.getElementById('Продажа').addEventListener("click", () => {

@@ -139,7 +139,7 @@
             <div class="invalid-field" id="description-error"></div>
         </div>
         <div class="d-grid gap-2">
-            <button type="submit" class="btn">Сохранить</button>
+            <button type="submit" id="btn-submit" class="btn">Сохранить</button>
         </div>
     </form>
 </div>
