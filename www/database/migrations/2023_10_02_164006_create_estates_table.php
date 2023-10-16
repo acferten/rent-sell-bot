@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->integer('price')->nullable();
             $table->integer('views')->default(0);
             $table->integer('chattings')->default(0);
+            $table->date('end_date')->nullable();
             $table->timestamps();
         });
     }

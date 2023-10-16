@@ -30,11 +30,13 @@ class CreateEstateAction
 
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
-            $data->deal_type == DealTypes::rent->value ?? EstatePrice::create([
-            'period' => $data->period,
-            'price' => $data->period_price,
-            'estate_id' => $estate->id
-        ]);
+        if ($data->deal_type == DealTypes::rent) {
+            EstatePrice::create([
+                'period' => $data->period,
+                'price' => $data->period_price,
+                'estate_id' => $estate->id
+            ]);
+        }
 
         foreach ($data->photo as $photo) {
             EstatePhoto::create([

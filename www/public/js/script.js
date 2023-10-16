@@ -31,7 +31,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch("https://c318-79-136-237-88.ngrok-free.app/estate/", {
+    fetch("https://9811-176-65-60-218.ngrok-free.app/estate/", {
         headers: {
             Accept: "application/json"
         },
@@ -51,12 +51,12 @@ form.addEventListener('submit', (e) => {
         });
 })
 
-document.getElementById('Продажа').addEventListener("click", (e) => {
+document.getElementById('Продажа').addEventListener("click", () => {
     document.getElementById('price-container').classList.remove('d-none');
     document.getElementById('period-container').classList.add('d-none');
     document.getElementById('period_price-container').classList.add('d-none');
 })
-document.getElementById('Аренда').addEventListener("click", (e) => {
+document.getElementById('Аренда').addEventListener("click", () => {
     document.getElementById('price-container').classList.add('d-none');
     document.getElementById('period-container').classList.remove('d-none');
     document.getElementById('period_price-container').classList.remove('d-none');

@@ -17,6 +17,8 @@ class EstatePrice extends BaseModel
 {
     protected string $dataClass = EstatePriceData::class;
 
+    protected $table = 'estate_prices';
+
     protected $fillable = [
         'price',
         'period',

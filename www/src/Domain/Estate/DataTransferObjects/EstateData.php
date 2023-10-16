@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Lazy;
 
 class EstateData extends Data
 {
@@ -26,8 +27,8 @@ class EstateData extends Data
         public readonly null|array|UploadedFile|Collection $photo,
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile                  $video_review,
-        public readonly null|EstatePeriods                 $period,
-        public readonly null|int                           $period_price,
+        public readonly null|string|EstatePeriods|Lazy     $period,
+        public readonly null|int|string                    $period_price,
         public readonly int                                $house_type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
@@ -42,7 +43,8 @@ class EstateData extends Data
             ...$estate->toArray(),
             'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray()),
-            'user' => UserData::from($estate->user)
+            'user' => UserData::from($estate->user),
+            'period_price' => implode(', ', $estate->prices->map(fn($price) => $price->price)->toArray()),
         ]);
     }
 

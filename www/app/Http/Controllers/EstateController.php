@@ -24,7 +24,8 @@ class EstateController extends Controller
      */
     public function index()
     {
-        return EstateData::from(Estate::first())->except('includes.id');
+
+        return EstateData::from(Estate::first());
     }
 
     /**
@@ -45,7 +46,7 @@ class EstateController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $bot = app(Nutgram::class);
 
@@ -58,13 +59,12 @@ class EstateController extends Controller
         }
 
         $data = EstateData::fromRequest($request);
-        $estate = CreateEstateAction::execute($data);
+        CreateEstateAction::execute($data);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
             new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
 
         $bot->answerWebAppQuery($webappData->query_id, $result);
-
     }
 
     /**

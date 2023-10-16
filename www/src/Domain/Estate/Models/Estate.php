@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Models;
 
+use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
@@ -28,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Estate extends BaseModel
 {
-    protected string $dataClass = Estate::class;
+    protected string $dataClass = EstateData::class;
 
     protected $fillable = [
         'description',
@@ -48,7 +49,8 @@ class Estate extends BaseModel
         'street',
         'price',
         'latitude',
-        'longitude'
+        'longitude',
+        'end_date'
     ];
 
     public function shortData(): string
