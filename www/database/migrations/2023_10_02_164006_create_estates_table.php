@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('deal_type');
             $table->string('video_review', 100)->nullable();
             $table->integer('bedrooms');
-            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре', 'Ожидает подтверждения'])
+            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре', 'Ожидает подтверждения', 'Не заполнен'])
                 ->default('Ожидает подтверждения');
             $table->integer('bathrooms');
             $table->integer('house_type_id');

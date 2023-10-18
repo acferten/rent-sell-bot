@@ -4,6 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
+use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateType;
 use Domain\Shared\Models\Actor\User;
@@ -115,6 +116,9 @@ class CreateEstateSecondStep extends InlineMenu
         $this->clearButtons()
             ->menuText('Публикация успешно удалена. =(')
             ->showMenu();
+
+        $this->closeMenu();
+        $this->end();
     }
 
     public function handlePayment(Nutgram $bot): void
@@ -172,6 +176,9 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function getPaymentCheque(Nutgram $bot): void
     {
+        $this->estate->update([
+            'status' => EstateStatus::pending
+        ]);
         $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html');
         $bot->forwardMessage('-1001875753187', $bot->chatId(), $bot->message()->message_id);
         $this->end();

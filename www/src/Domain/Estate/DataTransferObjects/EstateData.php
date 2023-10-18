@@ -32,7 +32,7 @@ class EstateData extends Data
         public readonly int                                $house_type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
-        public EstateStatus                                $status = EstateStatus::pending
+        public EstateStatus                                $status = EstateStatus::notFinished
     )
     {
     }

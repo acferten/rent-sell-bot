@@ -7,6 +7,7 @@ use Domain\Estate\Actions\CreateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
+use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
@@ -24,8 +25,11 @@ class EstateController extends Controller
      */
     public function index()
     {
+        $estate = Estate::where('user_id', '=', 472041603)
+        ->where('status', '!=', EstateStatus::notFinished)
+        ->get();
 
-        return EstateData::from(Estate::first());
+        dd( array_key_exists(0, $estate->toArray()));
     }
 
     /**

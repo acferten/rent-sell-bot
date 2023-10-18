@@ -77,7 +77,7 @@ class StartMenu extends InlineMenu
 //        $bot->onCallbackQueryData(EstateCallbacks::GetEstates->name, f);
 //        $bot->onCallbackQueryData(EstateCallbacks::GetFilteredEstates->name, f);
 
-//        $this->end();
+        $this->end();
     }
 
     public function handleGetEstatesChoice(Nutgram $bot): void
