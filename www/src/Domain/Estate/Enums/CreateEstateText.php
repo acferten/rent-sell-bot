@@ -9,5 +9,5 @@ enum CreateEstateText: string
 
     case FillEstateFormText = '✍️ Заполнить форму';
 
-    case FillEstateFormUrl = 'https://5dbf-176-65-60-218.ngrok-free.app/estate/create';
+    case FillEstateFormUrl = 'https://c326-37-21-168-91.ngrok-free.app/estate/create';
 }

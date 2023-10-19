@@ -15,6 +15,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
+use function Psy\debug;
 
 class CreateEstateSecondStep extends InlineMenu
 {
@@ -45,8 +46,6 @@ class CreateEstateSecondStep extends InlineMenu
             'longitude' => $location->longitude
         ]);;
 
-        $bot->sendMessage('Локация добавлена к объекту.');
-
         $bot->sendMessage(
             text: "<b>Шаг 3 из 3</b>
 Отправьте ваши контактные данные Telegram.",
@@ -61,6 +60,19 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function contact(Nutgram $bot): void
     {
+
+        if ($bot->isCallbackQuery()) {
+            $this->clearButtons()
+                ->menuText($this->preview, ['parse_mode' => 'html'])
+                ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
+//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
+                ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
+//            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
+                ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
+                ->showMenu();
+            return;
+        }
+
         $this->data = EstateData::from($this->estate);
         $estate_type = EstateType::where(['id' => $this->data->house_type_id])->first()->title;
         $periods = implode(', ', $this->estate->prices->map(fn($price) => $price->period)->toArray());
@@ -85,41 +97,93 @@ class CreateEstateSecondStep extends InlineMenu
                 'phone' => $bot->message()->contact->phone_number
             ]);
 
-        $bot->sendMessage('Контактные данные сохранены.',
-            reply_markup: ReplyKeyboardRemove::make(true));
 
         $this->clearButtons()
             ->menuText($preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
 //            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
+            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
 //            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
             ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
             ->showMenu();
     }
 
+    // Functions for change location of estate
+
+    public function handleChangeLocation(Nutgram $bot): void
+    {
+        $bot->sendMessage(
+            text: "<b>Шаг 2 из 3</b>
+Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
+            parse_mode: 'html'
+        );
+        $this->closeMenu();
+
+        $this->next('ChangeLocationStepTwo');
+    }
+
+    public function ChangeLocationStepTwo(Nutgram $bot): void
+    {
+        $location = $bot->message()->location;
+
+        $this->estate = Estate::where(['user_id' => $bot->userId()])
+            ->latest()->first();
+
+        $this->estate->update([
+            'latitude' => $location->latitude,
+            'longitude' => $location->longitude
+        ]);
+
+        $this->data = EstateData::from($this->estate);
+        $estate_type = EstateType::where(['id' => $this->data->house_type_id])->first()->title;
+        $periods = implode(', ', $this->estate->prices->map(fn($price) => $price->period)->toArray());
+
+        $preview = "Превью:\n" .
+            "<b>Сделка:</b> {$this->data->deal_type->value}\n" .
+            "<b>Количество спален</b>: {$this->data->bedrooms}\n" .
+            "<b>Количество ванных комнат</b>: {$this->data->bathrooms}\n" .
+            "<b>Количество кондиционеров</b>: {$this->data->conditioners}\n" .
+            "<b>Включено в стоимость</b>: {$this->data->includes}\n" .
+            "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
+            "<b>Описание:</b> {$this->data->description}\n";
+
+        $preview .= $this->data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$this->data->period_price}\n"
+            : "<b>Цена:</b> {$this->data->price}\n";
+
+        $this->preview = $preview;
+
+        $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
+//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
+            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
+//            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
+            ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
+            ->showMenu();
+    }
+
+    // Functions for cancel publication of estate
+
     public function handleConfirmCancelEstate(Nutgram $bot): void
     {
         $this->clearButtons()
-            ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите отменить публикацию объявления?",
+            ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите прекратить\n публикацию объявления?",
                 ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Удалить💣', callback_data: 'cancel@handleCancelEstate'))
-            ->addButtonRow(InlineKeyboardButton::make('Отмена◀️', callback_data: '30days@handlePaymentPlan'))
+            ->addButtonRow(InlineKeyboardButton::make('◀️Отмена', callback_data: 'preview@contact'))
             ->showMenu();
     }
 
     public function handleCancelEstate(Nutgram $bot): void
     {
-        Log::debug(get_class($this->estate));
         Estate::where(['user_id' => $bot->userId()])
             ->latest()->first()->delete();
-        $this->clearButtons()
-            ->menuText('Публикация успешно удалена. =(')
-            ->showMenu();
-
+        $this->clearButtons();
+        $bot->sendMessage('Публикация успешно удалена');
         $this->closeMenu();
         $this->end();
     }
+
+    // Functions for payment publication of estate
 
     public function handlePayment(Nutgram $bot): void
     {
