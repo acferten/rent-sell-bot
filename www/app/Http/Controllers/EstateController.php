@@ -7,11 +7,11 @@ use Domain\Estate\Actions\CreateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
-use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Exception\InvalidDataException;
 use SergiX44\Nutgram\Nutgram;
@@ -25,11 +25,31 @@ class EstateController extends Controller
      */
     public function index()
     {
-        $estate = Estate::where('user_id', '=', 472041603)
-        ->where('status', '!=', EstateStatus::notFinished)
-        ->get();
-
-        dd( array_key_exists(0, $estate->toArray()));
+//        $estate = Estate::where('id', '=', 8)
+//            ->first();
+//
+//        $locationiq_key = env('LOCATIONIQ_KEY');
+//        $response = Http::withHeaders([
+//            "Accept-Language" => "ru",
+//        ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$estate->latitude}&lon={$estate->longitude}&format=json")->collect();
+//
+//        if (array_key_exists('error', $response->toArray())) {
+//
+//        }
+//        $response = $response->get('address');
+//
+//        $estate->update([
+//            'country' => $response['country'],
+//            'town' => $response['city'],
+//            'district' => $response['city_district'],
+//            'street' => $response['road'],
+//        ]);
+//
+//        if (array_key_exists('house_number', $response)) {
+//            $estate->update([
+//                'house_number' => $response['house_number'],
+//            ]);
+//        }
     }
 
     /**

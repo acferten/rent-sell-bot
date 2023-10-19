@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property integer $bedrooms
  * @property integer $bathrooms
  * @property integer $conditioners
+ * @property string $latitude
+ * @property string $longitude
+ * @property int $house_number
  */
 class Estate extends BaseModel
 {
@@ -50,7 +53,8 @@ class Estate extends BaseModel
         'price',
         'latitude',
         'longitude',
-        'end_date'
+        'end_date',
+        'house_number'
     ];
 
     public function shortData(): string

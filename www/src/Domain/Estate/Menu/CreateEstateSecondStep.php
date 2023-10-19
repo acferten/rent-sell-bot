@@ -8,20 +8,70 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateType;
 use Domain\Shared\Models\Actor\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
-use function Psy\debug;
 
 class CreateEstateSecondStep extends InlineMenu
 {
     public Estate $estate;
-    public EstateData $data;
     public string $preview;
+
+    public function setPreview(): void
+    {
+        $data = EstateData::from($this->estate);
+        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
+        $periods = implode(', ', $this->estate->prices->map(fn($price) => $price->period)->toArray());
+
+        $preview = "Предпросмотр вашего объекта:\n\n" .
+            "<b>Сделка:</b> {$data->deal_type->value}\n" .
+            "<b>Количество спален:</b> {$data->bedrooms}\n" .
+            "<b>Количество ванных комнат:</b> {$data->bathrooms}\n" .
+            "<b>Количество кондиционеров:</b> {$data->conditioners}\n" .
+            "<b>Включено в стоимость:</b> {$data->includes}\n" .
+            "<b>Тип недвижимости:</b>  {$estate_type}\n" .
+            "<b>Описание:</b> {$data->description}\n\n" .
+            "<b>Страна:</b> {$data->country}\n" .
+            "<b>Город:</b> {$data->town}\n" .
+            "<b>Район:</b> {$data->district}\n" .
+            "<b>Улица:</b> {$data->street}\n" .
+            "<b>Дом:</b> {$data->house_number}\n";
+
+        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
+            : "<b>Цена:</b> {$data->price}\n";
+
+        $this->preview = $preview;
+    }
+
+    public function setLocationProperties(Nutgram $bot): void
+    {
+        $locationiq_key = env('LOCATIONIQ_KEY');
+        $response = Http::withHeaders([
+            "Accept-Language" => "ru",
+        ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
+
+        if (array_key_exists('error', $response->toArray())) {
+            $this->start($bot);
+        }
+        $response = $response->get('address');
+
+        $this->estate->update([
+            'country' => $response['country'],
+            'town' => $response['city'],
+            'district' => $response['city_district'],
+            'street' => $response['road'],
+        ]);
+
+        if (array_key_exists('house_number', $response)) {
+            $this->estate->update([
+                'house_number' => $response['house_number'],
+            ]);
+        }
+    }
 
     public function start(Nutgram $bot): void
     {
@@ -46,6 +96,8 @@ class CreateEstateSecondStep extends InlineMenu
             'longitude' => $location->longitude
         ]);;
 
+        $this->setLocationProperties($bot);
+
         $bot->sendMessage(
             text: "<b>Шаг 3 из 3</b>
 Отправьте ваши контактные данные Telegram.",
@@ -60,46 +112,19 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function contact(Nutgram $bot): void
     {
-
-        if ($bot->isCallbackQuery()) {
-            $this->clearButtons()
-                ->menuText($this->preview, ['parse_mode' => 'html'])
-                ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
-                ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
-//            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
-                ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
-                ->showMenu();
-            return;
-        }
-
-        $this->data = EstateData::from($this->estate);
-        $estate_type = EstateType::where(['id' => $this->data->house_type_id])->first()->title;
-        $periods = implode(', ', $this->estate->prices->map(fn($price) => $price->period)->toArray());
-
-        $preview = "Превью:\n" .
-            "<b>Сделка:</b> {$this->data->deal_type->value}\n" .
-            "<b>Количество спален</b>: {$this->data->bedrooms}\n" .
-            "<b>Количество ванных комнат</b>: {$this->data->bathrooms}\n" .
-            "<b>Количество кондиционеров</b>: {$this->data->conditioners}\n" .
-            "<b>Включено в стоимость</b>: {$this->data->includes}\n" .
-            "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
-            "<b>Описание:</b> {$this->data->description}\n";
-
-        $preview .= $this->data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$this->data->period_price}\n"
-            : "<b>Цена:</b> {$this->data->price}\n";
-
-        $this->preview = $preview;
-
         User::where(['id' => $bot->userId()])
             ->first()
             ->update([
                 'phone' => $bot->message()->contact->phone_number
             ]);
 
+        $bot->sendMessage('Контактные данные сохранены.',
+            reply_markup: ReplyKeyboardRemove::make(true));
+
+        $this->setPreview();
 
         $this->clearButtons()
-            ->menuText($preview, ['parse_mode' => 'html'])
+            ->menuText($this->preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
 //            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
             ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
@@ -126,33 +151,15 @@ class CreateEstateSecondStep extends InlineMenu
     {
         $location = $bot->message()->location;
 
-        $this->estate = Estate::where(['user_id' => $bot->userId()])
-            ->latest()->first();
-
         $this->estate->update([
             'latitude' => $location->latitude,
             'longitude' => $location->longitude
         ]);
 
-        $this->data = EstateData::from($this->estate);
-        $estate_type = EstateType::where(['id' => $this->data->house_type_id])->first()->title;
-        $periods = implode(', ', $this->estate->prices->map(fn($price) => $price->period)->toArray());
+        $this->setLocationProperties($bot);
 
-        $preview = "Превью:\n" .
-            "<b>Сделка:</b> {$this->data->deal_type->value}\n" .
-            "<b>Количество спален</b>: {$this->data->bedrooms}\n" .
-            "<b>Количество ванных комнат</b>: {$this->data->bathrooms}\n" .
-            "<b>Количество кондиционеров</b>: {$this->data->conditioners}\n" .
-            "<b>Включено в стоимость</b>: {$this->data->includes}\n" .
-            "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
-            "<b>Описание:</b> {$this->data->description}\n";
-
-        $preview .= $this->data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$this->data->period_price}\n"
-            : "<b>Цена:</b> {$this->data->price}\n";
-
-        $this->preview = $preview;
-
-        $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
+        $this->setPreview();
+        $this->clearButtons()->menuText($this->preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
 //            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
             ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
