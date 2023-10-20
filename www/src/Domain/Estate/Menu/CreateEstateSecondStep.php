@@ -4,6 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Carbon\Carbon;
 use Domain\Estate\DataTransferObjects\EstateData;
+use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
@@ -18,6 +19,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class CreateEstateSecondStep extends InlineMenu
 {
@@ -131,11 +133,24 @@ class CreateEstateSecondStep extends InlineMenu
         $this->clearButtons()
             ->menuText($this->preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
+//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@changeFirstStep'))
             ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
 //            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
             ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
             ->showMenu();
+    }
+
+    // functions change first step
+
+    public function changeFirstStep(Nutgram $bot): void
+    {
+        $this->clearButtons()
+            ->menuText(CreateEstateText::FirstStepHeader->value
+                . CreateEstateText::FirstStepDescription->value, ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make(
+                CreateEstateText::FillEstateFormText->value,
+                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrl->value))
+            )->orNext('none')->showMenu();
     }
 
     // Functions for change location of estate

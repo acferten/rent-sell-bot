@@ -137,7 +137,6 @@ class UserEstatesMenu extends InlineMenu
             "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
             "<b>ID</b>:  {$estate->id}\n" .
             "<b>СТАТУС:  {$estate->status}\n</b>" .
-            "<b>СТАТУС:  {$estate->status}\n</b>" .
             "<b>Описание:</b> {$data->description}\n\n" .
             "<b>Количество просмотров:  {$estate->views}\n</b>" .
             "<b>Количество переходов в сообщения:  {$estate->chattings}\n</b>";
