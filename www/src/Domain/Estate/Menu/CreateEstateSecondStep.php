@@ -2,11 +2,13 @@
 
 namespace Domain\Estate\Menu;
 
+use Carbon\Carbon;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateType;
+use Domain\Estate\Traits\ChangeEstateLocation;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Http;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -19,6 +21,8 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 
 class CreateEstateSecondStep extends InlineMenu
 {
+    use ChangeEstateLocation;
+
     public Estate $estate;
     public string $preview;
 
@@ -136,38 +140,6 @@ class CreateEstateSecondStep extends InlineMenu
 
     // Functions for change location of estate
 
-    public function handleChangeLocation(Nutgram $bot): void
-    {
-        $bot->sendMessage(
-            text: "<b>Шаг 2 из 3</b>
-Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
-            parse_mode: 'html'
-        );
-        $this->closeMenu();
-
-        $this->next('ChangeLocationStepTwo');
-    }
-
-    public function ChangeLocationStepTwo(Nutgram $bot): void
-    {
-        $location = $bot->message()->location;
-
-        $this->estate->update([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude
-        ]);
-
-        $this->setLocationProperties($bot);
-
-        $this->setPreview();
-        $this->clearButtons()->menuText($this->preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
-            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
-//            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
-            ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
-            ->showMenu();
-    }
 
     // Functions for cancel publication of estate
 
@@ -206,6 +178,11 @@ class CreateEstateSecondStep extends InlineMenu
     public function handlePaymentPlan(Nutgram $bot): void
     {
         if ($bot->callbackQuery()->data == '5days') {
+
+            $this->estate->update([
+                'end_date' => Carbon::now()->addDays(5)
+            ]);
+
             $this->clearButtons()
                 ->menuText("<b>Вы выбрали размещение на 5 дней.</b>\n\nСтоимость размещения 10$\n\nВы можете оплатить двумя способами:\n\nПеревод на карту Тинькофф в рублях. Сумма перевода ЧЧЧ рублей. (делаем формулу для конвертации)\n\nПеревод на индонезийскую карту банка BRI в рупиях. Сумма перевода ЯЯЯ рупий. (делаем формулу для конвертации)\n\nКак вам удобнее оплатить?",
                     ['parse_mode' => 'html'])
@@ -213,6 +190,11 @@ class CreateEstateSecondStep extends InlineMenu
                 ->addButtonRow(InlineKeyboardButton::make('На индонезийскую карту в рупиях', callback_data: 'indonesia5@handlePaymentBank'))
                 ->showMenu();
         } else if ($bot->callbackQuery()->data == '30days') {
+
+            $this->estate->update([
+                'end_date' => Carbon::now()->addDays(30)
+            ]);
+
             $this->clearButtons()
                 ->menuText("<b>Вы выбрали размещение на 30 дней.</b>\n\nСтоимость размещения 30$\n\nВы можете оплатить двумя способами:\n\nПеревод на карту Тинькофф в рублях. Сумма перевода ЧЧЧ рублей. (делаем формулу для конвертации)\n\nПеревод на индонезийскую карту банка BRI в рупиях. Сумма перевода ЯЯЯ рупий. (делаем формулу для конвертации)\n\nКак вам удобнее оплатить?",
                     ['parse_mode' => 'html'])
@@ -251,8 +233,7 @@ class CreateEstateSecondStep extends InlineMenu
         $this->estate->update([
             'status' => EstateStatus::pending
         ]);
-        $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html', reply_markup:
-        InlineKeyboardMarkup::make()
+        $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html', reply_markup: InlineKeyboardMarkup::make()
             ->addRow(InlineKeyboardButton::make('Одобрить публикацию', callback_data: "approve {$this->estate->id}"))
             ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
         );
