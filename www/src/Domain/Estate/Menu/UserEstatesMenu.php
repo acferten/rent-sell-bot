@@ -137,7 +137,10 @@ class UserEstatesMenu extends InlineMenu
             "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
             "<b>ID</b>:  {$estate->id}\n" .
             "<b>СТАТУС:  {$estate->status}\n</b>" .
-            "<b>Описание:</b> {$data->description}\n";
+            "<b>СТАТУС:  {$estate->status}\n</b>" .
+            "<b>Описание:</b> {$data->description}\n\n" .
+            "<b>Количество просмотров:  {$estate->views}\n</b>" .
+            "<b>Количество переходов в сообщения:  {$estate->chattings}\n</b>";
 
         $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$data->period_price}\n"
             : "<b>Цена:</b> {$data->price}\n";

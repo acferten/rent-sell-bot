@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
@@ -250,7 +251,11 @@ class CreateEstateSecondStep extends InlineMenu
         $this->estate->update([
             'status' => EstateStatus::pending
         ]);
-        $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html');
+        $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html', reply_markup:
+        InlineKeyboardMarkup::make()
+            ->addRow(InlineKeyboardButton::make('Одобрить публикацию', callback_data: "approve {$this->estate->id}"))
+            ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
+        );
         $bot->forwardMessage('-1001875753187', $bot->chatId(), $bot->message()->message_id);
         $this->end();
     }
