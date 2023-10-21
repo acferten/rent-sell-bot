@@ -7,6 +7,26 @@ body {
     background-color: var(--tg-theme-bg-color) !important;
 }
 
+.collage__images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.collage__image {
+    width: 64px;
+    height: 64px;
+}
+
+
+.collage__title {
+    margin-top: 15px;
+    color: var(--tg-theme-text-color);
+    font-size: 14px;
+    font-weight: 500;
+    margin-block-end: 5px;
+}
+
 .invalid-field {
     color: red;
     font-size: 14px;

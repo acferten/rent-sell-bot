@@ -1,34 +1,29 @@
+import {setErrorTextField, setDataValue} from "./shared.js";
+import {ERROR_TEXT_FIELDS} from "./variables.js";
+
 let tg = window.Telegram.WebApp;
+const initDataUnsafe = tg.initDataUnsafe.user;
 tg.expand();
 
-document.getElementById('username').value = tg.initDataUnsafe.user.username;
-document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
-document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
-document.getElementById('initData').value = tg.initData;
-document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
+setDataValue('username', initDataUnsafe.username)
+setDataValue('user_id', initDataUnsafe.id)
+setDataValue('first_name', initDataUnsafe.first_name)
+setDataValue('initData', tg.initData)
+setDataValue('last_name', initDataUnsafe.last_name)
 
 tg.enableClosingConfirmation();
 
 let form = document.getElementById('form');
 
-form.addEventListener('submit', (e) => {
-    const elems = [
-        'photo-error',
-        'description-error',
-        'deal_type-error',
-        'bathrooms-error',
-        'bedrooms-error',
-        'conditioners-error',
-        'house_type_id-error'
-    ];
-    elems.forEach((elem) => {
-        document.getElementById(elem).innerText = "";
-    })
-
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
     document.getElementById('btn-submit').disabled = true;
 
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    for (let errorTextField of ERROR_TEXT_FIELDS) {
+        setErrorTextField(errorTextField, "");
+    }
+
+    const formData = new FormData(event.currentTarget);
 
     fetch(`https://a811-37-21-168-91.ngrok-free.app/estate/`, {
         headers: {
@@ -41,15 +36,17 @@ form.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
-            if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
-            if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
-            if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
-            if (json?.errors?.bathrooms) document.getElementById('bathrooms-error').innerText = json.errors.bathrooms[0];
-            if (json?.errors?.bedrooms) document.getElementById('bedrooms-error').innerText = json.errors.bedrooms[0];
-            if (json?.errors?.conditioners) document.getElementById('conditioners-error').innerText = json.errors.conditioners[0];
-            if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
+
+            for (let error of json?.errors) {
+                if (error.photo) setErrorTextField('photo-error', error.photo[0]);
+                if (error.description) setErrorTextField('description-error', error.description[0]);
+                if (error.deal_type) setErrorTextField('deal_type-error', error.deal_type[0]);
+                if (error.bathrooms) setErrorTextField('bathrooms-error', error.bathrooms[0]);
+                if (error.bedrooms) setErrorTextField('bedrooms-error', error.bedrooms[0]);
+                if (error.conditioners) setErrorTextField('conditioners-error', error.conditioners[0]);
+                if (error.house_type_id) setErrorTextField('house_type_id-error', error.house_type_id[0]);
+            }
         })
-        .finally();
 })
 
 function changeTypePrice(deal_type) {
@@ -88,4 +85,3 @@ if (collage) {
         collage.classList.add('d-none');
     })
 }
-

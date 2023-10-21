@@ -9,6 +9,7 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Models\EstatePrice;
 use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,7 @@ use SergiX44\Nutgram\Exception\InvalidDataException;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
 use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
+use function Psy\debug;
 
 class EstateController extends Controller
 {
@@ -108,9 +110,13 @@ class EstateController extends Controller
             'deal_types' => DealTypes::cases(),
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases(),
-            'estate' => $estate
+            'estate' => $estate,
+            'estate_rent' => EstatePrice::where(['estate_id' => $estate->estateId()])->first() ?? (object) ['period' => "", "price" => ""],
+            'estate_house_type' => $estate->type,
+            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_includes' => $estate->includes->map(fn($include) => $include->title),
         ];
-        return view('create_estate_form1', $data);
+        return view('update_estate_form', $data);
     }
 
     /**

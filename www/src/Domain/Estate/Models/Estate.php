@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $latitude
  * @property string $longitude
  * @property int $house_number
+ * @method
  */
 class Estate extends BaseModel
 {
@@ -56,6 +57,11 @@ class Estate extends BaseModel
         'end_date',
         'house_number'
     ];
+
+    public function estateId(): string
+    {
+        return "$this->id";
+    }
 
     public function shortData(): string
     {
@@ -113,6 +119,6 @@ class Estate extends BaseModel
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(EstateType::class);
+        return $this->belongsTo(EstateType::class, 'house_type_id', 'id');
     }
 }
