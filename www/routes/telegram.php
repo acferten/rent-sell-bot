@@ -2,6 +2,7 @@
 /** @var SergiX44\Nutgram\Nutgram $bot */
 
 use Domain\Estate\Actions\ApproveEstateAction;
+use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
 use Domain\Estate\Actions\DeclineEstateAction;
 use SergiX44\Nutgram\Nutgram;
 
@@ -12,6 +13,10 @@ $bot->onText('Основные данные первого шага успешн
 
 $bot->onCallbackQueryData('approve {estate_id}', function (Nutgram $bot, $estate_id) {
     ApproveEstateAction::execute($bot, $estate_id);
+});
+
+$bot->onCallbackQueryData('relevant {estate_id}', function (Nutgram $bot, $estate_id) {
+    ConfirmEstateRelevanceAction::execute($bot, $estate_id);
 });
 
 $bot->onCallbackQueryData('decline {estate_id}', function (Nutgram $bot, $estate_id) {
