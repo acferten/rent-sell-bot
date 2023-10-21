@@ -111,7 +111,7 @@ class EstateController extends Controller
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases(),
             'estate' => $estate,
-            'estate_rent' => EstatePrice::where(['estate_id' => $estate->estateId()])->first() ?? (object) ['period' => "", "price" => ""],
+            'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object) ['period' => "", "price" => ""],
             'estate_house_type' => $estate->type,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
