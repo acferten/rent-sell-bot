@@ -113,6 +113,6 @@ class Estate extends BaseModel
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(EstateType::class);
+        return $this->belongsTo(EstateType::class, 'house_type_id', 'id');
     }
 }
