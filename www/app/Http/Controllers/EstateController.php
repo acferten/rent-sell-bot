@@ -103,7 +103,14 @@ class EstateController extends Controller
      */
     public function edit(Estate $estate)
     {
-        //
+        $data = [
+            'includes' => EstateInclude::all(),
+            'deal_types' => DealTypes::cases(),
+            'estate_types' => EstateType::all(),
+            'price_periods' => EstatePeriods::cases(),
+            'estate' => $estate
+        ];
+        return view('create_estate_form1', $data);
     }
 
     /**
@@ -111,7 +118,7 @@ class EstateController extends Controller
      */
     public function update(Request $request, Estate $estate)
     {
-        //
+
     }
 
     /**

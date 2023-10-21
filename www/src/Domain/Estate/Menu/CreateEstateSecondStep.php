@@ -62,6 +62,7 @@ class CreateEstateSecondStep extends InlineMenu
         ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
 
         if (array_key_exists('error', $response->toArray())) {
+            return;
             $this->start($bot);
         }
         $response = $response->get('address');
@@ -133,7 +134,7 @@ class CreateEstateSecondStep extends InlineMenu
         $this->clearButtons()
             ->menuText($this->preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@changeFirstStep'))
+            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@changeFirstStep'))
             ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
 //            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
             ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
@@ -149,7 +150,7 @@ class CreateEstateSecondStep extends InlineMenu
                 . CreateEstateText::FirstStepDescription->value, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make(
                 CreateEstateText::FillEstateFormText->value,
-                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrl->value))
+                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrlEdit->value . "{$this->estate->id}/edit"))
             )->orNext('none')->showMenu();
     }
 
