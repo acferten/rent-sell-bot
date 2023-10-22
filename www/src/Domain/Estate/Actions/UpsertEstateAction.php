@@ -10,7 +10,7 @@ use Domain\Estate\Models\EstatePrice;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Log;
 
-class CreateEstateAction
+class UpsertEstateAction
 {
     public static function execute(EstateData $data): Estate
     {
@@ -23,10 +23,14 @@ class CreateEstateAction
             ]
         );
 
-        $estate = Estate::create([
-            ...$data->all(),
-            'user_id' => $user->id,
-        ]);
+        $estate = Estate::updateOrCreate(
+            [
+                'id' => $data->id
+            ],
+            [
+                ...$data->all(),
+                'user_id' => $user->id,
+            ]);
 
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 

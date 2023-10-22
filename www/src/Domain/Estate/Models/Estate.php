@@ -11,6 +11,7 @@ use Domain\Shared\Models\Reports\Report;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @property string $id
@@ -30,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $longitude
  * @property int $house_number
  * @property EstateType $type
+ * @property Collection $photos
+ * @property Collection $includes
  */
 class Estate extends BaseModel
 {

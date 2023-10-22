@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use Domain\Estate\Actions\CreateEstateAction;
+use Domain\Estate\Actions\UpsertEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
@@ -13,50 +13,19 @@ use Domain\Estate\Models\EstatePrice;
 use Domain\Estate\Models\EstateType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use SergiX44\Nutgram\Exception\InvalidDataException;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
 use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
-use function Psy\debug;
 
 class EstateController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-//        $estate = Estate::where('id', '=', 8)
-//            ->first();
-//
-//        $locationiq_key = env('LOCATIONIQ_KEY');
-//        $response = Http::withHeaders([
-//            "Accept-Language" => "ru",
-//        ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$estate->latitude}&lon={$estate->longitude}&format=json")->collect();
-//
-//        if (array_key_exists('error', $response->toArray())) {
-//
-//        }
-//        $response = $response->get('address');
-//
-//        $estate->update([
-//            'country' => $response['country'],
-//            'town' => $response['city'],
-//            'district' => $response['city_district'],
-//            'street' => $response['road'],
-//        ]);
-//
-//        if (array_key_exists('house_number', $response)) {
-//            $estate->update([
-//                'house_number' => $response['house_number'],
-//            ]);
-//        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
         $data = [
             'includes' => EstateInclude::all(),
@@ -68,9 +37,6 @@ class EstateController extends Controller
         return view('create_estate_form', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): void
     {
         $bot = app(Nutgram::class);
@@ -84,7 +50,7 @@ class EstateController extends Controller
         }
 
         $data = EstateData::fromRequest($request);
-        CreateEstateAction::execute($data);
+        UpsertEstateAction::execute($data);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
             new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
@@ -92,18 +58,12 @@ class EstateController extends Controller
         $bot->answerWebAppQuery($webappData->query_id, $result);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Estate $estate)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Estate $estate)
+    public function edit(Estate $estate): View
     {
         $data = [
             'includes' => EstateInclude::all(),
@@ -111,7 +71,7 @@ class EstateController extends Controller
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases(),
             'estate' => $estate,
-            'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object) ['period' => "", "price" => ""],
+            'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object)['period' => "", "price" => ""],
             'estate_house_type' => $estate->type,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
@@ -119,17 +79,11 @@ class EstateController extends Controller
         return view('update_estate_form', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Estate $estate)
     {
-
+        $this->store($request);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Estate $estate)
     {
         $estate->delete();

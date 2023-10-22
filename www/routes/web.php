@@ -17,7 +17,3 @@ Route::resource('estate', \App\Http\Controllers\EstateController::class);
 
 Route::post('webhook', \App\Http\Controllers\WebhookController::class);
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-

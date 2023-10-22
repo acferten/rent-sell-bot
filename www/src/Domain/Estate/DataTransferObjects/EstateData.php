@@ -18,6 +18,7 @@ use Spatie\LaravelData\Lazy;
 class EstateData extends Data
 {
     public function __construct(
+        public readonly ?int                               $id,
         public string                                      $description,
         public int                                         $bedrooms,
         public int                                         $conditioners,
@@ -57,14 +58,16 @@ class EstateData extends Data
     {
         return self::from([
             ...$request->all(),
+            'id' => $request->estate->id,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo') ?? $request->file('photo'),
-            'user' => UserData::from([
+            'user' => $request->user_id != null ? UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
-            ]),
+            ]) : null,
+            'price' => $request->input('deal_type') == DealTypes::sale ? $request->input('price') : null
         ]);
     }
 
@@ -78,7 +81,6 @@ class EstateData extends Data
             'conditioners' => 'required|int|between:0,25',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000|nullable',
             'include_ids' => 'array|exists:includes,id',
-            'photo' => 'required',
             'video_review' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
             'period' => 'required_if:deal_type,Аренда|string|nullable',
             'period_price' => 'required_if:deal_type,Аренда|int|nullable',
