@@ -49,7 +49,6 @@ form.addEventListener('submit', (e) => {
             if (json?.errors?.conditioners) document.getElementById('conditioners-error').innerText = json.errors.conditioners[0];
             if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
         })
-        .finally();
 })
 
 function changeTypePrice(deal_type) {
