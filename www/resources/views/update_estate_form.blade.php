@@ -15,7 +15,6 @@
 
 <div class="container mt-5">
     <h1 class="page-title">Обновление данных объекта</h1>
-    <div id="test">{{ session('status') }}</div>
     <form method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
         <input type="hidden" id="user_id" name="user_id" value=""/>

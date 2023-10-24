@@ -58,7 +58,7 @@ class EstateData extends Data
     {
         return self::from([
             ...$request->all(),
-            'id' => $request->estate->id,
+            'id' => $request->estate?->id,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo') ?? $request->file('photo'),
             'user' => $request->user_id != null ? UserData::from([
@@ -67,7 +67,7 @@ class EstateData extends Data
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
             ]) : null,
-            'price' => $request->input('deal_type') == DealTypes::sale ? $request->input('price') : null
+            'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
     }
 

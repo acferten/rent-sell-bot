@@ -1,6 +1,7 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
+const ID_ESTATE = window.location.href.match(/\/estate\/(\d+)/)[1];
 document.getElementById('username').value = tg.initDataUnsafe.user.username;
 document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
@@ -30,11 +31,11 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://c4d2-79-136-237-88.ngrok-free.app/estate/`, {
+    fetch(`https://bee7-37-21-168-91.ngrok-free.app/estate/${ID_ESTATE}`, {
         headers: {
             Accept: "application/json"
         },
-        method: "POST",
+        method: "PUT",
         body: formData,
 
     })
