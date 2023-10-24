@@ -31,11 +31,11 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://bee7-37-21-168-91.ngrok-free.app/estate/${ID_ESTATE}`, {
+    fetch(`https://bee7-37-21-168-91.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
         headers: {
             Accept: "application/json"
         },
-        method: "PUT",
+        method: "POST",
         body: formData,
 
     })
