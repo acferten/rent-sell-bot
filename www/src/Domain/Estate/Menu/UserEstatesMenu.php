@@ -4,6 +4,7 @@ namespace Domain\Estate\Menu;
 
 
 use Domain\Estate\DataTransferObjects\EstateData;
+use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 
 class UserEstatesMenu extends InlineMenu
@@ -33,7 +35,8 @@ class UserEstatesMenu extends InlineMenu
 
         $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
             ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
+            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
+            ->addButtonRow(InlineKeyboardButton::make('Просмотр', web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")));
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
@@ -49,7 +52,8 @@ class UserEstatesMenu extends InlineMenu
 
         $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
             ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
+            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
+            ->addButtonRow(InlineKeyboardButton::make('Посмотреть фул', web_app: new WebAppInfo('localhost')));
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
@@ -63,7 +67,8 @@ class UserEstatesMenu extends InlineMenu
     {
         $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
             ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
+            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
+            ->addButtonRow(InlineKeyboardButton::make('Посмотреть фул', web_app: new WebAppInfo('localhost')));
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));

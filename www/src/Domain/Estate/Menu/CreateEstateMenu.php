@@ -17,7 +17,7 @@ class CreateEstateMenu extends InlineMenu
                 . CreateEstateText::FirstStepDescription->value, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make(
                 CreateEstateText::FillEstateFormText->value,
-                web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrl->value))
+                web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/create"))
             )->orNext('none')->showMenu();
     }
 

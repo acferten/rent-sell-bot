@@ -60,7 +60,12 @@ class EstateController extends Controller
 
     public function show(Estate $estate)
     {
-        //
+        $data = [
+            'estate' => $estate,
+            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_includes' => $estate->includes->map(fn($include) => $include->title),
+        ];
+        return view('view_estate', $data);
     }
 
     public function edit(Estate $estate): View

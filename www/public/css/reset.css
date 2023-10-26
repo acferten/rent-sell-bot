@@ -1,4 +1,17 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--tg-theme-bg-color) !important;
+}
+
 /* Изменение стилей bootstrap */
+
+ol, ul {
+    padding-left: 1rem !important;
+}
 
 .form-control {
     box-shadow: none !important;

@@ -134,7 +134,7 @@ class CreateEstateSecondStep extends InlineMenu
         $this->clearButtons()
             ->menuText($this->preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', web_app: new WebAppInfo(CreateEstateText::FillEstateFormUrlEdit->value . "{$this->estate->id}/edit")))
+            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}/edit")))
             ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
 //            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
             ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
