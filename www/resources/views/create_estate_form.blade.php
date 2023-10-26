@@ -85,26 +85,32 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
-            <div class="form-outline">
-                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="1" max="10" step="1"
-                       placeholder="2"/>
-            </div>
+            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example" required>
+                <option selected>Выберите количество</option>
+                @for($i = 1; $i <= 10; $i++)
+                    <option value="{{$i}}">{{$i}}</option>
+                @endfor
+            </select>
             <div class="invalid-field" id="bedrooms-error"></div>
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
-            <div class="form-outline">
-                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="1" max="10" step="1"
-                       placeholder="1"/>
-            </div>
+            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example" required>
+                <option selected>Выберите количество</option>
+                @for($i = 1; $i <= 10; $i++)
+                    <option value="{{$i}}">{{$i}}</option>
+                @endfor
+            </select>
             <div class="invalid-field" id="bathrooms-error"></div>
         </div>
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
-            <div class="form-outline">
-                <input type="number" id="conditioners" name="conditioners" class="form-control" min="0" max="10"
-                       step="1" placeholder="1"/>
-            </div>
+            <select id="conditioners" name="conditioners" class="form-select form-control" aria-label="Default select example" required>
+                <option selected>Выберите количество</option>
+                @for($i = 0; $i <= 10; $i++)
+                    <option value="{{$i}}">{{$i}}</option>
+                @endfor
+            </select>
             <div class="invalid-field" id="conditioners-error"></div>
         </div>
         <div class="form-group">

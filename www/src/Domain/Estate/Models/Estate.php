@@ -6,7 +6,6 @@ use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
-use Domain\Shared\Models\Geoposition\Geoposition;
 use Domain\Shared\Models\Reports\Report;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,7 +17,7 @@ use Illuminate\Support\Collection;
  * @property string $user_id
  * @property string $estate_type
  * @property string $deal_type
- * @property integer $geoposition_id
+ * @property string $geoposition
  * @property string $video_review
  * @property string $description
  * @property string $status
@@ -86,10 +85,6 @@ class Estate extends BaseModel
     }
 
     // Relations
-    public function geoposition(): BelongsTo
-    {
-        return $this->belongsTo(Geoposition::class);
-    }
 
     public function includes(): BelongsToMany
     {
@@ -119,5 +114,10 @@ class Estate extends BaseModel
     public function type(): BelongsTo
     {
         return $this->belongsTo(EstateType::class, 'house_type_id', 'id');
+    }
+
+    public function geoposition(): string
+    {
+        return "$this->country, $this->town, $this->district, $this->street";
     }
 }
