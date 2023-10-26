@@ -42,13 +42,14 @@ class UpsertEstateAction
             ]);
         }
 
-        foreach ($data->photo as $photo) {
-            EstatePhoto::create([
-                'photo' => $photo->storePublicly('', ['disk' => 'photos']),
-                'estate_id' => $estate->id
-            ]);
+        if ($data->photo) {
+            foreach ($data->photo as $photo) {
+                EstatePhoto::create([
+                    'photo' => $photo->storePublicly('', ['disk' => 'photos']),
+                    'estate_id' => $estate->id
+                ]);
+            }
         }
-
         return $estate;
     }
 }
