@@ -29,7 +29,7 @@ use Illuminate\Support\Collection;
  * @property integer $conditioners
  * @property string $latitude
  * @property string $longitude
- * @property int $house_number
+ * @property int|string $house_number
  * @property EstateType $type
  * @property Collection $photos
  * @property Collection $includes

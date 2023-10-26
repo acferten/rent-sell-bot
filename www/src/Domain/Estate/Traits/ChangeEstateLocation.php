@@ -2,8 +2,9 @@
 
 namespace Domain\Estate\Traits;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
 trait ChangeEstateLocation
 {
@@ -30,13 +31,35 @@ trait ChangeEstateLocation
 
         $this->setLocationProperties($bot);
 
-        $this->setPreview();
-        $this->clearButtons()->menuText($this->preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Все верно, перейти к оплате ✅', callback_data: 'payment@handlePayment'))
-//            ->addButtonRow(InlineKeyboardButton::make('Изменить данные первого шага ✍️', callback_data: 'changeEstate@handleChangeFirstStep'))
-            ->addButtonRow(InlineKeyboardButton::make('Изменить локацию объекта ✍️', callback_data: 'changeLocation@handleChangeLocation'))
-//            ->addButtonRow(InlineKeyboardButton::make('Просмотр прикрепленных изображений 👀', callback_data: 'images@handleViewImages'))
-            ->addButtonRow(InlineKeyboardButton::make('Отменить публикацию объявления ❌', callback_data: 'cancel@handleConfirmCancelEstate'))
-            ->showMenu();
+        $this->getPreviewLayout();
+    }
+
+    public function setLocationProperties(Nutgram $bot): void
+    {
+        $locationiq_key = env('LOCATIONIQ_KEY');
+        $response = Http::withHeaders([
+            "Accept-Language" => "ru",
+        ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
+        Log::debug($response);
+        if (array_key_exists('error', $response->toArray())) {
+            $this->start($bot);
+        }
+        Log::debug('response');
+        Log::debug($response);
+        $response = $response->get('address');
+        Log::debug('address');
+        Log::debug($response);
+
+        $this->estate->update([
+            'country' => $response['country'] ?? null,
+            'town' => $response['city'] ?? ($response['county'] ?? null),
+            'district' => $response['city_district'] ?? ($response['village'] ?? null),
+            'street' => $response['road'] ?? null,
+        ]);
+        if (array_key_exists('house_number', $response)) {
+            $this->estate->update([
+                'house_number' => $response['house_number'],
+            ]);
+        }
     }
 }

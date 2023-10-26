@@ -37,7 +37,7 @@ class EstateData extends Data
         public readonly string|null                        $town,
         public readonly string|null                        $street,
         public readonly string|null                        $district,
-        public readonly int|null                           $house_number,
+        public readonly int|null|string                    $house_number,
         public EstateStatus                                $status = EstateStatus::notFinished
     )
     {

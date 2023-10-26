@@ -2,14 +2,11 @@
 
 namespace Domain\Estate\Menu;
 
-
-use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\CreateEstateText;
-use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstateType;
-use Illuminate\Support\Facades\Log;
+use Domain\Estate\ViewModels\EstatePreviewViewModel;
+use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -18,64 +15,37 @@ use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class UserEstatesMenu extends InlineMenu
 {
-    public $estates;
-    public $element;
+    public Collection $estates;
+    public int $element;
 
     public function start(Nutgram $bot): void
     {
         $this->estates = Estate::where('user_id', '=', $bot->userId())
-            ->where('status', '!=', EstateStatus::notFinished)
-            ->get();
+            ->where('status', '!=', EstateStatus::notFinished)->get();
 
         if ($this->estates->isEmpty()) {
             $this->menuText('У вас нет объектов')->showMenu();
         }
 
         $this->element = 0;
-
-        $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
-            ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
-            ->addButtonRow(InlineKeyboardButton::make('Просмотр', web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")));
-
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
-        }
-
-        $this->orNext('none')
-            ->showMenu();
+        $this->getEstateLayout();
     }
 
-    public function handleNext(Nutgram $bot): void
+    public function handleNext(): void
     {
         $this->element += 1;
-
-        $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
-            ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
-            ->addButtonRow(InlineKeyboardButton::make('Посмотреть фул', web_app: new WebAppInfo('localhost')));
-
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
-        }
-
-        $this->orNext('none')
-            ->showMenu();
+        $this->getEstateLayout();
     }
 
     public function handleBack(): void
     {
-        $this->clearButtons()->menuText($this->getPreview($this->estates[$this->element]),
-            ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
-            ->addButtonRow(InlineKeyboardButton::make('Посмотреть фул', web_app: new WebAppInfo('localhost')));
+        $this->element -= 1;
+        $this->getEstateLayout();
+    }
 
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
-        }
-
-        $this->orNext('none')
-            ->showMenu();
+    public function returnBack(): void
+    {
+        $this->getEstateLayout();
     }
 
     public function handleChangeStatus(Nutgram $bot): void
@@ -100,7 +70,7 @@ class UserEstatesMenu extends InlineMenu
                     callback_data: "active,{$bot->callbackQuery()->data}@handleChangeSelectedStatus")),
         };
 
-        $this->addButtonRow(InlineKeyboardButton::make("Вернуться назад", callback_data: "back@handleBack"))
+        $this->addButtonRow(InlineKeyboardButton::make("Вернуться назад", callback_data: "back@returnBack"))
             ->orNext('none')
             ->showMenu();
     }
@@ -123,36 +93,33 @@ class UserEstatesMenu extends InlineMenu
             ]),
         };
 
-        $this->start($bot);
-
+        $this->getEstateLayout();
     }
 
-    public function getPreview($estate): string
+    public function getEstateLayout(): void
     {
-        $data = EstateData::from($estate);
-        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
-        $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
+        $count = count($this->estates);
+        $element = $this->element + 1;
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . EstatePreviewViewModel::get($this->estates[$this->element]);
 
-        $preview = "Превью:\n" .
-            "<b>Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>Количество спален</b>: {$data->bedrooms}\n" .
-            "<b>Количество ванных комнат</b>: {$data->bathrooms}\n" .
-            "<b>Количество кондиционеров</b>: {$data->conditioners}\n" .
-            "<b>Включено в стоимость</b>: {$data->includes}\n" .
-            "<b>Тип недвижимости:</b>:  {$estate_type}\n" .
-            "<b>ID</b>:  {$estate->id}\n" .
-            "<b>СТАТУС:  {$estate->status}\n</b>" .
-            "<b>Описание:</b> {$data->description}\n\n" .
-            "<b>Количество просмотров:  {$estate->views}\n</b>" .
-            "<b>Количество переходов в сообщения:  {$estate->chattings}\n</b>";
+        $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
+            ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
+                web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")));
 
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период</b>: {$data->period_price}\n"
-            : "<b>Цена:</b> {$data->price}\n";
+        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
+            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
+        }
 
-        return $preview;
+        if (array_key_exists($this->element - 1, $this->estates->toArray())) {
+            $this->addButtonRow(InlineKeyboardButton::make('Назад', callback_data: 'next@handleBack'));
+        }
+
+        $this->orNext('none')
+            ->showMenu();
     }
 
-    public function none(Nutgram $bot)
+    public function none(Nutgram $bot): void
     {
         $bot->sendMessage('Bye!');
         $this->end();

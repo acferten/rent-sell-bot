@@ -86,7 +86,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
             <div class="form-outline">
-                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="0" max="10" step="1"
+                <input type="number" id="bedrooms" name="bedrooms" class="form-control" min="1" max="10" step="1"
                        placeholder="2"/>
             </div>
             <div class="invalid-field" id="bedrooms-error"></div>
@@ -94,7 +94,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
             <div class="form-outline">
-                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="0" max="10" step="1"
+                <input type="number" id="bathrooms" name="bathrooms" class="form-control" min="1" max="10" step="1"
                        placeholder="1"/>
             </div>
             <div class="invalid-field" id="bathrooms-error"></div>
