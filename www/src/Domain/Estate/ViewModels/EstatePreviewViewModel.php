@@ -16,7 +16,7 @@ class EstatePreviewViewModel implements ToStringInterface
         $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
         $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
 
-        $preview = "<b>Статус:  {$estate->status}\n\n</b>" .
+        $preview = "<b>Статус: {$estate->status}\n\n</b>" .
             "<b>Сделка:</b> {$data->deal_type->value}\n" .
             "<b>Тип недвижимости:</b>  {$estate_type}\n" .
             "<b>Описание:</b> {$data->description}\n\n" .

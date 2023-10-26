@@ -82,14 +82,15 @@ trait HandleEstatePayment
         $photoId = $bot->message()->photo[0]->file_id;
 
         $this->estate->update([
-            'status' => EstateStatus::pending
+            'status' => EstateStatus::pending->value
         ]);
-        $preview = EstatePreviewViewModel::get($this->estate);
-        $message = $bot->sendMessage($preview, '-1001875753187', parse_mode: 'html', reply_markup: InlineKeyboardMarkup::make()
-            ->addRow(InlineKeyboardButton::make('Посмотреть подробнее',
-                web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}")))
-            ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
-            ->addRow(InlineKeyboardButton::make('Одобрить публикацию', callback_data: "approve {$this->estate->id}"))
+        $preview = EstateViewModel::get($this->estate);
+        $message = $bot->sendMessage($preview, '-1001875753187', parse_mode: 'html',
+            reply_markup: InlineKeyboardMarkup::make()
+                ->addRow(
+                    InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"),
+                    InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"),
+                )
         );
         $bot->sendPhoto($photoId, '-1001875753187', reply_to_message_id: $message->message_id);
         $this->end();

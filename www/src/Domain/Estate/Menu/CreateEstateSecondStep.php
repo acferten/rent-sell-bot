@@ -2,24 +2,16 @@
 
 namespace Domain\Estate\Menu;
 
-use Carbon\Carbon;
-use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\CreateEstateText;
-use Domain\Estate\Enums\DealTypes;
-use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstateType;
 use Domain\Estate\Traits\CancelEstatePublication;
 use Domain\Estate\Traits\ChangeEstateLocation;
 use Domain\Estate\Traits\HandleEstatePayment;
 use Domain\Estate\ViewModels\EstateViewModel;
 use Domain\Shared\Models\Actor\User;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
