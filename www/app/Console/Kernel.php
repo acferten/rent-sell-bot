@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use Domain\Estate\Actions\AskEstateRelevanceAction;
+use Domain\Estate\Actions\CloseIrrelevantEstatesAction;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call(AskEstateRelevanceAction::class)->everyTwentySeconds()
+        $schedule->call(CloseIrrelevantEstatesAction::class)->daily()
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->call(AskEstateRelevanceAction::class)->daily()
             ->appendOutputTo(storage_path('logs/scheduler.log'));
     }
 
