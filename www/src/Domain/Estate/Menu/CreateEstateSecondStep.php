@@ -12,6 +12,7 @@ use Domain\Estate\Models\EstateType;
 use Domain\Estate\Traits\ChangeEstateLocation;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -60,11 +61,11 @@ class CreateEstateSecondStep extends InlineMenu
         $response = Http::withHeaders([
             "Accept-Language" => "ru",
         ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
-
+        Log::debug($response);
         if (array_key_exists('error', $response->toArray())) {
-            return;
             $this->start($bot);
         }
+        Log::debug($response);
         $response = $response->get('address');
 
         $this->estate->update([
