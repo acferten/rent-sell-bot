@@ -118,6 +118,6 @@ class Estate extends BaseModel
 
     public function geoposition(): string
     {
-        return "$this->country, $this->town, $this->district, $this->street";
+        return "$this->country, $this->town, $this->district, $this->street $this->house_number";
     }
 }

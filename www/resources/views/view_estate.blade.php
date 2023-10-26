@@ -168,7 +168,7 @@
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Расположение</label>
-        <p>{{ $estate->geoposition  }}</p>
+        <p>{{ $estate->geoposition()  }}</p>
     </div>
     <div class="view-page__group">
         <hr>

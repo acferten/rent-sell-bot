@@ -42,6 +42,7 @@ trait ChangeEstateLocation
         ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
         Log::debug($response);
         if (array_key_exists('error', $response->toArray())) {
+            return;
             $this->start($bot);
         }
         Log::debug('response');
