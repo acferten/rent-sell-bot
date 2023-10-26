@@ -121,7 +121,6 @@
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>
-
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
