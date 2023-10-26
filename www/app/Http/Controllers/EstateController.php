@@ -66,6 +66,7 @@ class EstateController extends Controller
             'estate' => $estate,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
+            'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? null,
         ];
         return view('view_estate', $data);
     }
