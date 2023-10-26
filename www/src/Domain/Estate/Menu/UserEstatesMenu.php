@@ -93,7 +93,7 @@ class UserEstatesMenu extends InlineMenu
             ]),
         };
 
-        $this->getEstateLayout();
+        $this->start($bot);
     }
 
     public function getEstateLayout(): void
