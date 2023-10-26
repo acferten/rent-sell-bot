@@ -5,6 +5,8 @@ namespace Domain\Estate\Traits;
 use Carbon\Carbon;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\ViewModels\EstatePreviewViewModel;
+use Domain\Estate\ViewModels\EstateViewModel;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
@@ -82,7 +84,8 @@ trait HandleEstatePayment
         $this->estate->update([
             'status' => EstateStatus::pending
         ]);
-        $message = $bot->sendMessage($this->preview, '-1001875753187', parse_mode: 'html', reply_markup: InlineKeyboardMarkup::make()
+        $preview = EstatePreviewViewModel::get($this->estate);
+        $message = $bot->sendMessage($preview, '-1001875753187', parse_mode: 'html', reply_markup: InlineKeyboardMarkup::make()
             ->addRow(InlineKeyboardButton::make('Посмотреть подробнее',
                 web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}")))
             ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
