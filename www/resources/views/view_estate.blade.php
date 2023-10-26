@@ -53,7 +53,7 @@
         <hr>
         <label class="form-group__title">Сделка</label>
         <p>Тип сделки: <br>{{ $estate->deal_type  }}</p>
-        <p>Цена за весь период: <br>{{ $estate_rent->price  }}</p>
+        <p>Цена за весь период: <br>{{ $estate->price  }}</p>
     </div>
     <div class="view-page__group">
         <hr>
