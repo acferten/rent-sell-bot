@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
             $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('county')->nullable();
             $table->string('town')->nullable();
             $table->string('district')->nullable();
             $table->string('street')->nullable();
