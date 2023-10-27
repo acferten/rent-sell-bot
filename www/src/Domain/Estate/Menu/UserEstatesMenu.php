@@ -103,9 +103,13 @@ class UserEstatesMenu extends InlineMenu
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . EstatePreviewViewModel::get($this->estates[$this->element]);
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Изменить статус', callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"))
             ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
                 web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")));
+
+        if ($this->estates[$this->element]->status != EstateStatus::pending->value) {
+            $this->addButtonRow(InlineKeyboardButton::make('Изменить статус',
+                callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
+        }
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
