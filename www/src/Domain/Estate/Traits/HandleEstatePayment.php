@@ -84,15 +84,21 @@ trait HandleEstatePayment
         $this->estate->update([
             'status' => EstateStatus::pending->value
         ]);
-        $preview = EstateViewModel::get($this->estate);
-        $message = $bot->sendMessage($preview, '-1001875753187', parse_mode: 'html',
+        $preview = EstatePreviewViewModel::get($this->estate);
+//        $message = $bot->sendMessage($preview, '-1001875753187', parse_mode: 'html',
+//            reply_markup: InlineKeyboardMarkup::make()
+//                ->addRow(
+//                    InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"),
+//                    InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"),
+//                )
+//        );
+        $bot->sendPhoto($photoId, '-1001875753187', caption: $preview,
+            parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(
                     InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"),
                     InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"),
-                )
-        );
-        $bot->sendPhoto($photoId, '-1001875753187', reply_to_message_id: $message->message_id);
+                ));
         $this->end();
     }
 }
