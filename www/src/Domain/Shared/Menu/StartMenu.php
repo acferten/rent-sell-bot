@@ -2,12 +2,14 @@
 
 namespace Domain\Shared\Menu;
 
+use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class StartMenu extends InlineMenu
 {
@@ -54,20 +56,23 @@ class StartMenu extends InlineMenu
                     EstateCallbacks::CreateEstate->value,
                     callback_data: EstateCallbacks::CreateEstate->name . '@handleCreateEstateChoice'
                 ))
-                    ->addButtonRow(InlineKeyboardButton::make(
-                        EstateCallbacks::CallManager->value,
-                        url: MessageText::ManagerUrl->value
-                    ))
-                    ->backButton()
-                    ->showMenu();
-        } else {
-            $this->menuLayout(
-                MessageText::GetEstatesText,
-                EstateCallbacks::GetEstates,
-                EstateCallbacks::GetFilteredEstates,
-                'handleGetEstatesChoice')
+                ->addButtonRow(InlineKeyboardButton::make(
+                    EstateCallbacks::CallManager->value,
+                    url: MessageText::ManagerUrl->value
+                ))
                 ->backButton()
                 ->showMenu();
+        } else {
+            $this->menuText(MessageText::GetEstatesText->value)
+                ->clearButtons()
+                ->addButtonRow(InlineKeyboardButton::make(
+                    EstateCallbacks::GetEstates->value,
+                    callback_data: "handleGetEstatesChoice@handleStartChoice")
+                )
+                ->addButtonRow(InlineKeyboardButton::make(
+                    EstateCallbacks::GetFilteredEstates->value,
+                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/filters"))
+                )->backButton()->orNext('none')->showMenu();
         }
     }
 

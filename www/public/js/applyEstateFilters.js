@@ -1,7 +1,6 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
-const ID_ESTATE = window.location.href.match(/\/estate\/(\d+)/)[1];
 document.getElementById('username').value = tg.initDataUnsafe.user.username;
 document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
@@ -31,16 +30,18 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://0336-5-136-99-97.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
+    fetch(`https://0336-5-136-99-97.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
         method: "POST",
         body: formData,
+
     })
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
+            if (!json?.errors) tg.close();
             if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
             if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
             if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
@@ -67,24 +68,10 @@ function changeTypePrice(deal_type) {
     }
 }
 
-if (document.getElementById('Продажа').checked) {
-    changeTypePrice('Продажа');
-} else if (document.getElementById('Аренда').checked) {
-    changeTypePrice('Аренда');
-}
-
 document.getElementById('Продажа').addEventListener("change", () => {
     changeTypePrice('Продажа');
 })
 document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
-
-let collage = document.getElementById('collage') ?? false;
-
-if (collage) {
-    document.getElementById('photo').addEventListener('change', (event) => {
-        collage.classList.add('d-none');
-    })
-}
 
