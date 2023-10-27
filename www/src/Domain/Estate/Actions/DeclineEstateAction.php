@@ -15,5 +15,6 @@ class DeclineEstateAction
         $bot->sendMessage('Ваша публикация отклонена. Возможно, вы ошиблись в каком-то шаге, либо оплата не дошла до нас. Попробуйте еще раз.', $estate->user_id);
 
         $estate->delete();
+        $bot->deleteMessage('-1001875753187', $bot->callbackQuery()->message->message_id);
     }
 }

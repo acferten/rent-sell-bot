@@ -16,5 +16,6 @@ class ApproveEstateAction
         $estate->update(['status' => EstateStatus::active]);
 
         $bot->sendMessage('Ваша публикация одобрена и объявление теперь активно.', $estate->user_id);
+        $bot->deleteMessage('-1001875753187', $bot->callbackQuery()->message->message_id);
     }
 }
