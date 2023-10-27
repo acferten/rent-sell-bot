@@ -7,6 +7,7 @@ use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\EstatePreviewViewModel;
+use Domain\Estate\ViewModels\FindEstateViewModel;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -48,20 +49,20 @@ class GetEstatesMenu extends InlineMenu
     {
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . EstatePreviewViewModel::get($this->estates[$this->element]);
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . FindEstateViewModel::get($this->estates[$this->element]);
         $user_url = 'https://t.me/' . User::where('id', $this->estates[$this->element]->user_id)->first()->username;
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
+            ->addButtonRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                 web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")))
-            ->addButtonRow(InlineKeyboardButton::make('Написать владельцу', url: "$user_url"));
+            ->addButtonRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"));
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
+            $this->addButtonRow(InlineKeyboardButton::make('➡ Далее', callback_data: 'next@handleNext'));
         }
 
         if (array_key_exists($this->element - 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Назад', callback_data: 'next@handleBack'));
+            $this->addButtonRow(InlineKeyboardButton::make('◀️ Назад', callback_data: 'next@handleBack'));
         }
 
         $this->orNext('none')

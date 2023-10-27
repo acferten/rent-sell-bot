@@ -117,7 +117,7 @@
             <label class="form-group__title" for="photo">Фото</label>
             <div class="form-outline">
                 <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
+  image/tiff, .tif" name="photo[]" class="form-control" multiple required/>
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>

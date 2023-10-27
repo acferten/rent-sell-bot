@@ -14,9 +14,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->call(CloseIrrelevantEstatesAction::class)->daily()
-            ->appendOutputTo(storage_path('logs/scheduler.log'));
-        $schedule->call(AskEstateRelevanceAction::class)->daily()
+//        $schedule->call(CloseIrrelevantEstatesAction::class)->everyTwentySeconds()
+//            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->call(AskEstateRelevanceAction::class)->everyTwentySeconds()
             ->appendOutputTo(storage_path('logs/scheduler.log'));
     }
 
