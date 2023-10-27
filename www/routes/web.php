@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('estate/filters', \App\Http\Controllers\EstateFiltersFormController::class);
 Route::resource('estate', \App\Http\Controllers\EstateController::class);
+
 
 Route::post('webhook', \App\Http\Controllers\WebhookController::class);
 
