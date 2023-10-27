@@ -6,6 +6,7 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
+use Domain\Estate\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,6 +20,7 @@ class EstateFiltersFormController extends Controller
             'deal_types' => DealTypes::cases(),
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases()
+            'countries' => Estate::all()->map(fn($estate) => $estate->country),
         ];
         return view('estate_filters', $data);
     }
