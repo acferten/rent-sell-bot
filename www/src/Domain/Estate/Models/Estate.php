@@ -50,6 +50,8 @@ class Estate extends BaseModel
         'house_type_id',
         'user_id',
         'country',
+        'state',
+        'county',
         'town',
         'district',
         'street',

@@ -49,12 +49,12 @@ class GetEstatesMenu extends InlineMenu
         $count = count($this->estates);
         $element = $this->element + 1;
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . EstatePreviewViewModel::get($this->estates[$this->element]);
-        $user_url = User::where('id', $this->estates[$this->element]->user_id)->username;
+        $user_url = 'https://t.me/' . User::where('id', $this->estates[$this->element]->user_id)->first()->username;
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
                 web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")))
-            ->addButtonRow(InlineKeyboardButton::make('Написать владельцу', url: "$this->"));
+            ->addButtonRow(InlineKeyboardButton::make('Написать владельцу', url: "$user_url"));
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
