@@ -19,7 +19,7 @@ class EstateFiltersFormController extends Controller
             'includes' => EstateInclude::all(),
             'deal_types' => DealTypes::cases(),
             'estate_types' => EstateType::all(),
-            'price_periods' => EstatePeriods::cases()
+            'price_periods' => EstatePeriods::cases(),
             'countries' => Estate::all()->map(fn($estate) => $estate->country),
         ];
         return view('estate_filters', $data);
