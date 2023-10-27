@@ -11,8 +11,8 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
             defer></script>
-    <script src="{{env('NGROK_SERVER')}}/js/applyEstateFilters.js" defer></script>
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/applyEstateFilters.js" defer></script>
     <title>Фильтрация объектов</title>
 </head>
 <body>
@@ -39,13 +39,6 @@
                     </div>
                 @endforeach
             </div>
-            <div class="invalid-field" id="deal_type-error"></div>
-        </div>
-
-        <div class="form-group d-none" id="price-container">
-            <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0">
-            <div class="invalid-field" id="price-error"></div>
         </div>
 
         <div class="form-group d-none" id="period-container">
@@ -53,7 +46,7 @@
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
-                        <input type="radio" name="period" value="{{$price_period->value}}"
+                        <input class="type_announcement__field" type="checkbox" name="periods[]" value="{{$price_period->value}}"
                                id="{{$price_period->value}}"/>
                         <label for="{{$price_period->value}}">
                             <span class="radio-label">{{$price_period->value}}</span>
@@ -61,14 +54,17 @@
                     </div>
                 @endforeach
             </div>
-            <div id="period-error"></div>
         </div>
 
-        <div class="form-group d-none" id="period_price-container">
-            <label class="form-group__title" for="period_price">Цена за весь период</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="period_price"
-                   id="period_price">
-            <div id="period_price-error"></div>
+        <div class="debug"></div>
+
+        <div class="form-group" id="price-container">
+            <label class="form-group__title" for="price-start">Цена от</label>
+            <input type="number" class="form-control" id="price-start" name="price-start" placeholder="5000" min="0">
+        </div>
+        <div class="form-group" id="price-container">
+            <label class="form-group__title" for="price-end">Цена до</label>
+            <input type="number" class="form-control" id="price-end" name="price-end" placeholder="5000" min="0">
         </div>
 
         <div class="form-group">
@@ -76,7 +72,7 @@
             <div class="estate_types">
                 @foreach($estate_types as $estate_type)
                     <div class="estate_types__item">
-                        <input type="radio" name="house_type_id" value="{{$estate_type->id}}"
+                        <input type="checkbox" name="house_type_ids[]" value="{{$estate_type->id}}"
                                id="{{$estate_type->id}}"/>
                         <label for="{{$estate_type->id}}">
                             <span class="radio-label">{{$estate_type->title}}</span>
@@ -84,46 +80,8 @@
                     </div>
                 @endforeach
             </div>
-            <div class="invalid-field" id="house_type_id-error"></div>
         </div>
-        <div class="form-group">
-            <label class="form-group__title" for="bedrooms">Количество спален</label>
-            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example" required>
-                <option selected>Выберите количество</option>
-                @for($i = 1; $i <= 10; $i++)
-                    <option value="{{$i}}">{{$i}}</option>
-                @endfor
-            </select>
-            <div class="invalid-field" id="bedrooms-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="bathrooms">Количество ванн</label>
-            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example" required>
-                <option selected>Выберите количество</option>
-                @for($i = 1; $i <= 10; $i++)
-                    <option value="{{$i}}">{{$i}}</option>
-                @endfor
-            </select>
-            <div class="invalid-field" id="bathrooms-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
-            <select id="conditioners" name="conditioners" class="form-select form-control" aria-label="Default select example" required>
-                <option selected>Выберите количество</option>
-                @for($i = 0; $i <= 10; $i++)
-                    <option value="{{$i}}">{{$i}}</option>
-                @endfor
-            </select>
-            <div class="invalid-field" id="conditioners-error"></div>
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="photo">Фото</label>
-            <div class="form-outline">
-                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
-            </div>
-            <div class="invalid-field" id="photo-error"></div>
-        </div>
+
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
@@ -138,14 +96,9 @@
                 @endforeach
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-group__title" for="description">Описание</label>
-            <textarea class="form-control" name="description" id="description" rows="3"
-                      placeholder="Подробное описание вашего объекта"></textarea>
-            <div class="invalid-field" id="description-error"></div>
-        </div>
+
         <div class="d-grid gap-2">
-            <button type="submit" id="btn-submit" class="btn">Сохранить</button>
+            <button type="submit" id="btn-submit" class="btn">Применить</button>
         </div>
     </form>
 </div>

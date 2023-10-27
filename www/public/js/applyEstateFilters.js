@@ -12,25 +12,13 @@ tg.enableClosingConfirmation();
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
-    const elems = [
-        'photo-error',
-        'description-error',
-        'deal_type-error',
-        'bathrooms-error',
-        'bedrooms-error',
-        'conditioners-error',
-        'house_type_id-error'
-    ];
-    elems.forEach((elem) => {
-        document.getElementById(elem).innerText = "";
-    })
-
-    document.getElementById('btn-submit').disabled = true;
 
     e.preventDefault();
+    document.getElementById('btn-submit').disabled = true;
+
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://0336-5-136-99-97.ngrok-free.app/estate/`, {
+    fetch(`https://0336-5-136-99-97.ngrok-free.app/estate/filters`, {
         headers: {
             Accept: "application/json"
         },
@@ -40,30 +28,22 @@ form.addEventListener('submit', (e) => {
     })
         .then((response) => response.json())
         .then((json) => {
-            document.getElementById('btn-submit').disabled = false;
-            if (!json?.errors) tg.close();
-            if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
-            if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
-            if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
-            if (json?.errors?.bathrooms) document.getElementById('bathrooms-error').innerText = json.errors.bathrooms[0];
-            if (json?.errors?.bedrooms) document.getElementById('bedrooms-error').innerText = json.errors.bedrooms[0];
-            if (json?.errors?.conditioners) document.getElementById('conditioners-error').innerText = json.errors.conditioners[0];
-            if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
+            tg.close();
         })
 })
 
 function changeTypePrice(deal_type) {
     switch(deal_type) {
         case 'Продажа':
-            document.getElementById('price-container').classList.remove('d-none');
             document.getElementById('period-container').classList.add('d-none');
-            document.getElementById('period_price-container').classList.add('d-none');
+            let periods = document.getElementsByClassName('type_announcement__field');
+            for (let elem of periods) {
+                elem.checked = false;
+            }
             break;
 
         case 'Аренда':
-            document.getElementById('price-container').classList.add('d-none');
             document.getElementById('period-container').classList.remove('d-none');
-            document.getElementById('period_price-container').classList.remove('d-none');
             break;
     }
 }
