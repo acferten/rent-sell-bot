@@ -12,8 +12,11 @@ tg.enableClosingConfirmation();
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
+    e.preventDefault();
     const elems = [
-        'photo-error',
+        'main-photo-error',
+        'photos-error',
+        'video-error',
         'description-error',
         'deal_type-error',
         'bathrooms-error',
@@ -27,10 +30,9 @@ form.addEventListener('submit', (e) => {
 
     document.getElementById('btn-submit').disabled = true;
 
-    e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://13f0-77-106-104-230.ngrok-free.app/estate/`, {
+    fetch(`https://19b6-5-136-99-97.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -43,7 +45,7 @@ form.addEventListener('submit', (e) => {
             document.getElementById('btn-submit').disabled = false;
 
             for (let error in json?.errors) {
-                document.getElementById(`${error}-error`).innerText = json.errors.error[0];
+                document.getElementById(`${error}-error`).innerText = json.errors[error][0];
             }
         })
 })

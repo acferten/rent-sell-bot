@@ -58,14 +58,14 @@
                     </div>
                 @endforeach
             </div>
-            <div id="period-error"></div>
+            <div class="invalid-field" id="period-error"></div>
         </div>
 
         <div class="form-group d-none" id="period_price-container">
             <label class="form-group__title" for="period_price">Цена за весь период</label>
             <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="period_price"
                    id="period_price">
-            <div id="period_price-error"></div>
+            <div class="invalid-field" id="period_price-error"></div>
         </div>
 
         <div class="form-group">
@@ -132,7 +132,7 @@
                 <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif" name="extra_photos[]" class="form-control" multiple required/>
             </div>
-            <div class="invalid-field" id="extra-photos-error"></div>
+            <div class="invalid-field" id="photos-error"></div>
         </div>
 
 
