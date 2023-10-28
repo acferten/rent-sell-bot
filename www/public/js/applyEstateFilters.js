@@ -18,7 +18,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://d278-77-106-104-230.ngrok-free.app/estate/filters`, {
+    fetch(`https://19b6-5-136-99-97.ngrok-free.app/estate/filters`, {
         headers: {
             Accept: "application/json"
         },
@@ -26,19 +26,17 @@ form.addEventListener('submit', (e) => {
         body: formData,
 
     })
-        .then((response) => response.json())
-        .then((json) => {
-            tg.close();
-        })
+        .then(() => tg.close())
+
 })
 
+let periods = document.getElementsByClassName('type_announcement__field');
 function changeTypePrice(deal_type) {
-    switch(deal_type) {
+    switch (deal_type) {
         case 'Продажа':
             document.getElementById('period-container').classList.add('d-none');
-            let periods = document.getElementsByClassName('type_announcement__field');
-            for (let elem of periods) {
-                elem.checked = false;
+            for (let period of periods) {
+                period.checked = false;
             }
             break;
 

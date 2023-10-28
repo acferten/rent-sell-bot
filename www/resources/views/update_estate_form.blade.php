@@ -46,7 +46,8 @@
 
         <div class="form-group d-none" id="price-container">
             <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0" value="{{$estate->price}}">
+            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0"
+                   value="{{$estate->price}}">
             <div class="invalid-field" id="price-error"></div>
         </div>
 
@@ -84,7 +85,7 @@
                     <div class="estate_types__item">
                         <input type="radio" name="house_type_id" value="{{$estate_type->id}}"
                                id="{{$estate_type->id}}"
-                                @if($estate_type == $estate_house_type) checked @endif
+                               @if($estate_type == $estate_house_type) checked @endif
                         />
                         <label for="{{$estate_type->id}}">
                             <span class="radio-label">{{$estate_type->title}}</span>
@@ -98,7 +99,8 @@
 
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
-            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example" required>
+            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example"
+                    required>
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bedrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -107,7 +109,8 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
-            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example" required>
+            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example"
+                    required>
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bathrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -116,7 +119,8 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
-            <select id="conditioners" name="conditioners" class="form-select form-control" aria-label="Default select example" required>
+            <select id="conditioners" name="conditioners" class="form-select form-control"
+                    aria-label="Default select example" required>
                 @for($i = 0; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->conditioners == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -125,23 +129,48 @@
         </div>
 
 
+        <div class="form-group">
+            <label class="form-group__title" for="main_photo">Главная фотография</label>
+            <div class="form-outline">
+                <input type="file" id="main_photo" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="main_photo" class="form-control" />
+            </div>
+            <div class="invalid-field" id="main-photo-error"></div>
+            <div id="collage">
+                <p class="collage__title">Выбранная ранее</p>
+                <div class="collage__images">
+                    <img class="collage__image" src="/photos/{{$estate_main_photo}}" alt="estate-photo">
+                </div>
+            </div>
+        </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="photo">Фото (если хотите выбрать новые)</label>
+            <label class="form-group__title" for="extra_photos">Дополнительные фотографии</label>
             <div class="form-outline">
-                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
+                <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple />
             </div>
-            <div class="invalid-field" id="photo-error"></div>
-                <div id="collage">
-                    <p class="collage__title">Выбранные фотографии</p>
-                    <div class="collage__images">
-                    @foreach($estate_photos as $estate_photo)
-                        <img class="collage__image" src="/photos/{{$estate_photo}}" alt="estate-photo">
+            <div class="invalid-field" id="extra-photos-error"></div>
+            <div id="collage">
+                <p class="collage__title">Выбранные ранее</p>
+                <div class="collage__images">
+                    @foreach($estate_extra_photos as $estate_extra_photo)
+                        <img class="collage__image" src="/photos/{{$estate_extra_photo}}" alt="estate-photo">
                     @endforeach
-                    </div>
                 </div>
+            </div>
         </div>
+
+        {{--        TODO: Добавить вывод выбранного ранее видео --}}
+        <div class="form-group">
+            <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
+            <div class="form-outline">
+                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
+                       class="form-control" />
+            </div>
+            <div class="invalid-field" id="video-error"></div>
+        </div>
+
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">

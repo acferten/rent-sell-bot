@@ -21,15 +21,7 @@ class EstateViewModel implements ToStringInterface
             "<b>Сделка:</b> {$data->deal_type->value}\n" .
             "<b>Включено в стоимость:</b> {$data->includes}\n" .
             "<b>Тип недвижимости:</b>  {$estate_type}\n" .
-            "<b>Описание:</b> {$data->description}\n\n" .
-            "<b>Страна:</b> {$data->country}\n" .
-            "<b>Город:</b> {$data->town}\n" .
-            "<b>Район:</b> {$data->district}\n" .
-            "<b>Улица:</b> {$data->street}\n";
-
-        Log::debug($data->house_number);
-
-        $data->house_number != null ? $preview .= "<b>Дом:</b> {$data->house_number}\n" : null;
+            "<b>Описание:</b> {$data->description}\n\n";
 
         $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
             : "<b>Цена:</b> {$data->price}\n";

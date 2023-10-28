@@ -64,7 +64,9 @@ class EstateController extends Controller
     {
         $data = [
             'estate' => $estate,
-            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+//            TODO: передача дополнительных и главной фотографии
+            '$estate_main_photo' => $estate->photos[0]->photo,
+            '$estate_extra_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
             'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? null,
         ];
@@ -81,7 +83,9 @@ class EstateController extends Controller
             'estate' => $estate,
             'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object)['period' => "", "price" => ""],
             'estate_house_type' => $estate->type,
-            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            //            TODO: передача дополнительных и главной фотографии
+            '$estate_main_photo' => $estate->photos[0]->photo,
+            '$estate_extra_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
         ];
         return view('update_estate_form', $data);

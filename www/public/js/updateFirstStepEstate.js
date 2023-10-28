@@ -31,7 +31,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://d278-77-106-104-230.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
+    fetch(`https://19b6-5-136-99-97.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
         headers: {
             Accept: "application/json"
         },
@@ -41,13 +41,9 @@ form.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
-            if (json?.errors?.photo) document.getElementById('photo-error').innerText = json.errors.photo[0];
-            if (json?.errors?.description) document.getElementById('description-error').innerText = json.errors.description[0];
-            if (json?.errors?.deal_type) document.getElementById('deal_type-error').innerText = json.errors.deal_type[0];
-            if (json?.errors?.bathrooms) document.getElementById('bathrooms-error').innerText = json.errors.bathrooms[0];
-            if (json?.errors?.bedrooms) document.getElementById('bedrooms-error').innerText = json.errors.bedrooms[0];
-            if (json?.errors?.conditioners) document.getElementById('conditioners-error').innerText = json.errors.conditioners[0];
-            if (json?.errors?.house_type_id) document.getElementById('house_type_id-error').innerText = json.errors.house_type_id[0];
+            for (let error in json?.errors) {
+                document.getElementById(`${error}-error`).innerText = json.errors.error[0];
+            }
         })
 })
 

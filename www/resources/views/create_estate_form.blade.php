@@ -85,7 +85,8 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
-            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example" required>
+            <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example"
+                    required>
                 <option selected>Выберите количество</option>
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}">{{$i}}</option>
@@ -95,7 +96,8 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
-            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example" required>
+            <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example"
+                    required>
                 <option selected>Выберите количество</option>
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}">{{$i}}</option>
@@ -105,7 +107,8 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
-            <select id="conditioners" name="conditioners" class="form-select form-control" aria-label="Default select example" required>
+            <select id="conditioners" name="conditioners" class="form-select form-control"
+                    aria-label="Default select example" required>
                 <option selected>Выберите количество</option>
                 @for($i = 0; $i <= 10; $i++)
                     <option value="{{$i}}">{{$i}}</option>
@@ -113,14 +116,35 @@
             </select>
             <div class="invalid-field" id="conditioners-error"></div>
         </div>
+
         <div class="form-group">
-            <label class="form-group__title" for="photo">Фото</label>
+            <label class="form-group__title" for="main_photo">Главная фотография</label>
             <div class="form-outline">
-                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple required/>
+                <input type="file" id="main_photo" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="main_photo" class="form-control" required/>
             </div>
-            <div class="invalid-field" id="photo-error"></div>
+            <div class="invalid-field" id="main-photo-error"></div>
         </div>
+
+        <div class="form-group">
+            <label class="form-group__title" for="extra_photos">Дополнительные фотографии</label>
+            <div class="form-outline">
+                <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple required/>
+            </div>
+            <div class="invalid-field" id="extra-photos-error"></div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
+            <div class="form-outline">
+                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
+                       class="form-control" />
+            </div>
+            <div class="invalid-field" id="video-error"></div>
+        </div>
+
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
