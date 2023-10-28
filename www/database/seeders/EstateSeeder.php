@@ -4,11 +4,8 @@ namespace Database\Seeders;
 
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class EstateSeeder extends Seeder
 {
@@ -20,7 +17,8 @@ class EstateSeeder extends Seeder
         DB::table('estates')->insert([
         'user_id' => 1,
         'deal_type' => fake()->randomElement(DealTypes::cases()),
-        'video_review' => null,
+        'video' => null,
+        'main_photo' => fake()->filePath(),
         'bedrooms' => fake()->randomNumber(1),
         'status' => fake()->randomElement(EstateStatus::cases()),
         'bathrooms' => fake()->randomNumber(1),
