@@ -83,7 +83,7 @@ class EstateData extends Data
             'main_photo' => 'required',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000|nullable',
             'include_ids' => 'array|exists:includes,id',
-            'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime|max:11200',
+            'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4|max:128000',
             'period' => 'required_if:deal_type,Аренда|string|nullable',
             'period_price' => 'required_if:deal_type,Аренда|int|nullable',
             'house_type_id' => 'required|exists:house_types,id',

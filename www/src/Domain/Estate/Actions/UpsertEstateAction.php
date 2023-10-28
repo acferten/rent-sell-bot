@@ -31,8 +31,11 @@ class UpsertEstateAction
                 ...$data->all(),
                 'user_id' => $user->id,
                 'main_photo' => $data->main_photo->storePublicly('', ['disk' => 'photos']),
-                'video' => $data->video->storePublicly('', ['disk' => 'photos']),
+
             ]);
+
+        $data->video ?
+            $estate->update(['video' => $data->video->storePublicly('', ['disk' => 'photos']),]) : null;
 
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
