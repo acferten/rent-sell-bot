@@ -95,12 +95,12 @@ class EstateController extends Controller
         return view('update_estate_form', $data);
     }
 
-    public function update(Request $request, Estate $estate)
+    public function update(Request $request, Estate $estate): void
     {
         $this->store($request);
     }
 
-    public function destroy(Estate $estate)
+    public function destroy(Estate $estate): void
     {
         $estate->delete();
     }

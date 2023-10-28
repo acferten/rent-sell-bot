@@ -5,7 +5,7 @@ namespace Domain\Estate\Menu;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\ViewModels\EstatePreviewViewModel;
+use Domain\Estate\ViewModels\UserEstateViewModel;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -100,7 +100,7 @@ class UserEstatesMenu extends InlineMenu
     {
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . EstatePreviewViewModel::get($this->estates[$this->element]);
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . UserEstateViewModel::get($this->estates[$this->element]);
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',

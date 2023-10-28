@@ -6,8 +6,8 @@ namespace Domain\Estate\Menu;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\ViewModels\EstatePreviewViewModel;
-use Domain\Estate\ViewModels\FindEstateViewModel;
+use Domain\Estate\ViewModels\UserEstateViewModel;
+use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -49,7 +49,7 @@ class GetEstatesMenu extends InlineMenu
     {
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . FindEstateViewModel::get($this->estates[$this->element]);
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($this->estates[$this->element]);
         $user_url = 'https://t.me/' . User::where('id', $this->estates[$this->element]->user_id)->first()->username;
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])

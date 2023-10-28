@@ -5,9 +5,9 @@ namespace Domain\Estate\Traits;
 use Carbon\Carbon;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
-use Domain\Estate\ViewModels\EstateAdminChatPreviewViewModel;
-use Domain\Estate\ViewModels\EstatePreviewViewModel;
-use Domain\Estate\ViewModels\EstateViewModel;
+use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
+use Domain\Estate\ViewModels\UserEstateViewModel;
+use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
@@ -85,7 +85,7 @@ trait HandleEstatePayment
         $this->estate->update([
             'status' => EstateStatus::pending->value
         ]);
-        $preview = EstateAdminChatPreviewViewModel::get($this->estate);
+        $preview = AdminEstatePreviewViewModel::get($this->estate);
 
         $bot->sendPhoto($photoId, '-1001875753187', caption: $preview,
             parse_mode: 'html',

@@ -7,7 +7,7 @@ use Domain\Estate\Models\Estate;
 use Domain\Estate\Traits\CancelEstatePublication;
 use Domain\Estate\Traits\ChangeEstateLocation;
 use Domain\Estate\Traits\HandleEstatePayment;
-use Domain\Estate\ViewModels\EstateViewModel;
+use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
 use Domain\Shared\Models\Actor\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -78,7 +78,7 @@ class CreateEstateSecondStep extends InlineMenu
 
     public function getPreviewLayout(): void
     {
-        $preview = EstateViewModel::get($this->estate);
+        $preview = PreviewCreatedEstateViewModel::get($this->estate);
 
         $this->clearButtons()
             ->menuText($preview, ['parse_mode' => 'html'])

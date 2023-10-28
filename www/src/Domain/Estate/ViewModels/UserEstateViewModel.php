@@ -8,7 +8,7 @@ use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateType;
 use Domain\Shared\ViewModels\ToStringInterface;
 
-class EstatePreviewViewModel implements ToStringInterface
+class UserEstateViewModel implements ToStringInterface
 {
     public static function get(Estate $estate): string
     {
