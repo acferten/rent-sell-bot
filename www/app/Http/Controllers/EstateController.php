@@ -39,25 +39,25 @@ class EstateController extends Controller
         return view('create_estate_form', $data);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): void
     {
         $bot = app(Nutgram::class);
 
         $request->validate(EstateData::rules());
 
-//        try {
-//            $webappData = $bot->validateWebAppData($request->input('initData'));
-//        } catch (InvalidDataException) {
-//            Log::debug('initData error');
-//        }
+        try {
+            $webappData = $bot->validateWebAppData($request->input('initData'));
+        } catch (InvalidDataException) {
+            Log::debug('initData error');
+        }
 
         $data = EstateData::fromRequest($request);
-        return UpsertEstateAction::execute($data);
-//
-//        $result = new InlineQueryResultArticle(1, 'Успех',
-//            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
-//
-//        $bot->answerWebAppQuery($webappData->query_id, $result);
+        UpsertEstateAction::execute($data);
+
+        $result = new InlineQueryResultArticle(1, 'Успех',
+            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
+
+        $bot->answerWebAppQuery($webappData->query_id, $result);
     }
 
     public function show(Estate $estate)

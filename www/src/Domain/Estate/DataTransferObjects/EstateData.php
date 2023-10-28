@@ -87,7 +87,7 @@ class EstateData extends Data
             'period' => 'required_if:deal_type,Аренда|string|nullable',
             'period_price' => 'required_if:deal_type,Аренда|int|nullable',
             'house_type_id' => 'required|exists:house_types,id',
-            'user_id' => 'required',
+            'user_id' => 'required|min:1',
             'username' => 'required',
             'first_name' => 'required'
         ];
