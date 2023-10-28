@@ -133,10 +133,10 @@
             <label class="form-group__title" for="main_photo">Главная фотография</label>
             <div class="form-outline">
                 <input type="file" id="main_photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="main_photo" class="form-control" />
+  image/tiff, .tif" name="main_photo" class="form-control"/>
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
-            <div id="collage">
+            <div id="collage-main">
                 <p class="collage__title">Выбранная ранее</p>
                 <div class="collage__images">
                     <img class="collage__image" src="/photos/{{$estate_main_photo}}" alt="estate-photo">
@@ -148,10 +148,10 @@
             <label class="form-group__title" for="extra_photos">Дополнительные фотографии</label>
             <div class="form-outline">
                 <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple />
+  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple/>
             </div>
-            <div class="invalid-field" id="extra-photos-error"></div>
-            <div id="collage">
+            <div class="invalid-field" id="photos-error"></div>
+            <div id="collage-extra">
                 <p class="collage__title">Выбранные ранее</p>
                 <div class="collage__images">
                     @foreach($estate_extra_photos as $estate_extra_photo)
@@ -166,9 +166,17 @@
             <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
             <div class="form-outline">
                 <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
-                       class="form-control" />
+                       class="form-control"/>
             </div>
             <div class="invalid-field" id="video-error"></div>
+            @if($estate->video)
+                <div>
+                    <p class="collage__title">Выбранные ранее</p>
+                    <video>
+                        <source src="/photos/{{$estate->video}}">
+                    </video>
+                </div>
+            @endif
         </div>
 
         <div class="form-group">

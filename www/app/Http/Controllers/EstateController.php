@@ -20,6 +20,8 @@ use SergiX44\Nutgram\Exception\InvalidDataException;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
 use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
+use Symfony\Component\ErrorHandler\Debug;
+use function Psy\debug;
 
 class EstateController extends Controller
 {
@@ -65,8 +67,9 @@ class EstateController extends Controller
         $data = [
             'estate' => $estate,
 //            TODO: передача дополнительных и главной фотографии
-            '$estate_main_photo' => $estate->photos[0]->photo,
-            '$estate_extra_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_main_photo' => $estate->main_photo,
+            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_video' => $estate->video,
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
             'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? null,
         ];
@@ -84,8 +87,9 @@ class EstateController extends Controller
             'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object)['period' => "", "price" => ""],
             'estate_house_type' => $estate->type,
             //            TODO: передача дополнительных и главной фотографии
-            '$estate_main_photo' => $estate->photos[0]->photo,
-            '$estate_extra_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_main_photo' => $estate->main_photo,
+            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_video' => $estate->video,
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
         ];
         return view('update_estate_form', $data);
