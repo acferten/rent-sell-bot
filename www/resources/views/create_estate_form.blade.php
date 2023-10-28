@@ -127,12 +127,12 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="extra_photos">Дополнительные фотографии</label>
+            <label class="form-group__title" for="photo">Дополнительные фотографии</label>
             <div class="form-outline">
-                <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple required/>
+                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="photo[]" class="form-control" multiple required/>
             </div>
-            <div class="invalid-field" id="photos-error"></div>
+            <div class="invalid-field" id="photo-error"></div>
         </div>
 
 

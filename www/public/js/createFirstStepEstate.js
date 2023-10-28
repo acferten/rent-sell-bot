@@ -15,7 +15,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const elems = [
         'main-photo-error',
-        'photos-error',
+        'photo-error',
         'video-error',
         'description-error',
         'deal_type-error',

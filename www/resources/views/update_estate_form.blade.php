@@ -145,17 +145,17 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="extra_photos">Дополнительные фотографии</label>
+            <label class="form-group__title" for="photo">Дополнительные фотографии</label>
             <div class="form-outline">
-                <input type="file" id="extra_photos" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="extra_photos[]" class="form-control" multiple/>
+                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
             </div>
-            <div class="invalid-field" id="photos-error"></div>
+            <div class="invalid-field" id="photo-error"></div>
             <div id="collage-extra">
                 <p class="collage__title">Выбранные ранее</p>
                 <div class="collage__images">
-                    @foreach($estate_extra_photos as $estate_extra_photo)
-                        <img class="collage__image" src="/photos/{{$estate_extra_photo}}" alt="estate-photo">
+                    @foreach($estate_photos as $estate_photo)
+                        <img class="collage__image" src="/photos/{{$estate_photo}}" alt="estate-photo">
                     @endforeach
                 </div>
             </div>
@@ -172,7 +172,7 @@
             @if($estate->video)
                 <div>
                     <p class="collage__title">Выбранные ранее</p>
-                    <video>
+                    <video class="video" preload="metadata" controls>
                         <source src="/photos/{{$estate->video}}">
                     </video>
                 </div>

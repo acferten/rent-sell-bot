@@ -15,7 +15,7 @@ let form = document.getElementById('form');
 form.addEventListener('submit', (e) => {
     const elems = [
         'main-photo-error',
-        'photos-error',
+        'photo-error',
         'video-error',
         'description-error',
         'deal_type-error',
@@ -89,7 +89,7 @@ if (collageMain) {
 }
 
 if (collageExtra) {
-    document.getElementById('extra_photos').addEventListener('change', () => {
+    document.getElementById('photo').addEventListener('change', () => {
         collageExtra.classList.add('d-none');
     })
 }

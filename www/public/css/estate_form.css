@@ -154,6 +154,11 @@ body {
     color: #fff;
 }
 
+.video {
+    width: 100%;
+    height: 300px;
+}
+
 @media screen and (max-width: 576px) {
     .estate_includes {
         grid-template-columns: repeat(2, 1fr);
