@@ -17,8 +17,7 @@ use Illuminate\Support\Collection;
  * @property string $user_id
  * @property string $estate_type
  * @property string $deal_type
- * @property string $geoposition
- * @property string $video_review
+ * @property string $video
  * @property string $description
  * @property string $status
  * @property integer $views
@@ -44,7 +43,8 @@ class Estate extends BaseModel
         'conditioners',
         'views',
         'chattings',
-        'video_review',
+        'video',
+        'main_photo',
         'status',
         'deal_type',
         'house_type_id',
@@ -63,31 +63,12 @@ class Estate extends BaseModel
         'relevance_date'
     ];
 
-    public function shortData(): string
-    {
-        return "$this->town, $this->district $this->street\nЦена: $this->price";
-    }
-
-    public function fullData(): string
-    {
-        return "Описание: $this->description\n" .
-            "Количество спален: $this->bedrooms\n" .
-            "Количество ванных комнат: $this->bathrooms\n" .
-            "Количество кондиционеров: $this->conditioners\n" .
-            "Включено в стоимость: $this->includes\n" .
-            "Цена: $this->price\n" .
-            "Город: $this->town\n" .
-            "Район: $this->district\n" .
-            "Улица: $this->street\n";
-    }
-
     public function status(): EstateStatus
     {
         return EstateStatus::from($this->status);
     }
 
     // Relations
-
     public function includes(): BelongsToMany
     {
         return $this->belongsToMany(EstateInclude::class, 'estate_includes', 'estate_id', 'include_id');

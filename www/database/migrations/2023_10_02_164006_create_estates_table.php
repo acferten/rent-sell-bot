@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->integer('id')->autoIncrement();
             $table->bigInteger('user_id');
             $table->string('deal_type');
-            $table->string('video_review', 100)->nullable();
+            $table->string('video')->nullable();
             $table->integer('bedrooms');
             $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре', 'Ожидает подтверждения', 'Не заполнен'])
                 ->default('Ожидает подтверждения');
@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('house_type_id');
             $table->integer('conditioners');
             $table->string('description', 1000);
+            $table->string('main_photo');
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
             $table->string('country')->nullable();
