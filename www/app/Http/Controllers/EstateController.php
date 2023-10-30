@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Domain\Estate\Actions\UpsertEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
+use Domain\Estate\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Exception\InvalidDataException;
@@ -35,10 +36,10 @@ class EstateController extends Controller
     }
 
 
-    public function update(Request $request): void
+    public function update(Request $request): Estate
     {
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
-        UpsertEstateAction::execute($data);
+        return UpsertEstateAction::execute($data);
     }
 }

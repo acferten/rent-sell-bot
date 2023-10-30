@@ -32,7 +32,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://19b6-5-136-99-97.ngrok-free.app/estate/`, {
+    fetch(`https://ccc4-5-136-99-97.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -51,7 +51,7 @@ form.addEventListener('submit', (e) => {
 })
 
 function changeTypePrice(deal_type) {
-    switch(deal_type) {
+    switch (deal_type) {
         case 'Продажа':
             document.getElementById('price-container').classList.remove('d-none');
             document.getElementById('period-container').classList.add('d-none');
@@ -72,4 +72,43 @@ document.getElementById('Продажа').addEventListener("change", () => {
 document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
+
+const photoInput = document.getElementById('file-input');
+const photoContainer = document.getElementById('preview-container');
+
+photoInput.addEventListener('change', handleFileUpload);
+
+function handleFileUpload(event) {
+    const files = event.target.files;
+
+    const selectedPhotos = Array.from(files);
+
+    selectedPhotos.forEach((photoFile) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            createPhotoElement(reader.result, photoFile);
+        };
+        reader.readAsDataURL(photoFile);
+    });
+}
+
+function createPhotoElement(photoDataUrl, photoFile) {
+    const photoElement = document.createElement('div');
+    photoElement.classList.add('preview-container__photo');
+    photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
+
+    const deleteButton = document.createElement('span');
+    deleteButton.innerText = 'x';
+    deleteButton.classList.add('delete');
+    deleteButton.addEventListener('click', () => {
+        deletePhoto(photoElement, photoFile);
+    });
+    photoElement.appendChild(deleteButton);
+
+    photoContainer.prepend(photoElement);
+}
+
+function deletePhoto(photoElement, photoFile) {
+    photoElement.remove();
+}
 

@@ -59,7 +59,7 @@ class EstateData extends Data
     {
         return self::from([
             ...$request->all(),
-            'id' => $request->estate?->id,
+            'id' => (int)$request->estate,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo') ?? $request->file('photo'),
             'user' => $request->user_id != null ? UserData::from([

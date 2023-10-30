@@ -9,9 +9,13 @@ use Domain\Estate\Traits\ChangeEstateLocation;
 use Domain\Estate\Traits\HandleEstatePayment;
 use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
 use Domain\Shared\Models\Actor\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
+use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
@@ -73,22 +77,23 @@ class CreateEstateSecondStep extends InlineMenu
         $bot->sendMessage('Контактные данные сохранены.',
             reply_markup: ReplyKeyboardRemove::make(true));
 
-        $this->getPreviewLayout();
+        $this->getPreviewLayout($bot);
     }
 
-    public function getPreviewLayout(): void
+    public function getPreviewLayout(Nutgram $bot): void
     {
         $preview = PreviewCreatedEstateViewModel::get($this->estate);
-
-        $this->clearButtons()
-            ->menuText($preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
-                web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}")))
-            ->addButtonRow(InlineKeyboardButton::make('✅ Все верно, перейти к оплате', callback_data: 'payment@handlePayment'))
-            ->addButtonRow(InlineKeyboardButton::make('◀️ Вернуться к первому шагу', web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}/edit")))
-            ->addButtonRow(InlineKeyboardButton::make('✍️ Изменить локацию объекта', callback_data: 'changeLocation@handleChangeLocation'))
-            ->addButtonRow(InlineKeyboardButton::make('❌ Отменить публикацию объявления', callback_data: 'cancel@handleConfirmCancelEstate'))
-            ->showMenu();
+        $this->clearButtons();
+        $photo = fopen("photos/{$this->estate->main_photo}", 'r+');
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview,
+            parse_mode: 'html',
+            reply_markup: InlineKeyboardMarkup::make()
+                ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
+                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}")),
+                )->addRow(InlineKeyboardButton::make('✅ Все верно, перейти к оплате', callback_data: 'payment@handlePayment'))
+                ->addRow(InlineKeyboardButton::make('◀️ Вернуться к первому шагу', web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estate->id}/edit")))
+                ->addRow(InlineKeyboardButton::make('✍️ Изменить локацию объекта', callback_data: 'changeLocation@handleChangeLocation'))
+                ->addRow(InlineKeyboardButton::make('❌ Отменить публикацию объявления', callback_data: 'cancel@handleConfirmCancelEstate')));
     }
 
     public function none(Nutgram $bot): void

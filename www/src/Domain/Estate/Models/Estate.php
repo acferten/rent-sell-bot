@@ -19,6 +19,7 @@ use Mehradsadeghi\FilterQueryString\FilterQueryString;
  * @property string $estate_type
  * @property string $deal_type
  * @property string $video
+ * @property string $main_photo
  * @property string $description
  * @property string $status
  * @property integer $views

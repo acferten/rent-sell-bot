@@ -23,6 +23,15 @@
         <input type="hidden" id="initData" name="initData" value=""/>
         <input type="hidden" id="chat_id" name="chat_id" value=""/>
 
+        <div class="photo-uploader">
+            <div class="photo-uploader__selected-photos" id="preview-container">
+                <label for="file-input" class="photo-uploader__add-button">
+                    +
+                </label>
+            </div>
+            <input class="photo-uploader__input" id="file-input" type="file" multiple accept="image/*">
+        </div>
+
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>
             <div class="type_announcement">

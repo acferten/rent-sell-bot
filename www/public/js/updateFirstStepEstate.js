@@ -8,8 +8,6 @@ document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
 document.getElementById('initData').value = tg.initData;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 
-tg.enableClosingConfirmation();
-
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
@@ -33,7 +31,7 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://19b6-5-136-99-97.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
+    fetch(`https://ccc4-5-136-99-97.ngrok-free.app/estate/${ID_ESTATE}?_method=PATCH`, {
         headers: {
             Accept: "application/json"
         },
@@ -43,6 +41,11 @@ form.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
+
+            console.log(json);
+            if (!json?.errors) {
+                tg.close();
+            }
 
             for (let error in json?.errors) {
                 document.getElementById(`${error}-error`).innerText = json.errors[error][0];
