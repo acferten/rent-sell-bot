@@ -37,6 +37,8 @@ class EstateController extends Controller
 
     public function update(Request $request): void
     {
-        $this->store($request);
+        $request->validate(EstateData::rules());
+        $data = EstateData::fromRequest($request);
+        UpsertEstateAction::execute($data);
     }
 }
