@@ -7,8 +7,6 @@ document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
 document.getElementById('initData').value = tg.initData;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 
-tg.enableClosingConfirmation();
-
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
@@ -18,7 +16,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://13f0-77-106-104-230.ngrok-free.app/estate/filters`, {
+    fetch(`https://e0f6-77-106-104-230.ngrok-free.app/estate/filters`, {
         headers: {
             Accept: "application/json"
         },
@@ -31,6 +29,7 @@ form.addEventListener('submit', (e) => {
 })
 
 let periods = document.getElementsByClassName('type_announcement__field');
+
 function changeTypePrice(deal_type) {
     switch (deal_type) {
         case 'Продажа':

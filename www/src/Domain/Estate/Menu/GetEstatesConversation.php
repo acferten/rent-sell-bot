@@ -49,13 +49,18 @@ class GetEstatesConversation extends Conversation
     {
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($this->estates[$this->element]);
-        $user_url = 'https://t.me/' . User::where('id', $this->estates[$this->element]->user_id)->first()->username;
+        $estate = $this->estates[$this->element];
+        $estate->update([
+            'views' => $estate->views + 1
+        ]);
+
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
+        $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
 
         $bot->sendMessage($preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")))
+                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
@@ -67,17 +72,22 @@ class GetEstatesConversation extends Conversation
     {
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($this->estates[$this->element]);
-        $user_url = 'https://t.me/' . User::where('id', $this->estates[$this->element]->user_id)->first()->username;
+        $estate = $this->estates[$this->element];
+        $estate->update([
+            'views' => $estate->views + 1
+        ]);
+
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
+        $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+
 
         $bot->sendMessage($preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")))
+                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
         );
-
-        $this->next('handleNext');
+        $this->end();
     }
 
     public function none(Nutgram $bot): void

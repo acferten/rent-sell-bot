@@ -60,11 +60,11 @@
 
         <div class="form-group" id="price-container">
             <label class="form-group__title" for="price-start">Цена от</label>
-            <input type="number" class="form-control" id="price-start" name="price-start" placeholder="5000" min="0">
+            <input type="number" class="form-control" id="price-start" name="price_start" placeholder="5000" min="0">
         </div>
         <div class="form-group" id="price-container">
             <label class="form-group__title" for="price-end">Цена до</label>
-            <input type="number" class="form-control" id="price-end" name="price-end" placeholder="5000" min="0">
+            <input type="number" class="form-control" id="price-end" name="price_end" placeholder="5000" min="0">
         </div>
 
         <div class="form-group">

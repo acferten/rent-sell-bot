@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 /**
  * @property string $id
@@ -34,6 +35,8 @@ use Illuminate\Support\Collection;
  */
 class Estate extends BaseModel
 {
+    use FilterQueryString;
+
     protected string $dataClass = EstateData::class;
 
     protected $fillable = [
@@ -61,6 +64,11 @@ class Estate extends BaseModel
         'end_date',
         'house_number',
         'relevance_date'
+    ];
+
+    protected $filters = [
+        'in',
+        'sort'
     ];
 
     public function status(): EstateStatus

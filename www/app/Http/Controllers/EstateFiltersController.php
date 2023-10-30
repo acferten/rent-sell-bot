@@ -8,6 +8,7 @@ use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstateType;
 use Domain\Estate\Models\Estate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class EstateFiltersController extends Controller
@@ -24,9 +25,9 @@ class EstateFiltersController extends Controller
         return view('estate_filters', $data);
     }
 
-
     public function store(Request $request)
     {
+        Log::debug($request->all());
         //TODO: implement
         return null;
     }
