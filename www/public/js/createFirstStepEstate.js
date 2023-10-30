@@ -32,7 +32,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://ccc4-5-136-99-97.ngrok-free.app/estate/`, {
+    fetch(`https://d056-5-136-99-97.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -109,6 +109,15 @@ function createPhotoElement(photoDataUrl, photoFile) {
 }
 
 function deletePhoto(photoElement, photoFile) {
+    const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
     photoElement.remove();
+
+    const dt = new DataTransfer()
+    const {files} = photoInput
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (currentIndex !== i) dt.items.add(file) // here you exclude the file. thus removing it.
+        photoInput.files = dt.files
+    }
 }
 
