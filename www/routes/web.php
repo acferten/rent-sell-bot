@@ -1,20 +1,15 @@
 <?php
 
+use App\Http\Controllers\EstateController;
+use App\Http\Controllers\EstateFiltersController;
+use App\Http\Controllers\EstateViewsController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-Route::get('estate/filters', \App\Http\Controllers\EstateFiltersFormController::class);
-Route::resource('estate', \App\Http\Controllers\EstateController::class);
+Route::get('estate/filters', [EstateFiltersController::class, 'get']);
+Route::post('estate/filters', [EstateFiltersController::class, 'store']);
 
+Route::resource('estate', EstateController::class)->only('store', 'update');
+Route::resource('estate', EstateViewsController::class)->only('create', 'show', 'edit');
 
-Route::post('webhook', \App\Http\Controllers\WebhookController::class);
-
+Route::post('webhook', WebhookController::class);

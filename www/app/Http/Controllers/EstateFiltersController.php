@@ -10,10 +10,9 @@ use Domain\Estate\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-
-class EstateFiltersFormController extends Controller
+class EstateFiltersController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function get(Request $request): View
     {
         $data = [
             'includes' => EstateInclude::all(),
@@ -23,5 +22,12 @@ class EstateFiltersFormController extends Controller
             'countries' => Estate::all()->map(fn($estate) => $estate->country),
         ];
         return view('estate_filters', $data);
+    }
+
+
+    public function store(Request $request)
+    {
+        //TODO: implement
+        return null;
     }
 }
