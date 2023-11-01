@@ -4,7 +4,6 @@ tg.expand();
 document.getElementById('username').value = tg.initDataUnsafe.user.username;
 document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
-document.getElementById('initData').value = tg.initData;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 
 let form = document.getElementById('form');
@@ -16,7 +15,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://8588-77-106-104-230.ngrok-free.app/estate/filters`, {
+    fetch(`https://fa72-77-106-104-230.ngrok-free.app/estate/filters`, {
         headers: {
             Accept: "application/json"
         },

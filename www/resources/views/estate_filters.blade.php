@@ -24,7 +24,6 @@
         <input type="hidden" id="first_name" name="first_name" value=""/>
         <input type="hidden" id="last_name" name="last_name" value=""/>
         <input type="hidden" id="initData" name="initData" value=""/>
-        <input type="hidden" id="chat_id" name="chat_id" value=""/>
 
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Domain\Estate\Actions\SaveUserFiltersAction;
+use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\EstateInclude;
@@ -13,7 +15,7 @@ use Illuminate\View\View;
 
 class EstateFiltersController extends Controller
 {
-    public function get(Request $request): View
+    public function get(): View
     {
         $data = [
             'includes' => EstateInclude::all(),
@@ -25,10 +27,11 @@ class EstateFiltersController extends Controller
         return view('estate_filters', $data);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): void
     {
-        Log::debug($request->all());
-        //TODO: implement
-        return null;
+        $request->validate(EstateFiltersData::rules());
+        $data = EstateFiltersData::fromRequest($request);
+
+        SaveUserFiltersAction::execute($data);
     }
 }

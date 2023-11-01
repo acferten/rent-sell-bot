@@ -7,8 +7,9 @@ use Domain\Estate\Actions\DeclineEstateAction;
 use SergiX44\Nutgram\Nutgram;
 
 $bot->onCommand('start', \Domain\Shared\Menu\StartMenu::class);
-$bot->onCommand('myobjects', \Domain\Estate\Menu\UserEstatesMenu::class);
-$bot->onCommand('estates', \Domain\Estate\Menu\GetEstatesConversation::class);
+$bot->onCommand('myestates', \Domain\Estate\Menu\UserEstatesMenu::class);
+$bot->onCommand('allestates', \Domain\Estate\Menu\GetEstatesConversation::class);
+$bot->onCommand('estates', \Domain\Estate\Menu\GetFilteredEstatesConversation::class);
 $bot->onText('Основные данные первого шага успешно переданы! 🥳', \Domain\Estate\Menu\CreateEstateSecondStep::class);
 
 $bot->onCallbackQueryData('approve {estate_id}', function (Nutgram $bot, $estate_id) {
