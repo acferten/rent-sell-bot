@@ -32,7 +32,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://9067-77-106-104-230.ngrok-free.app/estate/`, {
+    fetch(`https://8588-77-106-104-230.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -87,6 +87,7 @@ mainPhotoInput.addEventListener('change', (event) => {
 
 function handleFileUpload(event, photoContainer) {
     const files = event.target.files;
+    photoContainer.innerHTML = `<label for="${event.target.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
     const selectedPhotos = Array.from(files);
 
     selectedPhotos.forEach((photoFile) => {
@@ -99,10 +100,7 @@ function handleFileUpload(event, photoContainer) {
 }
 
 function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
-    if (!photoInput.hasAttribute('multiple') && photoContainer.children[1]) {
-        photoContainer.firstChild.remove();
-    }
-
+    console.log(photoInput.attributes.name);
 
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
@@ -117,6 +115,7 @@ function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput)
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
+    console.log(photoInput.files)
 }
 
 function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
@@ -124,7 +123,7 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     photoElement.remove();
 
     const dt = new DataTransfer()
-    const { files } = photoInput
+    const {files} = photoInput
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i]
@@ -133,5 +132,6 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     }
 
     photoInput.files = dt.files
+    console.log(photoInput.files)
 }
 
