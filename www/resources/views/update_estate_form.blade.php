@@ -128,37 +128,35 @@
             <div class="invalid-field" id="conditioners-error"></div>
         </div>
 
-
         <div class="form-group">
             <label class="form-group__title" for="main_photo">Главная фотография</label>
-            <div class="form-outline">
-                <input type="file" id="main_photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="main_photo" class="form-control"/>
+            <div class="photo-uploader">
+                <div class="photo-uploader__selected-photos" id="main-photo-container">
+                    <div class="preview-container__photo" style="background-image: url('/photos/{{$estate_main_photo}}');"></div>
+                    <label for="main_photo" class="photo-uploader__add-button">
+                        +
+                    </label>
+                </div>
+                <input class="photo-uploader__input" name="main_photo" id="main_photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
-            <div id="collage-main">
-                <p class="collage__title">Выбранная ранее</p>
-                <div class="collage__images">
-                    <img class="collage__image" src="/photos/{{$estate_main_photo}}" alt="estate-photo">
-                </div>
-            </div>
         </div>
-
         <div class="form-group">
-            <label class="form-group__title" for="photo">Дополнительные фотографии</label>
-            <div class="form-outline">
-                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple/>
+            <label class="form-group__title" for="photos">Дополнительные фотографии</label>
+            <div class="photo-uploader">
+                <div class="photo-uploader__selected-photos" id="photos-container">
+                    @foreach($estate_photos as $photo)
+                    <div class="preview-container__photo" style="background-image: url('/photos/{{$photo}}');"></div>
+                    @endforeach
+                    <label for="photos" class="photo-uploader__add-button">
+                        +
+                    </label>
+                </div>
+                <input class="photo-uploader__input" name="photo[]" id="photos" required type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif">
             </div>
             <div class="invalid-field" id="photo-error"></div>
-            <div id="collage-extra">
-                <p class="collage__title">Выбранные ранее</p>
-                <div class="collage__images">
-                    @foreach($estate_photos as $estate_photo)
-                        <img class="collage__image" src="/photos/{{$estate_photo}}" alt="estate-photo">
-                    @endforeach
-                </div>
-            </div>
         </div>
 
         {{--        TODO: Добавить вывод выбранного ранее видео --}}
