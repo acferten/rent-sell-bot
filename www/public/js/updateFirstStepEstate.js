@@ -82,18 +82,61 @@ document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
 
-let collageMain = document.getElementById('collage-main') ?? false;
-let collageExtra = document.getElementById('collage-extra') ?? false;
+const photosInput = document.getElementById('photos');
+const mainPhotoInput = document.getElementById('main_photo');
+const photosContainer = document.getElementById('photos-container');
+const mainPhotoContainer = document.getElementById('main-photo-container');
+photosInput.addEventListener('change', (event) => {
+    handleFileUpload(event, photosContainer)
+});
 
-if (collageMain) {
-    document.getElementById('main_photo').addEventListener('change', () => {
-        collageMain.classList.add('d-none');
-    })
+mainPhotoInput.addEventListener('change', (event) => {
+    handleFileUpload(event, mainPhotoContainer);
+});
+
+function handleFileUpload(event, photoContainer) {
+    const files = event.target.files;
+    photoContainer.innerHTML = `<label for="${event.target.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+    const selectedPhotos = Array.from(files);
+
+    selectedPhotos.forEach((photoFile) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            createPhotoElement(reader.result, photoFile, photoContainer, event.target);
+        };
+        reader.readAsDataURL(photoFile);
+    });
 }
 
-if (collageExtra) {
-    document.getElementById('photo').addEventListener('change', () => {
-        collageExtra.classList.add('d-none');
-    })
+function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
+    const photoElement = document.createElement('div');
+    photoElement.classList.add('preview-container__photo');
+    photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
+
+    const deleteButton = document.createElement('span');
+    deleteButton.innerText = 'x';
+    deleteButton.classList.add('delete');
+    deleteButton.addEventListener('click', () => {
+        deletePhoto(photoElement, photoFile, photoContainer, photoInput);
+    });
+    photoElement.appendChild(deleteButton);
+
+    photoContainer.prepend(photoElement);
+}
+
+function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
+    const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
+    photoElement.remove();
+
+    const dt = new DataTransfer()
+    const {files} = photoInput
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        if (currentIndex !== i)
+            dt.items.add(file)
+    }
+
+    photoInput.files = dt.files
 }
 

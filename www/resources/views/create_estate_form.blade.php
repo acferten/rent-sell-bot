@@ -130,7 +130,6 @@
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
         </div>
-
         <div class="form-group">
             <label class="form-group__title" for="photos">Дополнительные фотографии</label>
             <div class="photo-uploader">

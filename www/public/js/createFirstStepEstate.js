@@ -100,8 +100,6 @@ function handleFileUpload(event, photoContainer) {
 }
 
 function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
-    console.log(photoInput.attributes.name);
-
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
     photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
@@ -115,7 +113,6 @@ function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput)
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
-    console.log(photoInput.files)
 }
 
 function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
@@ -132,6 +129,5 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     }
 
     photoInput.files = dt.files
-    console.log(photoInput.files)
 }
 
