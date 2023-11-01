@@ -23,15 +23,6 @@
         <input type="hidden" id="initData" name="initData" value=""/>
         <input type="hidden" id="chat_id" name="chat_id" value=""/>
 
-        <div class="photo-uploader">
-            <div class="photo-uploader__selected-photos" id="preview-container">
-                <label for="file-input" class="photo-uploader__add-button">
-                    +
-                </label>
-            </div>
-            <input class="photo-uploader__input" id="file-input" type="file" multiple accept="image/*">
-        </div>
-
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>
             <div class="type_announcement">
@@ -128,18 +119,28 @@
 
         <div class="form-group">
             <label class="form-group__title" for="main_photo">Главная фотография</label>
-            <div class="form-outline">
-                <input type="file" id="main_photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="main_photo" class="form-control" required/>
+            <div class="photo-uploader">
+                <div class="photo-uploader__selected-photos" id="main-photo-container">
+                    <label for="main_photo" class="photo-uploader__add-button">
+                        +
+                    </label>
+                </div>
+                <input class="photo-uploader__input" name="main_photo" id="main_photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="photo">Дополнительные фотографии</label>
-            <div class="form-outline">
-                <input type="file" id="photo" accept="image/jpg, image/jpeg, image/png, image/tif,
-  image/tiff, .tif" name="photo[]" class="form-control" multiple required/>
+            <label class="form-group__title" for="photos">Дополнительные фотографии</label>
+            <div class="photo-uploader">
+                <div class="photo-uploader__selected-photos" id="photos-container">
+                    <label for="photos" class="photo-uploader__add-button">
+                        +
+                    </label>
+                </div>
+                <input class="photo-uploader__input" name="photo[]" id="photos" required type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
+  image/tiff, .tif">
             </div>
             <div class="invalid-field" id="photo-error"></div>
         </div>

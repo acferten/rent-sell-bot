@@ -32,7 +32,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://d056-5-136-99-97.ngrok-free.app/estate/`, {
+    fetch(`https://9067-77-106-104-230.ngrok-free.app/estate/`, {
         headers: {
             Accept: "application/json"
         },
@@ -73,26 +73,37 @@ document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
 
-const photoInput = document.getElementById('file-input');
-const photoContainer = document.getElementById('preview-container');
+const photosInput = document.getElementById('photos');
+const mainPhotoInput = document.getElementById('main_photo');
+const photosContainer = document.getElementById('photos-container');
+const mainPhotoContainer = document.getElementById('main-photo-container');
+photosInput.addEventListener('change', (event) => {
+    handleFileUpload(event, photosContainer)
+});
 
-photoInput.addEventListener('change', handleFileUpload);
+mainPhotoInput.addEventListener('change', (event) => {
+    handleFileUpload(event, mainPhotoContainer);
+});
 
-function handleFileUpload(event) {
+function handleFileUpload(event, photoContainer) {
     const files = event.target.files;
-
     const selectedPhotos = Array.from(files);
 
     selectedPhotos.forEach((photoFile) => {
         const reader = new FileReader();
         reader.onload = () => {
-            createPhotoElement(reader.result, photoFile);
+            createPhotoElement(reader.result, photoFile, photoContainer, event.target);
         };
         reader.readAsDataURL(photoFile);
     });
 }
 
-function createPhotoElement(photoDataUrl, photoFile) {
+function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
+    if (!photoInput.hasAttribute('multiple') && photoContainer.children[1]) {
+        photoContainer.firstChild.remove();
+    }
+
+
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
     photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
@@ -101,23 +112,26 @@ function createPhotoElement(photoDataUrl, photoFile) {
     deleteButton.innerText = 'x';
     deleteButton.classList.add('delete');
     deleteButton.addEventListener('click', () => {
-        deletePhoto(photoElement, photoFile);
+        deletePhoto(photoElement, photoFile, photoContainer, photoInput);
     });
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
 }
 
-function deletePhoto(photoElement, photoFile) {
+function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
     photoElement.remove();
 
     const dt = new DataTransfer()
-    const {files} = photoInput
+    const { files } = photoInput
+
     for (let i = 0; i < files.length; i++) {
         const file = files[i]
-        if (currentIndex !== i) dt.items.add(file) // here you exclude the file. thus removing it.
-        photoInput.files = dt.files
+        if (currentIndex !== i)
+            dt.items.add(file)
     }
+
+    photoInput.files = dt.files
 }
 
