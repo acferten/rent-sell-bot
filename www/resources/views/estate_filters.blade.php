@@ -12,6 +12,7 @@
             crossorigin="anonymous"
             defer></script>
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/globalVariables.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/applyEstateFilters.js" defer></script>
     <title>Фильтрация объектов</title>
 </head>

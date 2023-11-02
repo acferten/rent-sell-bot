@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/globalVariables.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/updateFirstStepEstate.js" defer></script>
     <title>Обновление данных объекта</title>
 </head>

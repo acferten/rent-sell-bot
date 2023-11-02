@@ -1,6 +1,7 @@
 let tg = window.Telegram.WebApp;
 tg.expand();
 
+
 document.getElementById('username').value = tg.initDataUnsafe.user.username;
 document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
@@ -13,18 +14,7 @@ let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const elems = [
-        'main-photo-error',
-        'photo-error',
-        'video-error',
-        'description-error',
-        'deal_type-error',
-        'bathrooms-error',
-        'bedrooms-error',
-        'conditioners-error',
-        'house_type_id-error'
-    ];
-    elems.forEach((elem) => {
+    FORM_FIELDS_ERROR.forEach((elem) => {
         document.getElementById(elem).innerText = "";
     })
 
@@ -32,7 +22,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`https://a5f8-77-106-104-230.ngrok-free.app/estate/`, {
+    fetch(`${NGROK_URL}/estate/`, {
         headers: {
             Accept: "application/json"
         },
