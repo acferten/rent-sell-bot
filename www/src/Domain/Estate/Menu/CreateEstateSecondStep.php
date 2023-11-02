@@ -85,6 +85,7 @@ class CreateEstateSecondStep extends InlineMenu
         $preview = PreviewCreatedEstateViewModel::get($this->estate);
         $this->clearButtons();
         $photo = fopen("photos/{$this->estate->main_photo}", 'r+');
+
         $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview,
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()

@@ -17,7 +17,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions
 RUN install-php-extensions \
             pdo \
             pdo_pgsql \
-            bcmath
+            bcmath \
+            intl
 
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

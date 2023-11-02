@@ -11,6 +11,7 @@ use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
@@ -56,13 +57,13 @@ class GetEstatesConversation extends Conversation
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $bot->sendMessage($preview, parse_mode: 'html',
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
+                ->addRow(InlineKeyboardButton::make('👉 Подробнее',
                     web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
-                ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
+                ->addRow(InlineKeyboardButton::make('🙋‍♂️ Написать', url: "$user_url"))
         );
 
         $this->next('handleNext');
@@ -79,9 +80,9 @@ class GetEstatesConversation extends Conversation
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-
-        $bot->sendMessage($preview, parse_mode: 'html',
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))

@@ -5,6 +5,7 @@ namespace Domain\Shared\Menu;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Menu\CreateEstateMenu;
+use Domain\Estate\Menu\GetEstatesConversation;
 use Domain\Estate\Menu\GetEstatesMenu;
 use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -62,7 +63,7 @@ class StartMenu extends InlineMenu
     public function handleGetEstatesChoice(Nutgram $bot): void
     {
         $this->closeMenu();
-        $bot->onCallbackQueryData("getEstates", GetEstatesMenu::begin($bot));
+        $bot->onCallbackQueryData("getEstates", GetEstatesConversation::begin($bot));
     }
 
     public function menuLayout(MessageText $text, EstateCallbacks $button1, EstateCallbacks $button2, string $funcName): self

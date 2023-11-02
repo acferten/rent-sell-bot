@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Mehradsadeghi\FilterQueryString\FilterQueryString;
+use Lacodix\LaravelModelFilter\Traits\HasFilters;
 
 /**
  * @property string $id
@@ -36,7 +36,11 @@ use Mehradsadeghi\FilterQueryString\FilterQueryString;
  */
 class Estate extends BaseModel
 {
-    use FilterQueryString;
+    use HasFilters;
+
+    protected array $filters = [
+
+    ];
 
     protected string $dataClass = EstateData::class;
 
@@ -65,11 +69,6 @@ class Estate extends BaseModel
         'end_date',
         'house_number',
         'relevance_date'
-    ];
-
-    protected $filters = [
-        'in',
-        'sort'
     ];
 
     public function status(): EstateStatus

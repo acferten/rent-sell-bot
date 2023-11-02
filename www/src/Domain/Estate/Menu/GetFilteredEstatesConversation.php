@@ -2,7 +2,7 @@
 
 namespace Domain\Estate\Menu;
 
-
+use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
@@ -22,9 +22,20 @@ class GetFilteredEstatesConversation extends Conversation
 
     public function start(Nutgram $bot): void
     {
-        if (User::find($bot->userId())->first()->isEmpty()) {
+        $user = User::where(['id' => $bot->userId()])->first();
 
+        if (is_null($user) || is_null($user->filters)) {
+            $bot->sendMessage(
+                text: '🧐 Похоже, что Вы еще не задали настройки поиска. Можете сделать это по кнопке ниже.',
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(InlineKeyboardButton::make('Настроить фильтр',
+                        web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/filters"))
+                    )
+            );
         }
+
+        EstateFiltersData::from(...json_decode($user->filters));
+
         $this->estates = Estate::where('status', EstateStatus::active)->latest()->get();
 
         if ($this->estates->isEmpty()) {
@@ -32,7 +43,7 @@ class GetFilteredEstatesConversation extends Conversation
         }
 
         $this->element = 0;
-        $this->getEstateLayout($bot);
+//        $this->getEstateLayout($bot);
     }
 
     public function handleNext(Nutgram $bot): void

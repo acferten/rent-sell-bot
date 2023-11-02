@@ -16,13 +16,13 @@ class GetEstateViewModel implements ToStringInterface
         $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
         $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
 
-        $preview = "<b>Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>Тип недвижимости:</b>  {$estate_type}\n" .
-            "<b>Описание:</b> {$data->description}\n\n" .
-            "<b>Включено в стоимость:</b> {$data->includes}\n";
+        $preview = "🤝 {$data->deal_type->value}\n" .
+            "🏡 {$estate_type}\n" .
+            "🛏 {$data->bedrooms} спальни\n\n" .
+            "<b>📍 Локация:</b> {$data->district}\n";
 
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
-            : "<b>Цена:</b> {$data->price}\n";
+        $preview .= $data->deal_type == DealTypes::rent ? "<b>💰 Цена:</b> {$periods} - {$data->period_price}\n"
+            : "<b>💰 Цена:</b> {$data->price}\n";
 
         return $preview;
     }
