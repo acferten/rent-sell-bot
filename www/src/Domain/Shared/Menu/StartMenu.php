@@ -74,8 +74,8 @@ class StartMenu extends InlineMenu
 
     public function getEstatesChoice(Nutgram $bot): void
     {
-        GetEstatesConversation::begin($bot);
         $this->closeMenu();
+        GetEstatesConversation::begin($bot);
     }
 
     public function backButton(): self

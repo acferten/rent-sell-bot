@@ -4,10 +4,7 @@ namespace Domain\Estate\Traits;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 
 trait ChangeEstateLocation
 {
@@ -43,15 +40,12 @@ trait ChangeEstateLocation
         $response = Http::withHeaders([
             "Accept-Language" => "ru",
         ])->get("https://eu1.locationiq.com/v1/reverse.php?key={$locationiq_key}&lat={$this->estate->latitude}&lon={$this->estate->longitude}&format=json")->collect();
-        Log::debug($response);
+
         if (array_key_exists('error', $response->toArray())) {
             $this->askCountry($bot);
         }
-        Log::debug('response');
-        Log::debug($response);
+
         $response = $response->get('address');
-        Log::debug('address');
-        Log::debug($response);
 
         $this->estate->update([
             'country' => $response['country'] ?? null,
@@ -59,6 +53,7 @@ trait ChangeEstateLocation
             'district' => $response['city_district'] ?? ($response['county'] ?? null),
             'street' => $response['road'] ?? null,
         ]);
+
         if (array_key_exists('house_number', $response)) {
             $this->estate->update([
                 'house_number' => $response['house_number'],
@@ -77,7 +72,7 @@ trait ChangeEstateLocation
         $this->next('askTown');
     }
 
-    public function askTown(Nutgram $bot)
+    public function askTown(Nutgram $bot): void
     {
         $this->estate->update([
             'country' => $bot->message()->text,
@@ -91,7 +86,7 @@ trait ChangeEstateLocation
         $this->next('askDistrict');
     }
 
-    public function askDistrict(Nutgram $bot)
+    public function askDistrict(Nutgram $bot): void
     {
         $this->estate->update([
             'town' => $bot->message()->text,
@@ -105,7 +100,7 @@ trait ChangeEstateLocation
         $this->next('askStreet');
     }
 
-    public function askStreet(Nutgram $bot)
+    public function askStreet(Nutgram $bot): void
     {
         $this->estate->update([
             'district' => $bot->message()->text,
@@ -119,7 +114,7 @@ trait ChangeEstateLocation
         $this->next('askHouseNumber');
     }
 
-    public function askHouseNumber(Nutgram $bot)
+    public function askHouseNumber(Nutgram $bot): void
     {
         $this->estate->update([
             'street' => $bot->message()->text,
