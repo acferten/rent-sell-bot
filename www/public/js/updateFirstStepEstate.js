@@ -11,7 +11,6 @@ document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
-    console.log('SUBMIT');
     FORM_FIELDS_ERROR.forEach((elem) => {
         document.getElementById(elem).innerText = "";
     })

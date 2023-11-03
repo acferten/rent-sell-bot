@@ -13,7 +13,6 @@ tg.enableClosingConfirmation();
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
-    console.log('SUBMIT');
     e.preventDefault();
     FORM_FIELDS_ERROR.forEach((elem) => {
         document.getElementById(elem).innerText = "";

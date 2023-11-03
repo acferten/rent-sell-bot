@@ -1,9 +1,8 @@
 <?php
 
-namespace Domain\Estate\Menu;
+namespace Domain\Estate\Conversations;
 
-
-use Domain\Estate\Enums\CreateEstateText;
+use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
@@ -11,18 +10,31 @@ use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
-class GetEstatesConversation extends Conversation
+class GetFilteredEstatesConversation extends Conversation
 {
     public Collection $estates;
     public int $element;
 
     public function start(Nutgram $bot): void
     {
+        $user = User::where(['id' => $bot->userId()])->first();
+
+        if (is_null($user) || is_null($user->filters)) {
+            $bot->sendMessage(
+                text: '🧐 Похоже, что Вы еще не задали настройки поиска. Можете сделать это по кнопке ниже.',
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(InlineKeyboardButton::make('Настроить фильтр',
+                        web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
+                    )
+            );
+        }
+
+        EstateFiltersData::from(...json_decode($user->filters));
+
         $this->estates = Estate::where('status', EstateStatus::active)->latest()->get();
 
         if ($this->estates->isEmpty()) {
@@ -30,7 +42,7 @@ class GetEstatesConversation extends Conversation
         }
 
         $this->element = 0;
-        $this->getEstateLayout($bot);
+//        $this->getEstateLayout($bot);
     }
 
     public function handleNext(Nutgram $bot): void
@@ -57,13 +69,13 @@ class GetEstatesConversation extends Conversation
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
-        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
+        $bot->sendMessage($preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('👉 Подробнее',
-                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🙋‍♂️ Написать', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 
         $this->next('handleNext');
@@ -80,12 +92,12 @@ class GetEstatesConversation extends Conversation
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
-        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
+
+        $bot->sendMessage($preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$estate->id}")))
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
         );
         $this->end();
