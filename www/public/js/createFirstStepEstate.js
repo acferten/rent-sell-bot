@@ -68,12 +68,20 @@ const mainPhotoInput = document.getElementById('main_photo');
 const photosContainer = document.getElementById('photos-container');
 const mainPhotoContainer = document.getElementById('main-photo-container');
 photosInput.addEventListener('change', (event) => {
-    handleFileUpload(event, photosContainer)
+    handleFileUpload(event, photosContainer);
+    removeAddButton(event.target, 10, mainPhotoContainer);
 });
 
 mainPhotoInput.addEventListener('change', (event) => {
     handleFileUpload(event, mainPhotoContainer);
+    removeAddButton(event.target, 1, mainPhotoContainer);
 });
+
+function removeAddButton(input, maxElems, container) {
+    let isMax = input.files.length >= maxElems;
+    if (isMax) container.lastChild.remove();
+    if (input.files.length === 0) container.innerHTML = `<label for="${input.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+}
 
 function handleFileUpload(event, photoContainer) {
     const files = event.target.files;
