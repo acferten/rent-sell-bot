@@ -41,7 +41,7 @@ form.addEventListener('submit', (e) => {
 })
 
 function changeTypePrice(deal_type) {
-    switch(deal_type) {
+    switch (deal_type) {
         case 'Продажа':
             document.getElementById('price-container').classList.remove('d-none');
             document.getElementById('period-container').classList.add('d-none');
@@ -74,12 +74,21 @@ const mainPhotoInput = document.getElementById('main_photo');
 const photosContainer = document.getElementById('photos-container');
 const mainPhotoContainer = document.getElementById('main-photo-container');
 photosInput.addEventListener('change', (event) => {
+    console.log("изменен")
     handleFileUpload(event, photosContainer)
+    removeAddButton(event.target, 10, photosContainer)
 });
 
 mainPhotoInput.addEventListener('change', (event) => {
     handleFileUpload(event, mainPhotoContainer);
+    removeAddButton(event.target, 1, mainPhotoContainer)
 });
+function removeAddButton(input, maxElems, container) {
+    let isMax = input.files.length >= maxElems;
+    if (isMax) container.lastChild.remove();
+    if (input.files.length === 0) container.innerHTML = `<label for="${input.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+}
+
 
 function handleFileUpload(event, photoContainer) {
     const files = event.target.files;
@@ -95,7 +104,8 @@ function handleFileUpload(event, photoContainer) {
     });
 }
 
-function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
+function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput, maxElems = 10) {
+    removeAddButton(photoInput, maxElems, photoContainer)
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
     photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
@@ -104,14 +114,14 @@ function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput)
     deleteButton.innerText = 'x';
     deleteButton.classList.add('delete');
     deleteButton.addEventListener('click', () => {
-        deletePhoto(photoElement, photoFile, photoContainer, photoInput);
+        deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems);
     });
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
 }
 
-function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
+function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems) {
     const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
     photoElement.remove();
 
@@ -125,5 +135,66 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     }
 
     photoInput.files = dt.files
+    removeAddButton(photoInput, maxElems, photoContainer);
 }
 
+// PUT PHOTOS FROM BACKEND IN INPUT
+
+const regex = /background-image: url\('([^']+)'\);/;
+let imagesFromBackend = [];
+
+
+for (let i = 0; i < photosContainer.children.length - 1; i++) {
+    const match = photosContainer.children[i].getAttribute('style').match(regex);
+    imagesFromBackend.push(`${NGROK_URL}${match[1]}`);
+}
+
+const dt1 = new DataTransfer()
+
+async function getBlob() {
+    const fetchPromises = imagesFromBackend.map(url =>
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => new File([blob], url.split('/').pop()))
+    );
+
+    const files = await Promise.all(fetchPromises);
+
+    files.forEach(file => {
+        dt1.items.add(file);
+    });
+}
+
+getBlob().then(() => {
+    photosContainer.innerHTML = `<label for="${photosInput.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+    photosInput.files = dt1.files;
+    Array.from(photosInput.files).forEach((photoFile) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            createPhotoElement(reader.result, photoFile, photosContainer, photosInput);
+        };
+        reader.readAsDataURL(photoFile);
+    })
+});
+
+const dt2 = new DataTransfer()
+
+const mainPhoto = async () => {
+    let url = photosContainer.children[0].getAttribute('style').match(regex)[1];
+    const photoPromise = fetch(url)
+        .then(response => response.blob())
+        .then(blob => new File([blob], url.split('/').pop()));
+
+    let photo = await photoPromise;
+    dt2.items.add(photo)
+}
+
+mainPhoto().then(() => {
+    mainPhotoContainer.innerHTML = `<label for="${mainPhotoInput.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+    mainPhotoInput.files = dt2.files;
+    const reader = new FileReader();
+    reader.onload = () => {
+        createPhotoElement(reader.result, mainPhotoInput.files[0], mainPhotoContainer, mainPhotoInput, 1);
+    };
+    reader.readAsDataURL(mainPhotoInput.files[0]);
+})
