@@ -29,7 +29,7 @@ class EstateViewsController extends Controller
         $data = [
             'estate' => $estate,
             'estate_main_photo' => $estate->main_photo,
-            'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
+            'estate_photos' => [$estate->main_photo, ...$estate->photos->map(fn($photo) => $photo->photo)],
             'estate_video' => $estate->video,
             'estate_includes' => $estate->includes->map(fn($include) => $include->title),
             'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? null,
