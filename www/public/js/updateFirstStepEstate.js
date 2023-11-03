@@ -31,7 +31,6 @@ form.addEventListener('submit', (e) => {
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
             if (!json?.errors) {
-                tg.sendData(`${ID_ESTATE}`);
                 tg.close();
             }
 

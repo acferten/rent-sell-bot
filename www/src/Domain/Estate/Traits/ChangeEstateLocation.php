@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Traits;
 
+use Domain\Estate\Actions\SendPreviewMessageAction;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
@@ -33,7 +34,7 @@ trait ChangeEstateLocation
 
         $this->setLocationProperties($bot);
 
-        $this->getPreviewLayout();
+        SendPreviewMessageAction::execute($bot, $this->estate->id);
     }
 
     public function setLocationProperties(Nutgram $bot): void

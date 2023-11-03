@@ -36,10 +36,24 @@ class EstateController extends Controller
     }
 
 
-    public function update(Request $request): Estate
+    public function update(Request $request): void
     {
+        $bot = app(Nutgram::class);
+
         $request->validate(EstateData::rules());
+
+        try {
+            $webappData = $bot->validateWebAppData($request->input('initData'));
+        } catch (InvalidDataException) {
+            Log::debug('initData error');
+        }
+
         $data = EstateData::fromRequest($request);
-        return UpsertEstateAction::execute($data);
+        UpsertEstateAction::execute($data);
+
+        $result = new InlineQueryResultArticle(1, 'Успех',
+            new InputTextMessageContent("Основные данные первого шага успешно обновлены! 🥳"));
+
+        $bot->answerWebAppQuery($webappData->query_id, $result);
     }
 }
