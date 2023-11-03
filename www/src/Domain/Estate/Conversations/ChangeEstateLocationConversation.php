@@ -4,18 +4,18 @@ namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Models\Estate;
+use Domain\Estate\Traits\ChangeEstateLocation;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
 
 class ChangeEstateLocationConversation extends Conversation
 {
-    protected ?string $step = 'change';
-
+    use ChangeEstateLocation;
     public Estate $estate;
 
-    public function change(Nutgram $bot): void
+    public function start(Nutgram $bot): void
     {
-        $this->estate = Estate::find(1)->first();
+        $this->estate = Estate::where('user_id', $bot->userId())->latest()->first();
 
         $bot->sendMessage(
             text: "<b>Шаг 2 из 3</b>
@@ -23,10 +23,10 @@ class ChangeEstateLocationConversation extends Conversation
             parse_mode: 'html'
         );
 
-        $this->next('ChangeLocationStepTwo');
+        $this->next('change');
     }
 
-    public function ChangeLocationStepTwo(Nutgram $bot): void
+    public function change(Nutgram $bot): void
     {
         $location = $bot->message()->location;
 
@@ -34,6 +34,8 @@ class ChangeEstateLocationConversation extends Conversation
             'latitude' => $location->latitude,
             'longitude' => $location->longitude
         ]);
+
+        $this->setLocationProperties($bot);
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);
     }

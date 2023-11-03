@@ -5,8 +5,6 @@ namespace Domain\Estate\Traits;
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Illuminate\Support\Facades\Http;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;
-use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardMarkup;
 
 trait ChangeEstateLocation
 {
@@ -136,16 +134,7 @@ trait ChangeEstateLocation
             'house_number' => $bot->message()->text,
         ]);
 
-        $bot->sendMessage(
-            text: "<b>Шаг 3 из 3</b>
-Отправьте ваши контактные данные Telegram.",
-            parse_mode: 'html',
-            reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
-                KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true)
-            ),
-        );
-
-        $this->next('contact');
+        SendPreviewMessageAction::execute($bot, $this->estate->id);
     }
 
 }

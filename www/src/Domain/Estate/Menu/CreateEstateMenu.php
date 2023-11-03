@@ -25,9 +25,30 @@ class CreateEstateMenu extends InlineMenu
     public function start(Nutgram $bot): void
     {
         $bot->sendMessage(
-            text: "<b>Шаг 2 из 3</b>
+            text: "<b>Шаг 2 из 3</b>\nОтправьте ваши контактные данные Telegram.",
+            parse_mode: 'html',
+            reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
+                KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true))
+        );
+
+        $this->next('contact');
+    }
+
+    public function contact(Nutgram $bot): void
+    {
+        User::where(['id' => $bot->userId()])
+            ->first()
+            ->update([
+                'phone' => $bot->message()->contact->phone_number
+            ]);
+
+        $bot->sendMessage('Контактные данные сохранены.',
+            reply_markup: ReplyKeyboardRemove::make(true));
+
+        $bot->sendMessage(
+            text: "<b>Шаг 3 из 3</b>
 Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
-            parse_mode: 'html'
+            parse_mode: 'html',
         );
 
         $this->next('location');
@@ -46,29 +67,6 @@ class CreateEstateMenu extends InlineMenu
         ]);;
 
         $this->setLocationProperties($bot);
-
-        $bot->sendMessage(
-            text: "<b>Шаг 3 из 3</b>
-Отправьте ваши контактные данные Telegram.",
-            parse_mode: 'html',
-            reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
-                KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true)
-            ),
-        );
-
-        $this->next('contact');
-    }
-
-    public function contact(Nutgram $bot): void
-    {
-        User::where(['id' => $bot->userId()])
-            ->first()
-            ->update([
-                'phone' => $bot->message()->contact->phone_number
-            ]);
-
-        $bot->sendMessage('Контактные данные сохранены.',
-            reply_markup: ReplyKeyboardRemove::make(true));
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);
     }
