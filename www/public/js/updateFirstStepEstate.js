@@ -180,7 +180,7 @@ getBlob().then(() => {
 const dt2 = new DataTransfer()
 
 const mainPhoto = async () => {
-    let url = photosContainer.children[0].getAttribute('style').match(regex)[1];
+    let url = mainPhotoContainer.children[0].getAttribute('style').match(regex)[1];
     const photoPromise = fetch(url)
         .then(response => response.blob())
         .then(blob => new File([blob], url.split('/').pop()));
