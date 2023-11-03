@@ -68,12 +68,12 @@ const mainPhotoInput = document.getElementById('main_photo');
 const photosContainer = document.getElementById('photos-container');
 const mainPhotoContainer = document.getElementById('main-photo-container');
 photosInput.addEventListener('change', (event) => {
-    handleFileUpload(event, photosContainer);
+    handleFileUpload(event, photosContainer, 10);
     removeAddButton(event.target, 10, mainPhotoContainer);
 });
 
 mainPhotoInput.addEventListener('change', (event) => {
-    handleFileUpload(event, mainPhotoContainer);
+    handleFileUpload(event, mainPhotoContainer, 1);
     removeAddButton(event.target, 1, mainPhotoContainer);
 });
 
@@ -83,7 +83,7 @@ function removeAddButton(input, maxElems, container) {
     if (input.files.length === 0) container.innerHTML = `<label for="${input.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
 }
 
-function handleFileUpload(event, photoContainer) {
+function handleFileUpload(event, photoContainer, maxElemsInContainer) {
     const files = event.target.files;
     photoContainer.innerHTML = `<label for="${event.target.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
     const selectedPhotos = Array.from(files);
@@ -91,13 +91,13 @@ function handleFileUpload(event, photoContainer) {
     selectedPhotos.forEach((photoFile) => {
         const reader = new FileReader();
         reader.onload = () => {
-            createPhotoElement(reader.result, photoFile, photoContainer, event.target);
+            createPhotoElement(reader.result, photoFile, photoContainer, event.target, maxElemsInContainer);
         };
         reader.readAsDataURL(photoFile);
     });
 }
 
-function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput) {
+function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput, maxElems) {
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
     photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
@@ -106,14 +106,14 @@ function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput)
     deleteButton.innerText = 'x';
     deleteButton.classList.add('delete');
     deleteButton.addEventListener('click', () => {
-        deletePhoto(photoElement, photoFile, photoContainer, photoInput);
+        deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems);
     });
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
 }
 
-function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
+function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems) {
     const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
     photoElement.remove();
 
@@ -127,5 +127,6 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput) {
     }
 
     photoInput.files = dt.files
+    removeAddButton(photoInput, maxElems, photoContainer);
 }
 
