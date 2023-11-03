@@ -1,19 +1,15 @@
 <?php
 
-namespace Domain\Estate\Traits;
+namespace Domain\Estate\Actions;
 
 use Carbon\Carbon;
-use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
-use Domain\Estate\ViewModels\UserEstateViewModel;
-use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
-use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
-trait HandleEstatePayment
+class handlePayment
 {
     public function handlePayment(Nutgram $bot, $estate_id): void
     {

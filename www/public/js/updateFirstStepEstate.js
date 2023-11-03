@@ -30,9 +30,8 @@ form.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
-
-            console.log(json);
             if (!json?.errors) {
+                tg.sendData(`${ID_ESTATE}`);
                 tg.close();
             }
 

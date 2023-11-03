@@ -3,8 +3,10 @@
 
 use Domain\Estate\Actions\ApproveEstateAction;
 use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
-use Domain\Estate\Actions\DeclineEstateAction;
+use Domain\Estate\Menu\CreateEstateSecondStep;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
+use function Nutgram\Laravel\Support\webAppData;
 
 $bot->onCommand('start', \Domain\Shared\Menu\StartMenu::class);
 $bot->onCommand('myestates', \Domain\Estate\Menu\UserEstatesMenu::class);
@@ -16,10 +18,14 @@ $bot->onCallbackQueryData('approve {estate_id}', function (Nutgram $bot, $estate
     ApproveEstateAction::execute($bot, $estate_id);
 });
 
+$bot->onCallbackQueryData('successUpdatedFirstStepEstate {estate_id}', function (Nutgram $bot, $estate_id) {
+    CreateEstateSecondStep::getPreviewLayout($bot, $estate_id);
+});
+
 $bot->onCallbackQueryData('relevant {estate_id}', function (Nutgram $bot, $estate_id) {
     ConfirmEstateRelevanceAction::execute($bot, $estate_id);
 });
 
-$bot->onCallbackQueryData('decline {estate_id}', function (Nutgram $bot, $estate_id) {
-    DeclineEstateAction::execute($bot, $estate_id);
+$bot->onCallbackQueryData('handlePayment {estate_id}', function (Nutgram $bot, $estate_id) {
+    (new Domain\Estate\Actions\handlePayment)->handlePayment($bot, $estate_id);
 });
