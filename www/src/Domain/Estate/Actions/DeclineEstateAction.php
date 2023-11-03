@@ -8,7 +8,7 @@ use SergiX44\Nutgram\Nutgram;
 
 class DeclineEstateAction
 {
-    public static function execute(Nutgram $bot, int $estate_id)
+    public function __invoke(Nutgram $bot, int $estate_id): void
     {
         $estate = Estate::where('id', $estate_id)->first();
 

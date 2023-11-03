@@ -11,6 +11,7 @@ document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
+    console.log('SUBMIT');
     FORM_FIELDS_ERROR.forEach((elem) => {
         document.getElementById(elem).innerText = "";
     })
@@ -31,7 +32,6 @@ form.addEventListener('submit', (e) => {
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
             if (!json?.errors) {
-                tg.sendData(`${ID_ESTATE}`);
                 tg.close();
             }
 

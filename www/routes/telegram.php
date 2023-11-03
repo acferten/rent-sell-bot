@@ -3,29 +3,29 @@
 
 use Domain\Estate\Actions\ApproveEstateAction;
 use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
-use Domain\Estate\Menu\CreateEstateSecondStep;
-use Illuminate\Support\Facades\Log;
+use Domain\Estate\Actions\DeclineEstateAction;
+use Domain\Estate\Actions\SendPreviewMessageAction;
+use Domain\Estate\Conversations\GetEstatesConversation;
+use Domain\Estate\Conversations\GetFilteredEstatesConversation;
+use Domain\Estate\Menu\CreateEstateMenu;
+use Domain\Estate\Menu\UserEstatesMenu;
+use Domain\Shared\Menu\StartMenu;
 use SergiX44\Nutgram\Nutgram;
-use function Nutgram\Laravel\Support\webAppData;
 
-$bot->onCommand('start', \Domain\Shared\Menu\StartMenu::class);
-$bot->onCommand('myestates', \Domain\Estate\Menu\UserEstatesMenu::class);
-$bot->onCommand('allestates', \Domain\Estate\Menu\GetEstatesConversation::class);
-$bot->onCommand('estates', \Domain\Estate\Menu\GetFilteredEstatesConversation::class);
-$bot->onText('Основные данные первого шага успешно переданы! 🥳', \Domain\Estate\Menu\CreateEstateSecondStep::class);
+$bot->onText('Основные данные первого шага успешно переданы! 🥳', CreateEstateMenu::class);
+$bot->onText('Основные данные первого шага успешно обновлены! 🥳', [SendPreviewMessageAction::class, 'execute']);
 
-$bot->onCallbackQueryData('approve {estate_id}', function (Nutgram $bot, $estate_id) {
-    ApproveEstateAction::execute($bot, $estate_id);
-});
+$bot->onCommand('start', StartMenu::class);
 
-$bot->onCallbackQueryData('successUpdatedFirstStepEstate {estate_id}', function (Nutgram $bot, $estate_id) {
-    CreateEstateSecondStep::getPreviewLayout($bot, $estate_id);
-});
+$bot->onCommand('myestates', UserEstatesMenu::class);
+$bot->onCommand('allestates', GetEstatesConversation::class);
+$bot->onCommand('estates', GetFilteredEstatesConversation::class);
 
+$bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
+$bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
 $bot->onCallbackQueryData('relevant {estate_id}', function (Nutgram $bot, $estate_id) {
     ConfirmEstateRelevanceAction::execute($bot, $estate_id);
 });
-
-$bot->onCallbackQueryData('handlePayment {estate_id}', function (Nutgram $bot, $estate_id) {
-    (new Domain\Estate\Actions\handlePayment)->handlePayment($bot, $estate_id);
+$bot->onCallbackQueryData('change location {estate_id}', function (Nutgram $bot, $estate_id) {
+    ConfirmEstateRelevanceAction::execute($bot, $estate_id);
 });
