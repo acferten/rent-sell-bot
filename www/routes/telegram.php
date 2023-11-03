@@ -15,6 +15,7 @@ use SergiX44\Nutgram\Nutgram;
 
 $bot->onText('Основные данные первого шага успешно переданы! 🥳', CreateEstateMenu::class);
 $bot->onText('Основные данные первого шага успешно обновлены! 🥳', function (Nutgram $bot) {
+    $bot->deleteMessage($bot->userId(), ($bot->messageId() - 1));
     $bot->deleteMessage($bot->userId(), $bot->messageId());
     SendPreviewMessageAction::execute($bot);
 });

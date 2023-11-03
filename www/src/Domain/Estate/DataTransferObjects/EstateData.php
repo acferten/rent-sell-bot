@@ -81,6 +81,7 @@ class EstateData extends Data
             'bathrooms' => 'required|int|between:1,10',
             'conditioners' => 'required|int|between:0,25',
             'main_photo' => 'required',
+            'photo' => 'required',
             'price' => 'required_if:deal_type,Продажа|int|between:0,100000|nullable',
             'include_ids' => 'array|exists:includes,id',
             'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4|max:128000',
@@ -88,8 +89,8 @@ class EstateData extends Data
             'period_price' => 'required_if:deal_type,Аренда|int|nullable',
             'house_type_id' => 'required|exists:house_types,id',
             'user_id' => 'required|min:1',
-            'username' => 'required',
-            'first_name' => 'required'
+            'username' => 'required|string',
+            'first_name' => 'required|string'
         ];
     }
 

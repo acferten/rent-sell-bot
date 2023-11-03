@@ -128,7 +128,7 @@ trait ChangeEstateLocation
         $this->next('askContact');
     }
 
-    public function askContact(Nutgram $bot)
+    public function askContact(Nutgram $bot): void
     {
         $this->estate->update([
             'house_number' => $bot->message()->text,

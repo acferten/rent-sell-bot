@@ -47,6 +47,9 @@ class UpsertEstateAction
             ]);
         }
 
+        $data->id != null ?
+            EstatePhoto::where('estate_id', $data->id)->delete() : null;
+
         if ($data->photo) {
             foreach ($data->photo as $photo) {
                 EstatePhoto::create([
