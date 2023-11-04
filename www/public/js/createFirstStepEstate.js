@@ -64,40 +64,71 @@ document.getElementById('Аренда').addEventListener("change", () => {
 })
 
 const photosInput = document.getElementById('photos');
-const mainPhotoInput = document.getElementById('main_photo');
+const photosInputHidden = document.getElementById('photos-hidden');
 const photosContainer = document.getElementById('photos-container');
-const mainPhotoContainer = document.getElementById('main-photo-container');
-photosInput.addEventListener('change', (event) => {
-    handleFileUpload(event, photosContainer, 10);
-    removeAddButton(event.target, 10, mainPhotoContainer);
-});
 
-mainPhotoInput.addEventListener('change', (event) => {
-    handleFileUpload(event, mainPhotoContainer, 1);
-    removeAddButton(event.target, 1, mainPhotoContainer);
-});
+const mainPhotoInput = document.getElementById('main_photo');
+const mainInputHidden = document.getElementById('main-photo-hidden');
+const mainPhotoContainer = document.getElementById('main-photo-container');
+
+
+photosInputHidden.addEventListener('change', (event) => {
+    addInOtherInputFiles(event.target, photosInput);
+    handleFileUpload(photosInput, photosContainer, 2);
+    removeAddButton(photosInput, 2, photosContainer);
+})
+
+mainInputHidden.addEventListener('change', (event) => {
+    addInOtherInputFiles(event.target, mainPhotoInput);
+    handleFileUpload(mainPhotoInput, mainPhotoContainer, 1);
+    removeAddButton(mainPhotoInput, 1, mainPhotoContainer);
+})
+
+function addInOtherInputFiles(fromInput, toInput) {
+    const dt = new DataTransfer()
+
+    for (let i = 0; i < fromInput.files.length; i++) {
+        const file = fromInput.files[i]
+        dt.items.add(file)
+    }
+
+    for (let i = 0; i < toInput.files.length; i++) {
+        const file = toInput.files[i]
+        dt.items.add(file)
+    }
+
+    toInput.files = dt.files;
+}
+
+function handleFileUpload(photoInput, photoContainer, maxElem) {
+    photoContainer.innerHTML = `<label for="${photoInput.getAttribute('id')}-hidden" class="photo-uploader__add-button">+</label>`;
+    for (let i = photoInput.files.length - 1; i >= 0; i--) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            createPhotoElement(reader.result, photoInput.files[i], photoContainer, photoInput, maxElem);
+        };
+        reader.readAsDataURL(photoInput.files[i]);
+    }
+}
 
 function removeAddButton(input, maxElems, container) {
     let isMax = input.files.length >= maxElems;
-    if (isMax) container.lastChild.remove();
-    if (input.files.length === 0) container.innerHTML = `<label for="${input.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
+
+    if (isMax) {
+        container.lastChild && container.lastChild.remove();
+    } else if (
+        (input.files.length < maxElems && !container.lastChild)
+    ) {
+        const label = document.createElement('label');
+        label.setAttribute('for', `${input.getAttribute('id')}-hidden`);
+        label.classList.add('photo-uploader__add-button');
+        label.innerText = '+';
+        container.appendChild(label);
+    }
 }
 
-function handleFileUpload(event, photoContainer, maxElemsInContainer) {
-    const files = event.target.files;
-    photoContainer.innerHTML = `<label for="${event.target.getAttribute('id')}" class="photo-uploader__add-button">+</label>`
-    const selectedPhotos = Array.from(files);
 
-    selectedPhotos.forEach((photoFile) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            createPhotoElement(reader.result, photoFile, photoContainer, event.target, maxElemsInContainer);
-        };
-        reader.readAsDataURL(photoFile);
-    });
-}
-
-function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput, maxElems) {
+function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput, maxElem) {
     const photoElement = document.createElement('div');
     photoElement.classList.add('preview-container__photo');
     photoElement.style.backgroundImage = `url('${photoDataUrl}')`;
@@ -106,14 +137,14 @@ function createPhotoElement(photoDataUrl, photoFile, photoContainer, photoInput,
     deleteButton.innerText = 'x';
     deleteButton.classList.add('delete');
     deleteButton.addEventListener('click', () => {
-        deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems);
+        deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElem);
     });
     photoElement.appendChild(deleteButton);
 
     photoContainer.prepend(photoElement);
 }
 
-function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElems) {
+function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxElem) {
     const currentIndex = Array.from(photoContainer.children).indexOf(photoElement);
     photoElement.remove();
 
@@ -126,7 +157,6 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxEle
             dt.items.add(file)
     }
 
-    photoInput.files = dt.files
-    removeAddButton(photoInput, maxElems, photoContainer);
+    photoInput.files = dt.files;
+    removeAddButton(photoInput, maxElem, photoContainer);
 }
-

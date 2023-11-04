@@ -71,10 +71,16 @@ document.getElementById('Аренда').addEventListener("change", () => {
 
 const photosInput = document.getElementById('photos');
 const mainPhotoInput = document.getElementById('main_photo');
+const photosHidden = document.getElementById('photos-hidden');
 const photosContainer = document.getElementById('photos-container');
 const mainPhotoContainer = document.getElementById('main-photo-container');
+
+photosHidden.addEventListener('change', () => {
+    handleFileUpload(photosInput, photosContainer)
+    removeAddButton(photosInput, 10, photosContainer)
+});
+
 photosInput.addEventListener('change', (event) => {
-    console.log("изменен")
     handleFileUpload(event, photosContainer)
     removeAddButton(event.target, 10, photosContainer)
 });
