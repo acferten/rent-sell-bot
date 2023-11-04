@@ -14,7 +14,7 @@ class SendPreviewMessageAction
 {
     public static function execute(Nutgram $bot, ?int $estate_id = null): void
     {
-        if ($estate = $estate_id) {
+        if (!is_null($estate_id)) {
             $estate = Estate::find($estate_id);
         } else {
             $estate_id = $bot->getUserData('estate_id', $bot->userId());

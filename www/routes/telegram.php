@@ -23,8 +23,8 @@ $bot->onCommand('allestates', GetEstatesConversation::class);
 $bot->onCommand('estates', GetFilteredEstatesConversation::class);
 
 $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::class);
-$bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 $bot->onCallbackQueryData('cancel publish', CancelEstatePublicationMenu::class);
+$bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
