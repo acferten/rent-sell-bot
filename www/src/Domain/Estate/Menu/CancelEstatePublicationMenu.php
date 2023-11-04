@@ -21,10 +21,10 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function handleCancelEstate(Nutgram $bot): void
     {
-        Estate::where(['user_id' => $bot->userId()])
-            ->latest()->first()->delete();
+        Estate::first($bot->getUserData('estate_id', $bot->userId()))->delete();
+        $bot->deleteUserData('estate_id', $bot->userId());
         $this->clearButtons();
-        $bot->sendMessage('Публикация успешно удалена');
+        $bot->sendMessage('Публикация успешно удалена.');
         $this->closeMenu();
         $this->end();
     }
