@@ -8,7 +8,6 @@ use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstatePhoto;
 use Domain\Estate\Models\EstatePrice;
 use Domain\Shared\Models\Actor\User;
-use Illuminate\Support\Facades\Log;
 
 class UpsertEstateAction
 {

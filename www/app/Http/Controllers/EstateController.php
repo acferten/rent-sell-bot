@@ -27,10 +27,11 @@ class EstateController extends Controller
         }
 
         $data = EstateData::fromRequest($request);
-        UpsertEstateAction::execute($data);
+        $estate = UpsertEstateAction::execute($data);
+        $bot->setUserData('estate_id', $estate->id, $data->user->id);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
-            new InputTextMessageContent("Основные данные первого шага успешно переданы! 🥳"));
+            new InputTextMessageContent("Данные первого шага успешно переданы! 🥳"));
 
         $bot->answerWebAppQuery($webappData->query_id, $result);
     }
@@ -52,7 +53,7 @@ class EstateController extends Controller
         UpsertEstateAction::execute($data);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
-            new InputTextMessageContent("Основные данные первого шага успешно обновлены! 🥳"));
+            new InputTextMessageContent("Данные первого шага успешно обновлены! 🥳"));
 
         $bot->answerWebAppQuery($webappData->query_id, $result);
     }

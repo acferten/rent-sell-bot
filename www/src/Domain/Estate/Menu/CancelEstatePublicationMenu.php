@@ -1,15 +1,15 @@
 <?php
 
-namespace Domain\Estate\Traits;
-
+namespace Domain\Estate\Menu;
 
 use Domain\Estate\Models\Estate;
+use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 
-trait CancelEstatePublication
+class CancelEstatePublicationMenu extends InlineMenu
 {
-    public function handleConfirmCancelEstate(Nutgram $bot): void
+    public function start(Nutgram $bot): void
     {
         $this->clearButtons()
             ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите удалить черновик Вашего объявления?",

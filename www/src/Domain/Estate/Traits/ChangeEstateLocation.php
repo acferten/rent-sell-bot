@@ -8,32 +8,6 @@ use SergiX44\Nutgram\Nutgram;
 
 trait ChangeEstateLocation
 {
-    public function handleChangeLocation(Nutgram $bot): void
-    {
-        $bot->sendMessage(
-            text: "<b>Шаг 2 из 3</b>
-Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
-            parse_mode: 'html'
-        );
-        $this->closeMenu();
-
-        $this->next('ChangeLocationStepTwo');
-    }
-
-    public function ChangeLocationStepTwo(Nutgram $bot): void
-    {
-        $location = $bot->message()->location;
-
-        $this->estate->update([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude
-        ]);
-
-        $this->setLocationProperties($bot);
-
-        SendPreviewMessageAction::execute($bot, $this->estate->id);
-    }
-
     public function setLocationProperties(Nutgram $bot): void
     {
         $locationiq_key = env('LOCATIONIQ_KEY');

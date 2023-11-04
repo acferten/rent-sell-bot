@@ -39,6 +39,7 @@ class GetFilteredEstatesConversation extends Conversation
 
         if ($this->estates->isEmpty()) {
             $bot->sendMessage('Нет объектов!');
+            $this->end();
         }
 
         $this->element = 0;

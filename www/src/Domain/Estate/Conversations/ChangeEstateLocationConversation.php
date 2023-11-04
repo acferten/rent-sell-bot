@@ -11,11 +11,12 @@ use SergiX44\Nutgram\Nutgram;
 class ChangeEstateLocationConversation extends Conversation
 {
     use ChangeEstateLocation;
+
     public Estate $estate;
 
     public function start(Nutgram $bot): void
     {
-        $this->estate = Estate::where('user_id', $bot->userId())->latest()->first();
+        $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
         $bot->sendMessage(
             text: "<b>Шаг 2 из 3</b>
