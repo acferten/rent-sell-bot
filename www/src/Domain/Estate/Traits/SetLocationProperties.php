@@ -6,7 +6,7 @@ use Domain\Estate\Actions\SendPreviewMessageAction;
 use Illuminate\Support\Facades\Http;
 use SergiX44\Nutgram\Nutgram;
 
-trait ChangeEstateLocation
+trait SetLocationProperties
 {
     public function setLocationProperties(Nutgram $bot): void
     {

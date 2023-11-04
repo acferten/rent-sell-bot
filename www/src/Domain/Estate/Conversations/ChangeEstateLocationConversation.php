@@ -4,13 +4,13 @@ namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Traits\ChangeEstateLocation;
+use Domain\Estate\Traits\SetLocationProperties;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
 
 class ChangeEstateLocationConversation extends Conversation
 {
-    use ChangeEstateLocation;
+    use SetLocationProperties;
 
     public Estate $estate;
 
@@ -37,6 +37,11 @@ class ChangeEstateLocationConversation extends Conversation
         ]);
 
         $this->setLocationProperties($bot);
+
+        // clear previous preview
+        $bot->deleteMessage($bot->userId(), $bot->messageId() - 2);
+        $bot->deleteMessage($bot->userId(), $bot->messageId() - 1);
+        $bot->deleteMessage($bot->userId(), $bot->messageId());
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);
     }

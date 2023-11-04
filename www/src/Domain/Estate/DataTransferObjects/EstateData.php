@@ -62,12 +62,12 @@ class EstateData extends Data
             'id' => (int)$request->estate,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo') ?? $request->file('photo'),
-            'user' => $request->user_id != null ? UserData::from([
+            'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
-            ]) : null,
+            ]),
             'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
     }

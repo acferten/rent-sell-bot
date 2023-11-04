@@ -4,7 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Traits\ChangeEstateLocation;
+use Domain\Estate\Traits\SetLocationProperties;
 use Domain\Shared\Models\Actor\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -14,7 +14,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 
 class CreateEstateMenu extends InlineMenu
 {
-    use ChangeEstateLocation;
+    use SetLocationProperties;
 
     public Estate $estate;
 
