@@ -38,6 +38,6 @@ class User extends Authenticatable
 
     public function getFilters(): EstateFiltersData
     {
-        return EstateFiltersData::from(...json_decode($this->filters));
+        return EstateFiltersData::from(json_decode($this->filters));
     }
 }

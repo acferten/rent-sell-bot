@@ -6,8 +6,9 @@ use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Enums\CancelReasons;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Models\Estate;
+use Domain\Estate\Models\EstatePhoto;
 use Domain\Shared\Enums\MessageText;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -54,8 +55,18 @@ class CancelEstatePublicationMenu extends InlineMenu
         );
 
         $this->estate->delete();
-        $bot->getUserData('preview_message_id') ? $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id')) : null;
 
+        // clear storage files
+        EstatePhoto::where('estate_id', $this->estate->id)->get()
+            ->each(fn($photo) => Storage::disk('photos')->delete($photo->photo));
+        Storage::disk('photos')->delete($this->estate->main_photo);
+        if ($this->estate->video) {
+            Storage::disk('photos')->delete($this->estate->video);
+        }
+
+        if ($bot->getUserData('preview_message_id')) {
+            $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
+        }
         $bot->deleteUserData('estate_id');
         $bot->deleteUserData('preview_message_id');
 

@@ -22,8 +22,17 @@ form.addEventListener('submit', (e) => {
         method: "POST",
         body: formData,
 
-    })
-        .then(() => tg.close())
+    }).then((response) => response.json())
+        .then((json) => {
+            document.getElementById('btn-submit').disabled = false;
+            if (!json?.errors) {
+                tg.close();
+            }
+
+            for (let error in json?.errors) {
+                document.getElementById(`${error}-error`).innerText = json.errors[error][0];
+            }
+        })
 
 })
 

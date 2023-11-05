@@ -32,9 +32,7 @@ class GetFilteredEstatesConversation extends Conversation
                     )
             );
         }
-
-
-        $this->estates = Estate::where('status', EstateStatus::active)->latest()->get();
+        $this->estates = Estate::filter([...$user->getFilters()->all()])->get();
 
         if ($this->estates->isEmpty()) {
             $bot->sendMessage('Нет объектов!');

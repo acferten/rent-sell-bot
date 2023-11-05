@@ -4,6 +4,8 @@ namespace Domain\Estate\Models;
 
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Models\Filters\PriceEnd;
+use Domain\Estate\Models\Filters\PriceStart;
 use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\Reports\Report;
@@ -40,7 +42,8 @@ class Estate extends BaseModel
     use HasFilters;
 
     protected array $filters = [
-
+        PriceEnd::class,
+        PriceStart::class
     ];
 
     protected string $dataClass = EstateData::class;
