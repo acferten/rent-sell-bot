@@ -4,6 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\CancelReasons;
 use Domain\Estate\Models\Estate;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -14,6 +15,8 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function start(Nutgram $bot): void
     {
+        $this->estate = Estate::first($bot->getUserData('estate_id', $bot->userId()));
+
         $this->clearButtons()
             ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите удалить черновик Вашего объявления?",
                 ['parse_mode' => 'html'])
@@ -21,7 +24,7 @@ class CancelEstatePublicationMenu extends InlineMenu
             ->addButtonRow(InlineKeyboardButton::make('◀️ Отмена', callback_data: 'preview@cancel'))
             ->showMenu();
 
-        $this->estate = Estate::first($bot->getUserData('estate_id', $bot->userId()));
+
     }
 
     public function askReason(Nutgram $bot): void
@@ -47,10 +50,10 @@ class CancelEstatePublicationMenu extends InlineMenu
             disable_notification: true
         );
 
-        $this->estate->delete();
-        $bot->deleteMessage($bot->userId(), $bot->messageId());
+        $delete = $this->estate->delete();
+        Log::debug($delete);
         $bot->deleteUserData('estate_id', $bot->userId());
-
+        $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
         $bot->sendMessage('Публикация успешно удалена.', $this->estate->user_id);
         $this->closeMenu();
         $this->end();

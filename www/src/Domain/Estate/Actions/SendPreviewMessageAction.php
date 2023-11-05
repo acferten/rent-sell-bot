@@ -25,7 +25,7 @@ class SendPreviewMessageAction
 
         $preview = PreviewCreatedEstateViewModel::get($estate);
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview,
+        $message = $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview,
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
@@ -38,5 +38,7 @@ class SendPreviewMessageAction
                     callback_data: "change location"))
                 ->addRow(InlineKeyboardButton::make('❌ Отменить публикацию объявления',
                     callback_data: "cancel publish")));
+
+        $bot->setUserData('preview_message_id', $message->message_id, $bot->userId());
     }
 }
