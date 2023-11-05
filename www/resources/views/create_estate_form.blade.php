@@ -126,7 +126,7 @@
                         +
                     </label>
                 </div>
-                <input class="photo-uploader__input" type="file" id="main-photo-hidden" multiple>
+                <input class="photo-uploader__input" type="file" id="main-photo-hidden">
                 <input class="photo-uploader__input" name="main_photo" id="main-photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>

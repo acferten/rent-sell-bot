@@ -130,30 +130,32 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="main_photo">Главная фотография</label>
+            <label class="form-group__title">Главная фотография</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
                     <div class="preview-container__photo" style="background-image: url('/photos/{{$estate_main_photo}}');"></div>
-                    <label for="main_photo" class="photo-uploader__add-button">
+                    <label for="main-photo-hidden" class="photo-uploader__add-button">
                         +
                     </label>
                 </div>
-                <input class="photo-uploader__input" name="main_photo" id="main_photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" type="file" id="main-photo-hidden">
+                <input class="photo-uploader__input" name="main_photo" id="main-photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="photos">Дополнительные фотографии</label>
+            <label class="form-group__title">Дополнительные фотографии</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     @foreach($estate_photos as $photo)
                     <div class="preview-container__photo" style="background-image: url('/photos/{{$photo}}');"></div>
                     @endforeach
-                    <label for="photos" class="photo-uploader__add-button">
+                    <label for="photos-hidden" class="photo-uploader__add-button">
                         +
                     </label>
                 </div>
+                <input class="photo-uploader__input" type="file" id="photos-hidden" multiple>
                 <input class="photo-uploader__input" name="photo[]" id="photos" required type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>

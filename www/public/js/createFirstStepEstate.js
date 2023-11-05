@@ -74,8 +74,8 @@ const mainPhotoContainer = document.getElementById('main-photo-container');
 
 photosInputHidden.addEventListener('change', (event) => {
     addInOtherInputFiles(event.target, photosInput);
-    handleFileUpload(photosInput, photosContainer, 2);
-    removeAddButton(photosInput, 2, photosContainer);
+    handleFileUpload(photosInput, photosContainer, 10);
+    removeAddButton(photosInput, 10, photosContainer);
 })
 
 mainInputHidden.addEventListener('change', (event) => {
