@@ -44,9 +44,11 @@ class CancelEstatePublicationMenu extends InlineMenu
 Причина: {$bot->callbackQuery()->data}",
             '-1001875753187',
             parse_mode: 'html',
+            disable_notification: true
         );
 
         $this->estate->delete();
+        $bot->deleteMessage($bot->userId(), $bot->messageId());
         $bot->deleteUserData('estate_id', $bot->userId());
 
         $bot->sendMessage('Публикация успешно удалена.', $this->estate->user_id);
