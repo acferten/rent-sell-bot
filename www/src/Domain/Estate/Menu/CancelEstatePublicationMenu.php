@@ -15,7 +15,7 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function start(Nutgram $bot): void
     {
-        $this->estate = Estate::first($bot->getUserData('estate_id', $bot->userId()));
+        $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
         $this->clearButtons()
             ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите удалить черновик Вашего объявления?",

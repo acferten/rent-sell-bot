@@ -1,4 +1,4 @@
-const NGROK_URL = "https://7383-77-106-104-230.ngrok-free.app";
+const NGROK_URL = "https://d733-77-106-104-230.ngrok-free.app";
 
 const FORM_FIELDS_ERROR = [
     'main-photo-error',
