@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Menu;
 
+use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Enums\CancelReasons;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Models\Estate;
@@ -53,7 +54,7 @@ class CancelEstatePublicationMenu extends InlineMenu
         );
 
         $this->estate->delete();
-        $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
+        $bot->getUserData('preview_message_id') ? $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id')) : null;
 
         $bot->deleteUserData('estate_id');
         $bot->deleteUserData('preview_message_id');
@@ -65,6 +66,7 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function cancel(Nutgram $bot): void
     {
+        SendPreviewMessageAction::execute($bot, $this->estate->id);
         $this->closeMenu();
     }
 }
