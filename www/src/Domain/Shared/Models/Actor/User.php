@@ -2,6 +2,7 @@
 
 namespace Domain\Shared\Models\Actor;
 
+use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property int $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $username
+ * @property string $phone
+ * @property string $filters
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -25,5 +34,10 @@ class User extends Authenticatable
     public function estates(): HasMany
     {
         return $this->hasMany(Estate::class);
+    }
+
+    public function getFilters(): EstateFiltersData
+    {
+        return EstateFiltersData::from(...json_decode($this->filters));
     }
 }

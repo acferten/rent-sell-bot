@@ -31,6 +31,7 @@ use Lacodix\LaravelModelFilter\Traits\HasFilters;
  * @property string $longitude
  * @property int|string $house_number
  * @property EstateType $type
+ * @property User $user
  * @property Collection $photos
  * @property Collection $includes
  */

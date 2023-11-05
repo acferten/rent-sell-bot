@@ -32,8 +32,7 @@ $bot->onCallbackQueryData('relevant {estate_id}', ConfirmEstateRelevanceAction::
 
 $bot->onText('Данные первого шага успешно переданы! 🥳', CreateEstateMenu::class);
 $bot->onText('Данные первого шага успешно обновлены! 🥳', function (Nutgram $bot) {
-    $bot->deleteMessage($bot->userId(), ($bot->messageId() - 1));
-    $bot->deleteMessage($bot->userId(), $bot->messageId());
+    $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
     SendPreviewMessageAction::execute($bot);
 });
 

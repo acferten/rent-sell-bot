@@ -33,7 +33,6 @@ class GetFilteredEstatesConversation extends Conversation
             );
         }
 
-        EstateFiltersData::from(...json_decode($user->filters));
 
         $this->estates = Estate::where('status', EstateStatus::active)->latest()->get();
 

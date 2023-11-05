@@ -3,7 +3,9 @@
 namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\CancelReasons;
+use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Models\Estate;
+use Domain\Shared\Enums\MessageText;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -18,13 +20,12 @@ class CancelEstatePublicationMenu extends InlineMenu
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
         $this->clearButtons()
-            ->menuText("<b>Подтверждение удаления</b>\n\n Вы действительно хотите удалить черновик Вашего объявления?",
+            ->menuText("<b>Подтверждение удаления</b>\n\n 😔 Вы действительно хотите удалить черновик Вашего объявления? Если возникли какие-то трудности при создании, Вы можете связаться с нашим менеджером.",
                 ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('💣 Удалить', callback_data: 'cancel@askReason'))
+            ->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
             ->addButtonRow(InlineKeyboardButton::make('◀️ Отмена', callback_data: 'preview@cancel'))
             ->showMenu();
-
-
     }
 
     public function askReason(Nutgram $bot): void
@@ -43,17 +44,20 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function delete(Nutgram $bot): void
     {
-        $bot->sendMessage("<b>Пользователь не дошел до финального шага создания объекта</b>
-Причина: {$bot->callbackQuery()->data}",
+        $bot->sendMessage("<b>😞 Пользователь не дошел до финального шага создания объекта</b>
+<b>Причина:</b> {$bot->callbackQuery()->data}
+<b>Пользователь:</b> {$this->estate->user->username}, {$this->estate->user->phone}",
             '-1001875753187',
             parse_mode: 'html',
             disable_notification: true
         );
 
-        $delete = $this->estate->delete();
-        Log::debug($delete);
-        $bot->deleteUserData('estate_id', $bot->userId());
+        $this->estate->delete();
         $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
+
+        $bot->deleteUserData('estate_id');
+        $bot->deleteUserData('preview_message_id');
+
         $bot->sendMessage('Публикация успешно удалена.', $this->estate->user_id);
         $this->closeMenu();
         $this->end();
