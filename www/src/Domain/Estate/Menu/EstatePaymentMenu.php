@@ -1,22 +1,25 @@
 <?php
 
-namespace Domain\Estate\Traits;
+namespace Domain\Estate\Menu;
 
 use Carbon\Carbon;
-use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
-use Domain\Estate\ViewModels\UserEstateViewModel;
-use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
+use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
-use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
-trait HandleEstatePayment
+class EstatePaymentMenu extends InlineMenu
 {
-    public function handlePayment(Nutgram $bot, $estate_id): void
+    public Estate $estate;
+
+    public function start(Nutgram $bot): void
     {
+        $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
+
+        $bot->deleteMessage($bot->userId(), $bot->messageId());
         $this->clearButtons()
             ->menuText("<b>Выбор тарифа</b>\n\nОпределите на какой период вы бы хотели разместить объявление об аренде вашего объекта.\nОбратите внимание, размещая на месяц вы экономите 50%.\n\nПрайс\nНа 5 дней - 10$\nНа 30 дней - 30$\n\nВыберите на какой срок вы бы хотели разместить объявление?",
                 ['parse_mode' => 'html'])
@@ -94,7 +97,9 @@ trait HandleEstatePayment
                     InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"),
                     InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"),
                 ));
-
+        $bot->deleteUserData('estate_id', $this->estate->user_id);
+        $this->closeMenu();
         $this->end();
+
     }
 }

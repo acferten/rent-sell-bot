@@ -62,12 +62,12 @@ class EstateData extends Data
             'id' => (int)$request->estate,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo') ?? $request->file('photo'),
-            'user' => $request->user_id != null ? UserData::from([
+            'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
-            ]) : null,
+            ]),
             'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
     }
@@ -76,18 +76,24 @@ class EstateData extends Data
     {
         return [
             'description' => 'required|string|max:1000',
-            'deal_type' => 'required',
+
+            'deal_type' => 'required|in:Аренда,Продажа',
+            'price' => 'required_if:deal_type,Продажа|int|between:0,100000|nullable',
+            'period' => 'required_if:deal_type,Аренда|string|nullable',
+            'period_price' => 'required_if:deal_type,Аренда|int|nullable',
+
             'bedrooms' => 'required|int|between:1,10',
             'bathrooms' => 'required|int|between:1,10',
             'conditioners' => 'required|int|between:0,25',
-            'main_photo' => 'required',
-            'photo' => 'required',
-            'price' => 'required_if:deal_type,Продажа|int|between:0,100000|nullable',
-            'include_ids' => 'array|exists:includes,id',
+
+            'main_photo' => 'required|image|max:1280',
+            'photo' => 'required|array',
+            'photo*' => 'image|max:1280',
             'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4|max:128000',
-            'period' => 'required_if:deal_type,Аренда|string|nullable',
-            'period_price' => 'required_if:deal_type,Аренда|int|nullable',
+
+            'include_ids' => 'array|exists:includes,id',
             'house_type_id' => 'required|exists:house_types,id',
+
             'user_id' => 'required|min:1',
             'username' => 'required|string',
             'first_name' => 'required|string'

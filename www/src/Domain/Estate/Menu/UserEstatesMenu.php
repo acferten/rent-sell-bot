@@ -2,7 +2,6 @@
 
 namespace Domain\Estate\Menu;
 
-use Domain\Estate\Enums\CreateEstateText;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\UserEstateViewModel;
@@ -104,7 +103,7 @@ class UserEstatesMenu extends InlineMenu
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
-                web_app: new WebAppInfo(CreateEstateText::EstateUrl->value . "/{$this->estates[$this->element]->id}")));
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$this->estates[$this->element]->id}")));
 
         if ($this->estates[$this->element]->status != EstateStatus::pending->value) {
             $this->addButtonRow(InlineKeyboardButton::make('Изменить статус',

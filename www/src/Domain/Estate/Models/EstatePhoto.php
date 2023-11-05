@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $estate_id
  * @property string $photo
+ * @property Estate $estate
  */
 class EstatePhoto extends BaseModel
 {
@@ -19,7 +20,6 @@ class EstatePhoto extends BaseModel
         'estate_id'
     ];
 
-    // Relations
     public function estate(): BelongsTo
     {
         return $this->belongsTo(Estate::class);

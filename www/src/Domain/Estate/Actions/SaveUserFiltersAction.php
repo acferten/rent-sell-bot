@@ -7,7 +7,7 @@ use Domain\Shared\Models\Actor\User;
 
 class SaveUserFiltersAction
 {
-    public static function execute(EstateFiltersData $data)
+    public static function execute(EstateFiltersData $data): void
     {
         User::updateOrCreate(
             [

@@ -4,9 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Traits\CancelEstatePublication;
-use Domain\Estate\Traits\ChangeEstateLocation;
-use Domain\Estate\Traits\HandleEstatePayment;
+use Domain\Estate\Traits\SetLocationProperties;
 use Domain\Shared\Models\Actor\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
@@ -16,9 +14,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\ReplyKeyboardRemove;
 
 class CreateEstateMenu extends InlineMenu
 {
-    use ChangeEstateLocation;
-    use HandleEstatePayment;
-    use CancelEstatePublication;
+    use SetLocationProperties;
 
     public Estate $estate;
 
@@ -58,9 +54,7 @@ class CreateEstateMenu extends InlineMenu
     {
         $location = $bot->message()->location;
 
-        $this->estate = Estate::where(['user_id' => $bot->userId()])
-            ->latest()->first();
-
+        $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
         $this->estate->update([
             'latitude' => $location->latitude,
             'longitude' => $location->longitude
