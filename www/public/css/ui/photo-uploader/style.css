@@ -5,6 +5,7 @@
 .photo-uploader__add-button {
     display: flex;
     justify-content: center;
+    user-select: none;
     cursor: pointer;
     align-items: center;
     font-size: 32px;

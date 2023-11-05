@@ -119,7 +119,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="main_photo">Главная фотография</label>
+            <label class="form-group__title">Главная фотография</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
                     <label for="main-photo-hidden" class="photo-uploader__add-button">
@@ -127,13 +127,13 @@
                     </label>
                 </div>
                 <input class="photo-uploader__input" type="file" id="main-photo-hidden" multiple>
-                <input class="photo-uploader__input" name="main_photo" id="main_photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" name="main_photo" id="main-photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main-photo-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="photos">Дополнительные фотографии</label>
+            <label class="form-group__title">Дополнительные фотографии</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     <label for="photos-hidden" class="photo-uploader__add-button">

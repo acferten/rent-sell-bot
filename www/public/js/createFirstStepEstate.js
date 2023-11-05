@@ -67,7 +67,7 @@ const photosInput = document.getElementById('photos');
 const photosInputHidden = document.getElementById('photos-hidden');
 const photosContainer = document.getElementById('photos-container');
 
-const mainPhotoInput = document.getElementById('main_photo');
+const mainPhotoInput = document.getElementById('main-photo');
 const mainInputHidden = document.getElementById('main-photo-hidden');
 const mainPhotoContainer = document.getElementById('main-photo-container');
 
@@ -114,10 +114,10 @@ function handleFileUpload(photoInput, photoContainer, maxElem) {
 function removeAddButton(input, maxElems, container) {
     let isMax = input.files.length >= maxElems;
 
-    if (isMax) {
-        container.lastChild && container.lastChild.remove();
+    if (isMax && container.lastChild?.tagName === 'LABEL') {
+        container.lastChild.remove();
     } else if (
-        (input.files.length < maxElems && !container.lastChild)
+        (input.files.length < maxElems && container.lastChild?.tagName !== 'LABEL')
     ) {
         const label = document.createElement('label');
         label.setAttribute('for', `${input.getAttribute('id')}-hidden`);
