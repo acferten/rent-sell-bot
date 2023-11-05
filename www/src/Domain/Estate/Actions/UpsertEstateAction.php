@@ -29,7 +29,8 @@ class UpsertEstateAction
                 ->each(fn($photo) => Storage::disk('photos')->delete($photo->photo));
             $estate_photos->delete();
             Storage::disk('photos')->delete(Estate::find($data->id)->main_photo);
-            Storage::disk('photos')->delete(Estate::find($data->id)->video);
+            Estate::find($data->id)->video ? Storage::disk('photos')->delete(Estate::find($data->id)->video) :
+                null;
         }
 
         $estate = Estate::updateOrCreate(

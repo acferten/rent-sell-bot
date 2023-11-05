@@ -3,9 +3,11 @@
 namespace Domain\Estate\Menu;
 
 use Carbon\Carbon;
+use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
+use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -19,12 +21,15 @@ class EstatePaymentMenu extends InlineMenu
     {
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
-        $bot->deleteMessage($bot->userId(), $bot->messageId());
+        $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
+
         $this->clearButtons()
             ->menuText("<b>Выбор тарифа</b>\n\nОпределите на какой период вы бы хотели разместить объявление об аренде вашего объекта.\nОбратите внимание, размещая на месяц вы экономите 50%.\n\nПрайс\nНа 5 дней - 10$\nНа 30 дней - 30$\n\nВыберите на какой срок вы бы хотели разместить объявление?",
                 ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('На 5 дней', callback_data: '5days@handlePaymentPlan'))
             ->addButtonRow(InlineKeyboardButton::make('На 30 дней', callback_data: '30days@handlePaymentPlan'))
+            ->addButtonRow(InlineKeyboardButton::make('Отмена публикации', callback_data: 'cancel publish'))
+            ->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
             ->showMenu();
     }
 

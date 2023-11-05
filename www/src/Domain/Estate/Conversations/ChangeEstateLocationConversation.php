@@ -39,9 +39,7 @@ class ChangeEstateLocationConversation extends Conversation
         $this->setLocationProperties($bot);
 
         // clear previous preview
-        $bot->deleteMessage($bot->userId(), $bot->messageId() - 2);
-        $bot->deleteMessage($bot->userId(), $bot->messageId() - 1);
-        $bot->deleteMessage($bot->userId(), $bot->messageId());
+        $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);
     }
