@@ -15,7 +15,7 @@ class SaveUserFiltersAction
             ],
             [
                 ...$data->user->all(),
-                'filters' => (string)json_encode($data->all())
+                'filters' => (string)json_encode($data->except('user')->all())
             ]
         );
     }

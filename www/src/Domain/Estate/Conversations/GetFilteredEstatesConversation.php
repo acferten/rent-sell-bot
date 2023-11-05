@@ -2,11 +2,10 @@
 
 namespace Domain\Estate\Conversations;
 
-use Domain\Estate\DataTransferObjects\EstateFiltersData;
-use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\Actor\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
@@ -32,7 +31,23 @@ class GetFilteredEstatesConversation extends Conversation
                     )
             );
         }
-        $this->estates = Estate::filter([...$user->getFilters()->all()])->get();
+        $filters = $user->getFilters()->all();
+        $estates = Estate::filter([...$filters]);
+
+        if (!is_null($filters['house_type_ids'])) {
+            $estates->whereHas('type', function (Builder $query) use ($filters) {
+                $query->whereIn('id', $filters['house_type_ids']);
+            });
+        }
+
+        if (!is_null($filters['include_ids'])) {
+            $estates->whereHas('includes', function (Builder $query) use ($filters) {
+                $query->whereIn('id', $filters['include_ids']);
+            });
+        }
+
+        $this->estates = $estates->get();
+        unset($estates);
 
         if ($this->estates->isEmpty()) {
             $bot->sendMessage('Нет объектов!');
@@ -40,7 +55,7 @@ class GetFilteredEstatesConversation extends Conversation
         }
 
         $this->element = 0;
-//        $this->getEstateLayout($bot);
+        $this->getEstateLayout($bot);
     }
 
     public function handleNext(Nutgram $bot): void
