@@ -58,6 +58,13 @@
             </div>
         </div>
     </div>
+    @if ($estate_video)
+    <div class="view-page__group">
+        <hr>
+        <label class="form-group__title">Видео объекта</label>
+        <video class="view-video" src="/photos/{{$estate_video}}" controls preload="metadata"></video>
+    </div>
+    @endif
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Условия сделки</label>

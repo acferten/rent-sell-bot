@@ -17,7 +17,7 @@
     <title>Фильтрация объектов</title>
 </head>
 <body>
-<div class="container mt-4 view-page">
+<div class="container mt-5">
     <h1 class="page-title">Фильтрация объектов</h1>
     <form method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
@@ -39,6 +39,7 @@
                     </div>
                 @endforeach
             </div>
+            <div class="invalid-field" id="deal_type-error"></div>
         </div>
 
         <div class="form-group d-none" id="period-container">
@@ -80,6 +81,42 @@
                     </div>
                 @endforeach
             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title" for="country">Страна</label>
+            <select id="country" name="country" class="form-select form-control"
+                    aria-label="Default select example">
+                <option selected>Выберите страну</option>
+                @foreach($countries as $country)
+                    <option value="{{$country}}">{{$country}}</option>
+                @endforeach
+            </select>
+            <div class="invalid-field" id="country-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title" for="town">Город</label>
+            <select id="town" name="town" class="form-select form-control"
+                    aria-label="Default select example">
+                <option selected>Выберите город</option>
+                @foreach($towns as $town)
+                    <option value="{{$town}}">{{$town}}</option>
+                @endforeach
+            </select>
+            <div class="invalid-field" id="conditioners-error"></div>
+
+        </div>
+        <div class="form-group">
+            <label class="form-group__title" for="district">Район</label>
+            <select id="district" name="district" class="form-select form-control"
+                    aria-label="Default select example">
+                <option selected>Выберите район</option>
+                @foreach($districts as $district)
+                    <option value="{{$district}}">{{$district}}</option>
+                @endforeach
+            </select>
+            <div class="invalid-field" id="conditioners-error"></div>
         </div>
 
         <div class="form-group">

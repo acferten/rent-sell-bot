@@ -22,7 +22,9 @@ class EstateFiltersController extends Controller
             'deal_types' => DealTypes::cases(),
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases(),
-            'countries' => Estate::all()->map(fn($estate) => $estate->country),
+            'countries' => Estate::where('status', 'Активно')->distinct()->pluck('country'),
+            'towns' => Estate::where('status', 'Активно')->distinct()->pluck('town'),
+            'districts' => Estate::where('status', 'Активно')->distinct()->pluck('district'),
         ];
         return view('estate_filters', $data);
     }
