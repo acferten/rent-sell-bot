@@ -22,7 +22,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`${NGROK_URL}/estate/`, {
+    fetch(`${NGROK_URL}/estate`, {
         headers: {
             Accept: "application/json"
         },

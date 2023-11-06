@@ -35,32 +35,26 @@ class GetEstatesConversation extends Conversation
     public function handleNext(Nutgram $bot): void
     {
         if (!$bot->isCallbackQuery()) {
-
             $this->getEstateLayout($bot);
-
-        } else if ($bot->callbackQuery()->data == 'next') {
-
-            $bot->answerCallbackQuery();
-            $this->element += 1;
-            array_key_exists($this->element + 1, $this->estates->toArray()) ?
-                $this->getEstateLayout($bot) :
-                $this->getLastEstateLayout($bot);
-
-        } else if ($bot->callbackQuery()->data == 'report') {
-
         }
+
+        $bot->answerCallbackQuery();
+        $this->element += 1;
+        array_key_exists($this->element + 1, $this->estates->toArray()) ?
+            $this->getEstateLayout($bot) :
+            $this->getLastEstateLayout($bot);
     }
 
     public function getEstateLayout(Nutgram $bot): void
     {
         $count = count($this->estates);
-        $element = $this->element + 1;
+        $current_element = $this->element + 1;
         $estate = $this->estates[$this->element];
         $estate->update([
             'views' => $estate->views + 1
         ]);
 
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
+        $preview = "<b>Объявление {$current_element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
 
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
@@ -70,7 +64,7 @@ class GetEstatesConversation extends Conversation
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
-                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
+                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report ' . $estate->id))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 

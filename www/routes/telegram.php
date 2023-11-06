@@ -11,9 +11,12 @@ use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\Menu\CancelEstatePublicationMenu;
 use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Estate\Menu\EstatePaymentMenu;
+use Domain\Estate\Menu\ReportEstateMenu;
 use Domain\Estate\Menu\UserEstatesMenu;
 use Domain\Shared\Menu\StartMenu;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 
 $bot->onCommand('start', StartMenu::class);
@@ -26,6 +29,8 @@ $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::c
 $bot->onCallbackQueryData('cancel publish', CancelEstatePublicationMenu::class);
 $bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 
+$bot->onCallbackQueryData('report {estate_id}', ReportEstateMenu::class);
+
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
 $bot->onCallbackQueryData('relevant {estate_id}', ConfirmEstateRelevanceAction::class);
@@ -36,3 +41,14 @@ $bot->onText('Данные первого шага успешно обновле
     SendPreviewMessageAction::execute($bot);
 });
 
+$bot->onException(function (Nutgram $bot, \Throwable $exception) {
+    $bot->sendMessage($exception->getMessage());
+    Log::error($exception);
+    $bot->sendMessage('Whoops!');
+});
+
+$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
+    $bot->sendMessage($exception->getMessage());
+    $bot->sendMessage($exception->getCode());
+    Log::error($exception);
+});
