@@ -18,13 +18,12 @@ class PreviewCreatedEstateViewModel implements ToStringInterface
         $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
 
         $preview = "Все получилось! 🥳\nВаш объект:\n\n" .
-            "<b>Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>Включено в стоимость:</b> {$data->includes}\n" .
-            "<b>Тип недвижимости:</b>  {$estate_type}\n" .
-            "<b>Описание:</b> {$data->description}\n\n";
+            "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
+            "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
+            "<b>🏡 Тип недвижимости:</b> {$estate_type}\n\n";
 
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
-            : "<b>Цена:</b> {$data->price}\n";
+        $preview .= $data->deal_type == DealTypes::rent ? "<b>💰 Цена:</b> {$periods} - {$data->period_price}\n"
+            : "<b>💰 Цена:</b> {$data->price}\n";
 
         return $preview;
     }
