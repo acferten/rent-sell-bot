@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Conversations;
 
+
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
@@ -33,7 +34,11 @@ class GetEstatesConversation extends Conversation
 
     public function handleNext(Nutgram $bot): void
     {
-        $bot->callbackQuery()->data;
+        if (!$bot->isCallbackQuery()) {
+            $this->getEstateLayout($bot);
+            return;
+        }
+
         $bot->answerCallbackQuery();
         $this->element += 1;
 
@@ -55,13 +60,15 @@ class GetEstatesConversation extends Conversation
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
         $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('👉 Подробнее',
+                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🙋‍♂️ Написать', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 
         $this->next('handleNext');
