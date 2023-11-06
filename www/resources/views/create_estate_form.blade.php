@@ -130,7 +130,7 @@
                 <input class="photo-uploader__input" name="main_photo" id="main-photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
-            <div class="invalid-field" id="main-photo-error"></div>
+            <div class="invalid-field" id="main_photo-error"></div>
         </div>
         <div class="form-group">
             <label class="form-group__title">Дополнительные фотографии</label>

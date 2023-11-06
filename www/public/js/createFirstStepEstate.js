@@ -37,6 +37,9 @@ form.addEventListener('submit', (e) => {
             for (let error in json?.errors) {
                 document.getElementById(`${error}-error`).innerText = json.errors[error][0];
             }
+
+            let scrollDiv = document.getElementById(`${Object.keys(json?.errors)[0]}-error`).offsetTop;
+            window.scrollTo({ top: scrollDiv-70, behavior: 'smooth'});
         })
 })
 
