@@ -15,13 +15,15 @@ class EstateFiltersData extends Data
         public readonly ?UserData  $user,
         public readonly null|array $periods,
         public readonly ?string    $deal_type,
+        public readonly ?string    $town,
+        public readonly ?string    $country,
+        public readonly ?string    $district,
         public readonly null|int   $price_start,
         public readonly null|int   $price_end,
         public readonly ?array     $house_type_ids,
         public readonly null|array $include_ids,
     )
-    {
-    }
+    {}
 
     public static function fromModel(Estate $estate): self
     {

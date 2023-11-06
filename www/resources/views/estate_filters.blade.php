@@ -87,36 +87,26 @@
             <label class="form-group__title" for="country">Страна</label>
             <select id="country" name="country" class="form-select form-control"
                     aria-label="Default select example">
-                <option selected>Выберите страну</option>
-                @foreach($countries as $country)
-                    <option value="{{$country}}">{{$country}}</option>
-                @endforeach
+                <option value="" selected>Выберите страну</option>
             </select>
-            <div class="invalid-field" id="country-error"></div>
         </div>
-
-        <div class="form-group">
+        <div class="form-group state-group state-group--hidden">
+            <label class="form-group__title" for="state">Регион</label>
+            <select id="state" name="state" class="form-select form-control"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="form-group county-group county-group--hidden">
+            <label class="form-group__title" for="county">Округ</label>
+            <select id="county" name="county" class="form-select form-control"
+                    aria-label="Default select example">
+            </select>
+        </div>
+        <div class="form-group town-group town-group--hidden">
             <label class="form-group__title" for="town">Город</label>
             <select id="town" name="town" class="form-select form-control"
                     aria-label="Default select example">
-                <option selected>Выберите город</option>
-                @foreach($towns as $town)
-                    <option value="{{$town}}">{{$town}}</option>
-                @endforeach
             </select>
-            <div class="invalid-field" id="conditioners-error"></div>
-
-        </div>
-        <div class="form-group">
-            <label class="form-group__title" for="district">Район</label>
-            <select id="district" name="district" class="form-select form-control"
-                    aria-label="Default select example">
-                <option selected>Выберите район</option>
-                @foreach($districts as $district)
-                    <option value="{{$district}}">{{$district}}</option>
-                @endforeach
-            </select>
-            <div class="invalid-field" id="conditioners-error"></div>
         </div>
 
         <div class="form-group">

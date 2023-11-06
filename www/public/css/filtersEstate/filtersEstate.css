@@ -189,3 +189,15 @@ input[type="checkbox"]:checked + label .radio-label {
 }
 
 /* filter estate */
+
+.state-group--hidden {
+    display: none;
+}
+
+.county-group--hidden {
+    display: none;
+}
+
+.town-group--hidden {
+    display: none;
+}

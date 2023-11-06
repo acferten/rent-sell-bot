@@ -6,6 +6,115 @@ document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 
+// dynamic location
+
+const countrySelect = document.getElementById('country');
+const stateSelect = document.getElementById('state');
+const countySelect = document.getElementById('county');
+const townSelect = document.getElementById('town');
+
+fetch(`${NGROK_URL}/estate/countries`, {
+    headers: {
+        Accept: "application/json"
+    },
+    method: "GET",
+}).then(response => response.json()).then(countries => {
+    const countrySelect = document.getElementById('country');
+    countries.forEach((country) => {
+        let option = document.createElement('option');
+        option.value = country;
+        option.innerText = country;
+        countrySelect.appendChild(option);
+    })
+})
+
+countrySelect.addEventListener('change', (event) => {
+    if (!event.target.value) {
+        showSelects(countrySelect, 'state-group');
+        showSelects(false, 'county-group');
+        showSelects(false, 'town-group');
+        stateSelect.innerHTML = "<option value='' selected>Выберите район</option>";
+        countySelect.innerHTML = "<option value='' selected>Выберите округ</option>";
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        return;
+    }
+    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states`, {
+        headers: {
+            Accept: "application/json"
+        },
+        method: "GET",
+    }).then(response => response.json()).then(states => {
+        showSelects(countrySelect, 'state-group');
+        showSelects(false, 'county-group');
+        showSelects(false, 'town-group');
+        stateSelect.innerHTML = "<option value='' selected>Выберите район</option>";
+        countySelect.innerHTML = "<option value='' selected>Выберите округ</option>";
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        states.forEach((state) => {
+            let option = document.createElement('option');
+            option.value = state;
+            option.innerText = state;
+            stateSelect.appendChild(option);
+        })
+    })
+})
+
+stateSelect.addEventListener('change', (event) => {
+    if (!event.target.value) {
+        showSelects(stateSelect, 'county-group');
+        showSelects(false, 'town-group');
+        countySelect.innerHTML = "<option value='' selected>Выберите округ</option>";
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        return;
+    }
+    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states/${stateSelect.value}/counties`, {
+        headers: {
+            Accept: "application/json"
+        },
+        method: "GET",
+    }).then(response => response.json()).then(counties => {
+        showSelects(stateSelect, 'county-group');
+        showSelects(false, 'town-group');
+        countySelect.innerHTML = "<option value='' selected>Выберите округ</option>";
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        counties.forEach((county) => {
+            let option = document.createElement('option');
+            option.value = county;
+            option.innerText = county;
+            countySelect.appendChild(option);
+        })
+    })
+})
+
+countySelect.addEventListener('change', (event) => {
+    if (!event.target.value) {
+        showSelects(countySelect, 'town-group');
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        return;
+    }
+    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states/${stateSelect.value}/counties/${countySelect.value}/towns`, {
+        headers: {
+            Accept: "application/json"
+        },
+        method: "GET",
+    }).then(response => response.json()).then(towns => {
+        showSelects(countySelect, 'town-group');
+        townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
+        towns.forEach((town) => {
+            let option = document.createElement('option');
+            option.value = town;
+            option.innerText = town;
+            townSelect.appendChild(option);
+        })
+    })
+})
+
+function showSelects(currentSelect, nextGroup) {
+    currentSelect.value ? document.getElementsByClassName(`${nextGroup}`)[0].classList.remove(`${nextGroup}--hidden`) : document.getElementsByClassName(`${nextGroup}`)[0].classList.add(`${nextGroup}--hidden`)
+}
+
+// form to send filters
+
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
