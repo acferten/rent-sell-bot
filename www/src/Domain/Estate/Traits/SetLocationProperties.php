@@ -4,6 +4,7 @@ namespace Domain\Estate\Traits;
 
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 
 trait SetLocationProperties
@@ -20,11 +21,14 @@ trait SetLocationProperties
         }
 
         $response = $response->get('address');
+        Log::debug($response);
 
         $this->estate->update([
             'country' => $response['country'] ?? null,
-            'town' => $response['city'] ?? ($response['state'] ?? null),
-            'district' => $response['city_district'] ?? ($response['county'] ?? null),
+            'state' => $response['state'] ?? null,
+            'county' => $response['county'] ?? null,
+            'town' => $response['city'] ?? ($response['town'] ?? ($response['village'] ?? null)),
+            'district' => $response['city_district'] ?? null,
             'street' => $response['road'] ?? null,
         ]);
 

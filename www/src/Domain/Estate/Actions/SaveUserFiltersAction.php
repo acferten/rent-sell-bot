@@ -7,9 +7,9 @@ use Domain\Shared\Models\Actor\User;
 
 class SaveUserFiltersAction
 {
-    public static function execute(EstateFiltersData $data): void
+    public static function execute(EstateFiltersData $data)
     {
-        User::updateOrCreate(
+        $user = User::updateOrCreate(
             [
                 'id' => $data->user->id
             ],
@@ -18,5 +18,7 @@ class SaveUserFiltersAction
                 'filters' => (string)json_encode($data->except('user')->all())
             ]
         );
+
+        return $user;
     }
 }

@@ -35,17 +35,19 @@ class GetEstatesConversation extends Conversation
     public function handleNext(Nutgram $bot): void
     {
         if (!$bot->isCallbackQuery()) {
-            $this->getEstateLayout($bot);
-            return;
-        }
 
-        $bot->answerCallbackQuery();
-        $this->element += 1;
-
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
             $this->getEstateLayout($bot);
-        } else {
-            $this->getLastEstateLayout($bot);
+
+        } else if ($bot->callbackQuery()->data == 'next') {
+
+            $bot->answerCallbackQuery();
+            $this->element += 1;
+            array_key_exists($this->element + 1, $this->estates->toArray()) ?
+                $this->getEstateLayout($bot) :
+                $this->getLastEstateLayout($bot);
+
+        } else if ($bot->callbackQuery()->data == 'report') {
+
         }
     }
 
@@ -68,6 +70,7 @@ class GetEstatesConversation extends Conversation
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 

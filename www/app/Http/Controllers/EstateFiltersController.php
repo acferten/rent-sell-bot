@@ -27,11 +27,11 @@ class EstateFiltersController extends Controller
         return view('estate_filters', $data);
     }
 
-    public function store(Request $request): void
+    public function store(Request $request)
     {
         $request->validate(EstateFiltersData::rules());
         $data = EstateFiltersData::fromRequest($request);
 
-        SaveUserFiltersAction::execute($data);
+        return SaveUserFiltersAction::execute($data);
     }
 }
