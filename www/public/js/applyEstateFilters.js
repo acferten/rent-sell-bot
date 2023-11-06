@@ -9,9 +9,11 @@ document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
 let form = document.getElementById('form');
 
 form.addEventListener('submit', (e) => {
-
     e.preventDefault();
     document.getElementById('btn-submit').disabled = true;
+    FORM_FIELDS_ERROR.forEach((elem) => {
+        document.getElementById(elem) ? document.getElementById(elem).innerText = "" : null;
+    })
 
     const formData = new FormData(e.currentTarget);
 
@@ -30,7 +32,15 @@ form.addEventListener('submit', (e) => {
             }
 
             for (let error in json?.errors) {
-                document.getElementById(`${error}-error`).innerText = json.errors[error][0];
+                document.getElementById(`${error}-error`).innerText = json?.errors[error][0];
+            }
+
+            for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
+                if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
+                    let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).offsetTop;
+                    window.scrollTo({top: scrollDiv - 110, behavior: 'smooth'});
+                    break;
+                }
             }
         })
 

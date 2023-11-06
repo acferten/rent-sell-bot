@@ -114,6 +114,7 @@
 }
 
 /* Estate includes styles */
+
 .estate_includes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -201,5 +202,13 @@
     color: var(--tg-theme-text-color);
     font-size: 18px;
     font-weight: 600;
+}
+
+/* Video */
+
+.view-video {
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-height: 300px;
 }
 
