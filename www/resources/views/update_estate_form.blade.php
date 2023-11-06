@@ -101,7 +101,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
             <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example"
-                    required>
+                    >
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bedrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -111,7 +111,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
             <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example"
-                    required>
+                    >
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bathrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -121,7 +121,7 @@
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
             <select id="conditioners" name="conditioners" class="form-select form-control"
-                    aria-label="Default select example" required>
+                    aria-label="Default select example" >
                 @for($i = 0; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->conditioners == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -139,7 +139,7 @@
                     </label>
                 </div>
                 <input class="photo-uploader__input" type="file" id="main-photo-hidden">
-                <input class="photo-uploader__input" name="main_photo" id="main-photo" required type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" name="main_photo" id="main-photo"  type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main_photo-error"></div>
@@ -156,7 +156,7 @@
                     </label>
                 </div>
                 <input class="photo-uploader__input" type="file" id="photos-hidden" multiple>
-                <input class="photo-uploader__input" name="photo[]" id="photos" required type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" name="photo[]" id="photos"  type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="photo-error"></div>
