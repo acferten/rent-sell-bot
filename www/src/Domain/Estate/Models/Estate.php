@@ -4,9 +4,13 @@ namespace Domain\Estate\Models;
 
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Models\Filters\Country;
+use Domain\Estate\Models\Filters\County;
 use Domain\Estate\Models\Filters\DealType;
 use Domain\Estate\Models\Filters\PriceEnd;
 use Domain\Estate\Models\Filters\PriceStart;
+use Domain\Estate\Models\Filters\State;
+use Domain\Estate\Models\Filters\Town;
 use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
 use Domain\Shared\Models\Reports\Report;
@@ -45,7 +49,11 @@ class Estate extends BaseModel
     protected array $filters = [
         PriceEnd::class,
         PriceStart::class,
-        DealType::class
+        DealType::class,
+        Country::class,
+        State::class,
+        County::class,
+        Town::class,
     ];
 
     protected string $dataClass = EstateData::class;

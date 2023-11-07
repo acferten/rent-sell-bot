@@ -29,7 +29,9 @@ class GetEstatesConversation extends Conversation
         }
 
         $this->element = 0;
-        $this->getEstateLayout($bot);
+        array_key_exists($this->element + 1, $this->estates->toArray()) ?
+            $this->getEstateLayout($bot) :
+            $this->getLastEstateLayout($bot);
     }
 
     public function handleNext(Nutgram $bot): void

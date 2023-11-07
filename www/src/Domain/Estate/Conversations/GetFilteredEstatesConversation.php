@@ -30,6 +30,7 @@ class GetFilteredEstatesConversation extends Conversation
                         web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
                     )
             );
+            return;
         }
         $filters = $user->getFilters()->all();
         $estates = Estate::filter([...$filters]);
@@ -42,7 +43,7 @@ class GetFilteredEstatesConversation extends Conversation
 
         if (!is_null($filters['include_ids'])) {
             $estates->whereHas('includes', function (Builder $query) use ($filters) {
-                $query->whereIn('id', $filters['include_ids']);
+                $query->whereIn('estate_includes.id', $filters['include_ids']);
             });
         }
 
@@ -52,6 +53,7 @@ class GetFilteredEstatesConversation extends Conversation
         if ($this->estates->isEmpty()) {
             $bot->sendMessage('Нет объектов!');
             $this->end();
+            return;
         }
 
         $this->element = 0;
