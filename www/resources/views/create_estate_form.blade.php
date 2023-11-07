@@ -62,19 +62,15 @@
             <div class="invalid-field" id="period-error"></div>
         </div>
 
-        <div class="form-group d-none" id="month_price-container">
-            <label class="form-group__title" for="month_price">Цена за месяц</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="month_price"
-                   id="month_price">
-            <div class="invalid-field" id="period_price-error"></div>
-        </div>
 
-        <div class="form-group d-none" id="year_price-container">
-            <label class="form-group__title" for="year_price">Цена за год</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="year_price"
-                   id="year_price">
+        @foreach($price_periods as $price_period)
+        <div class="form-group d-none" id="{{$price_period->value}}_price-container">
+            <label class="form-group__title" for="{{$price_period->value}}_price">Цена за {{$price_period->value}} аренды</label>
+            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{$price_period->value}}_price"
+                   id="{{$price_period->value}}_price">
             <div class="invalid-field" id="period_price-error"></div>
         </div>
+        @endforeach
 
         <div class="form-group">
             <p class="form-group__title">Вид недвижимости</p>

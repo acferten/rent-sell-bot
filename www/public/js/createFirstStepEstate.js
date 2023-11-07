@@ -33,7 +33,11 @@ form.addEventListener('submit', (e) => {
             formatPeriods.push({period: period, price: yearPrice})
         }
     })
-    formData.set('periods', JSON.stringify(formatPeriods));
+    formatPeriods.forEach((period) => {
+        formData.append('periods[]', JSON.stringify(period))
+    })
+
+    console.log(formData);
 
     fetch(`${NGROK_URL}/estate`, {
         headers: {
