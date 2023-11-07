@@ -138,17 +138,20 @@ form.addEventListener('submit', (e) => {
             document.getElementById('btn-submit').disabled = false;
             if (!json?.errors) {
                 tg.close();
+                return;
             }
 
-            for (let error in json?.errors) {
-                document.getElementById(`${error}-error`).innerText = json?.errors[error][0];
-            }
+            if (json?.errors) {
+                for (let error in json?.errors) {
+                    document.getElementById(`${error}-error`).innerText = json?.errors[error][0];
+                }
 
-            for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
-                if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
-                    let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).offsetTop;
-                    window.scrollTo({top: scrollDiv - 110, behavior: 'smooth'});
-                    break;
+                for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
+                    if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
+                        let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).offsetTop;
+                        window.scrollTo({top: scrollDiv - 110, behavior: 'smooth'});
+                        break;
+                    }
                 }
             }
         })
