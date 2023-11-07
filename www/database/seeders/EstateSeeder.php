@@ -21,7 +21,7 @@ class EstateSeeder extends Seeder
                 'user_id' => 1,
                 'deal_type' => fake()->randomElement(DealTypes::cases()),
                 'video' => null,
-                'main_photo' => fake()->randomElement(['1.jpg', '2.jpg']),
+                'main_photo' => fake()->randomElement(['room1.jpg', 'room2.jpg']),
                 'bedrooms' => fake()->randomNumber(1),
                 'status' => 'Активно',
                 'bathrooms' => fake()->randomNumber(1),

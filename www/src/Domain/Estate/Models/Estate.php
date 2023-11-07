@@ -40,6 +40,7 @@ use Lacodix\LaravelModelFilter\Traits\HasFilters;
  * @property EstateType $type
  * @property User $user
  * @property Collection $photos
+ * @property Collection $prices
  * @property Collection $includes
  */
 class Estate extends BaseModel

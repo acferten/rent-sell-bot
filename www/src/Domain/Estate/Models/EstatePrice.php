@@ -2,7 +2,7 @@
 
 namespace Domain\Estate\Models;
 
-use Domain\Estate\DataTransferObjects\EstatePriceData;
+use Domain\Estate\DataTransferObjects\RentPeriodsData;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class EstatePrice extends BaseModel
 {
-    protected string $dataClass = EstatePriceData::class;
+    protected string $dataClass = RentPeriodsData::class;
 
     protected $table = 'estate_prices';
 

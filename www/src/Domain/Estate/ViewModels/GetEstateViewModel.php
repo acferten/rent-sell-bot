@@ -7,6 +7,7 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateType;
 use Domain\Shared\ViewModels\ToStringInterface;
+use Illuminate\Support\Facades\Log;
 
 class GetEstateViewModel implements ToStringInterface
 {
@@ -14,16 +15,20 @@ class GetEstateViewModel implements ToStringInterface
     {
         $data = EstateData::from($estate);
         $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
-        $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
+        $price = '';
 
-        $preview = "🤝 {$data->deal_type->value}\n" .
+        if ($data->deal_type == DealTypes::rent) {
+            foreach ($data->periods as $rent_periods) {
+                $price .= "<b>💰 Цена за {$rent_periods->period->value}:</b> {$rent_periods->price}\n";
+            }
+        } else {
+            $price = "<b>💰 Цена:</b> {$data->price}";
+        }
+
+        return "🤝 {$data->deal_type->value}\n" .
             "🏡 {$estate_type}\n" .
             "🛏 {$data->bedrooms} спальни\n\n" .
-            "<b>📍 Локация:</b> {$data->district}\n";
-
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>💰 Цена:</b> {$periods} - {$data->period_price}\n"
-            : "<b>💰 Цена:</b> {$data->price}\n";
-
-        return $preview;
+            "<b>📍Локация:</b > {$data->district}\n" .
+            "{$price}\n";
     }
 }

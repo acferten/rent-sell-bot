@@ -49,11 +49,8 @@ class UpsertEstateAction
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
         if ($data->deal_type == DealTypes::rent) {
-            EstatePrice::create([
-                'period' => $data->period,
-                'price' => $data->period_price,
-                'estate_id' => $estate->id
-            ]);
+            $estate->prices()->delete();
+            $data->periods->each(fn($rent_price) => $estate->prices()->save(new EstatePrice($rent_price->all())));
         }
 
         if ($data->photo) {

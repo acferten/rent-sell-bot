@@ -4,14 +4,15 @@
 use Domain\Estate\Actions\ApproveEstateAction;
 use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
 use Domain\Estate\Actions\DeclineEstateAction;
+use Domain\Estate\Actions\ReportEstateAction;
 use Domain\Estate\Actions\SendPreviewMessageAction;
+use Domain\Estate\Actions\SendReportEstateAction;
 use Domain\Estate\Conversations\ChangeEstateLocationConversation;
 use Domain\Estate\Conversations\GetEstatesConversation;
 use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\Menu\CancelEstatePublicationMenu;
 use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Estate\Menu\EstatePaymentMenu;
-use Domain\Estate\Menu\ReportEstateMenu;
 use Domain\Estate\Menu\UserEstatesMenu;
 use Domain\Shared\Menu\StartMenu;
 use Illuminate\Support\Facades\Log;
@@ -29,7 +30,9 @@ $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::c
 $bot->onCallbackQueryData('cancel publish', CancelEstatePublicationMenu::class);
 $bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 
-$bot->onCallbackQueryData('report {estate_id}', ReportEstateMenu::class);
+//$bot->onCallbackQueryData('report {estate_id}', ReportEstateAction::class);
+//$bot->onCallbackQueryData('reportReason{estate_id} {reason}', SendReportEstateAction::class)
+//    ->where(['estate_id' => '[0-9]+']);
 
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
@@ -43,8 +46,9 @@ $bot->onText('Данные первого шага успешно обновле
 
 $bot->onException(function (Nutgram $bot, \Throwable $exception) {
     $bot->sendMessage($exception->getMessage());
+    $bot->sendMessage("File: " . $exception->getFile());
+    $bot->sendMessage("Line: " . $exception->getLine());
     Log::error($exception);
-    $bot->sendMessage('Whoops!');
 });
 
 $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
