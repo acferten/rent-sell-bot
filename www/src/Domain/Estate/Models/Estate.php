@@ -125,4 +125,9 @@ class Estate extends BaseModel
     {
         return "$this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number";
     }
+
+    public function getGoogleLink(): string
+    {
+        return "https://maps.google.com/?q={$this->latitude},{$this->longitude}";
+    }
 }
