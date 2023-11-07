@@ -123,7 +123,7 @@ class Estate extends BaseModel
 
     public function geoposition(): string
     {
-        return "$this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number";
+        return implode(", ", array_filter(array($this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number)));
     }
 
     public function getGoogleLink(): string
