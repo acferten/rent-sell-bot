@@ -35,8 +35,6 @@ form.addEventListener('submit', (e) => {
     })
     formData.set('periods', JSON.stringify(formatPeriods));
 
-    console.log(formData);
-
     fetch(`${NGROK_URL}/estate`, {
         headers: {
             Accept: "application/json"
