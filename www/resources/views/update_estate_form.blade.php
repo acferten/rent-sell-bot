@@ -58,7 +58,7 @@
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
                         <input type="checkbox" name="periods[]" value="{{$price_period->value}}"
-                               id="{{$price_period->value}}"
+                               id="{{__("periods.{$price_period->value}")}}"
                                @if($price_period->value == $estate_rent->period)
                                    checked
                             @endif

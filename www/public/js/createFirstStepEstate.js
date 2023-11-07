@@ -33,9 +33,7 @@ form.addEventListener('submit', (e) => {
             formatPeriods.push({period: period, price: yearPrice})
         }
     })
-    formatPeriods.forEach((period) => {
-        formData.append('periods[]', JSON.stringify(period))
-    })
+    formData.set('periods', JSON.stringify(formatPeriods));
 
     console.log(formData);
 
@@ -76,8 +74,8 @@ function changeTypePrice(deal_type) {
             document.getElementById('period-container').classList.add('d-none');
             document.getElementById('month_price-container').classList.add('d-none');
             document.getElementById('year_price-container').classList.add('d-none');
-            document.getElementById('Месяц').checked = false;
-            document.getElementById('Год').checked = false;
+            document.getElementById('month').checked = false;
+            document.getElementById('year').checked = false;
             document.getElementById('month_price').value = null;
             document.getElementById('year_price').value = null;
             break;
@@ -97,13 +95,14 @@ document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
 
-document.getElementById('Месяц').addEventListener("change", () => {
-    console.log("изменен");
+document.getElementById('month').addEventListener("change", () => {
     document.getElementById('month_price-container').classList.toggle('d-none');
+    document.getElementById('month_price').value = null;
 })
 
-document.getElementById('Год').addEventListener("change", () => {
+document.getElementById('year').addEventListener("change", () => {
     document.getElementById('year_price-container').classList.toggle('d-none');
+    document.getElementById('year_price').value = null;
 })
 
 const photosInput = document.getElementById('photos');

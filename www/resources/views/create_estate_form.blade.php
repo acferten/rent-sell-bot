@@ -52,8 +52,8 @@
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
                         <input type="checkbox" name="periods[]" value="{{$price_period->value}}"
-                               id="{{$price_period->value}}"/>
-                        <label for="{{$price_period->value}}">
+                               id="{{__("periods.{$price_period->value}")}}"/>
+                        <label for="{{__("periods.{$price_period->value}")}}">
                             <span class="radio-label">{{$price_period->value}}</span>
                         </label>
                     </div>
@@ -64,10 +64,10 @@
 
 
         @foreach($price_periods as $price_period)
-        <div class="form-group d-none" id="{{$price_period->value}}_price-container">
-            <label class="form-group__title" for="{{$price_period->value}}_price">Цена за {{$price_period->value}} аренды</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{$price_period->value}}_price"
-                   id="{{$price_period->value}}_price">
+        <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
+            <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена за {{$price_period->value}} аренды</label>
+            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
+                   id="{{__("periods.{$price_period->value}")}}_price">
             <div class="invalid-field" id="period_price-error"></div>
         </div>
         @endforeach
