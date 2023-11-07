@@ -90,6 +90,7 @@ class GetEstatesConversation extends Conversation
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
         );
         $this->end();

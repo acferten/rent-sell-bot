@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\Lazy;
 
 class EstateData extends Data
@@ -24,13 +25,13 @@ class EstateData extends Data
         public int                                         $conditioners,
         public int                                         $bathrooms,
         public null|int                                    $price,
+        /** @var DataCollection<RentPeriodsData> */
+        public null|DataCollection                         $periods,
         public readonly null|Collection|string             $includes,
         public readonly null|array|UploadedFile|Collection $photo,
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
         public readonly UploadedFile|string                $main_photo,
-        public readonly null|string|EstatePeriods|Lazy     $period,
-        public readonly null|int|string                    $period_price,
         public readonly int                                $house_type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
@@ -49,9 +50,8 @@ class EstateData extends Data
         return self::from([
             ...$estate->toArray(),
             'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()->pluck('photo'),
-            'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray()),
             'user' => UserData::from($estate->user),
-            'period_price' => implode(', ', $estate->prices->map(fn($price) => $price->price)->toArray()),
+            'periods' => RentPeriodsData::collection($estate->prices),
         ]);
     }
 
@@ -61,13 +61,14 @@ class EstateData extends Data
             ...$request->all(),
             'id' => (int)$request->estate,
             'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
-            'photo' => $request->file('photo') ?? $request->file('photo'),
+            'photo' => $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
             ]),
+            'periods' => RentPeriodsData::collection(collect(json_decode($request->input('periods')))),
             'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
     }
@@ -79,8 +80,6 @@ class EstateData extends Data
 
             'deal_type' => 'required|in:Аренда,Продажа',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
-            'period' => 'required_if:deal_type,Аренда|string|nullable',
-            'period_price' => 'required_if:deal_type,Аренда|int|nullable',
 
             'bedrooms' => 'required|int|between:1,10',
             'bathrooms' => 'required|int|between:1,10',
