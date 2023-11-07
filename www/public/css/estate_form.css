@@ -135,7 +135,7 @@ body {
     width: 100%;
 }
 
-.estate_includes__item input[type="checkbox"] {
+input[type="checkbox"] {
     position: absolute;
     visibility: hidden;
 }
@@ -150,7 +150,7 @@ body {
     height: 60px;
 }
 
-.estate_includes__item input[type="checkbox"]:checked + label .radio-label {
+input[type="checkbox"]:checked + label .radio-label {
     background-color: var(--tg-theme-button-color);
     border-color: var(--tg-theme-button-color);
     color: #fff;

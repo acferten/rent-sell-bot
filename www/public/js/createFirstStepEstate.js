@@ -19,8 +19,21 @@ form.addEventListener('submit', (e) => {
     })
 
     document.getElementById('btn-submit').disabled = true;
+    document.getElementById('btn-submit').innerText = "Обработка...";
 
     const formData = new FormData(e.currentTarget);
+    let monthPrice = formData.get('month_price');
+    let yearPrice = formData.get('year_price');
+    let formatPeriods = [];
+    let rentPeriods = formData.getAll('periods[]');
+    rentPeriods.forEach((period) => {
+        if (period === "Месяц") {
+            formatPeriods.push({period: period, price: monthPrice})
+        } else {
+            formatPeriods.push({period: period, price: yearPrice})
+        }
+    })
+    formData.set('periods', JSON.stringify(formatPeriods));
 
     fetch(`${NGROK_URL}/estate`, {
         headers: {
@@ -33,6 +46,7 @@ form.addEventListener('submit', (e) => {
         .then((response) => response.json())
         .then((json) => {
             document.getElementById('btn-submit').disabled = false;
+            document.getElementById('btn-submit').innerText = "Сохранить";
 
             for (let error in json?.errors) {
                 document.getElementById(`${error}-error`).innerText = json.errors[error][0];
@@ -56,13 +70,18 @@ function changeTypePrice(deal_type) {
         case 'Продажа':
             document.getElementById('price-container').classList.remove('d-none');
             document.getElementById('period-container').classList.add('d-none');
-            document.getElementById('period_price-container').classList.add('d-none');
+            document.getElementById('month_price-container').classList.add('d-none');
+            document.getElementById('year_price-container').classList.add('d-none');
+            document.getElementById('Месяц').checked = false;
+            document.getElementById('Год').checked = false;
+            document.getElementById('month_price').value = null;
+            document.getElementById('year_price').value = null;
             break;
 
         case 'Аренда':
             document.getElementById('price-container').classList.add('d-none');
             document.getElementById('period-container').classList.remove('d-none');
-            document.getElementById('period_price-container').classList.remove('d-none');
+            document.getElementById('price').value = null;
             break;
     }
 }
@@ -72,6 +91,15 @@ document.getElementById('Продажа').addEventListener("change", () => {
 })
 document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
+})
+
+document.getElementById('Месяц').addEventListener("change", () => {
+    console.log("изменен");
+    document.getElementById('month_price-container').classList.toggle('d-none');
+})
+
+document.getElementById('Год').addEventListener("change", () => {
+    document.getElementById('year_price-container').classList.toggle('d-none');
 })
 
 const photosInput = document.getElementById('photos');

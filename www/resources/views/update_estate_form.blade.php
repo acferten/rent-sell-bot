@@ -57,7 +57,7 @@
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
-                        <input type="radio" name="period" value="{{$price_period->value}}"
+                        <input type="checkbox" name="periods[]" value="{{$price_period->value}}"
                                id="{{$price_period->value}}"
                                @if($price_period->value == $estate_rent->period)
                                    checked
@@ -72,11 +72,18 @@
             <div id="period-error"></div>
         </div>
 
-        <div class="form-group d-none" id="period_price-container">
-            <label class="form-group__title" for="period_price">Цена за весь период</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="period_price"
-                   id="period_price" value="{{$estate_rent->price}}">
-            <div id="period_price-error"></div>
+        <div class="form-group d-none" id="month_price-container">
+            <label class="form-group__title" for="month_price">Цена за месяц</label>
+            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="month_price"
+                   id="month_price" value="{{$estate_rent->month_price}}">
+            <div class="invalid-field" id="period_price-error"></div>
+        </div>
+
+        <div class="form-group d-none" id="year_price-container">
+            <label class="form-group__title" for="year_price">Цена за год</label>
+            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="year_price"
+                   id="year_price" value="{{$estate_rent->year_price}}">
+            <div class="invalid-field" id="period_price-error"></div>
         </div>
 
         <div class="form-group">
