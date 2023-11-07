@@ -13,19 +13,22 @@ class UserEstateViewModel implements ToStringInterface
     public static function get(Estate $estate): string
     {
         $data = EstateData::from($estate);
-        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
-        $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
 
-        $preview = "<b>Статус: {$estate->status}\n\n</b>" .
-            "<b>Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>Тип недвижимости:</b>  {$estate_type}\n" .
-            "<b>Описание:</b> {$data->description}\n\n" .
-            "<b>Количество просмотров:  {$estate->views}\n</b>" .
-            "<b>Количество переходов в сообщения:  {$estate->chattings}\n</b>";
+        $price = '';
+        if ($data->deal_type == DealTypes::rent) {
+            foreach ($data->periods as $rent_periods) {
+                $price .= "<b>💰 Цена за {$rent_periods->period->value}:</b> {$rent_periods->price}\n";
+            }
+        } else {
+            $price = "<b>💰 Цена:</b> {$data->price}";
+        }
 
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
-            : "<b>Цена:</b> {$data->price}\n";
-
-        return $preview;
+        return "<b>Статус: {$estate->status}\n\n</b>" .
+            "🤝 {$data->deal_type->value}\n" .
+            "🏡 {$estate->type->title}\n" .
+            "🛏 {$data->bedrooms} спальни\n\n" .
+            "<b>📍Локация:</b > {$data->district}\n" .
+            "{$price}\n" .
+            "<b>👀 Количество просмотров:  {$estate->views}\n</b>";
     }
 }

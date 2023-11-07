@@ -13,21 +13,24 @@ class AdminEstatePreviewViewModel implements ToStringInterface
     public static function get(Estate $estate): string
     {
         $data = EstateData::from($estate);
-        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
-        $periods = implode(', ', $estate->prices->map(fn($price) => $price->period)->toArray());
 
-        $preview = "<b>Статус: {$estate->status}\n\n</b>" .
-            "<b>Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>Тип недвижимости:</b>  {$estate_type}\n" .
+        $price = '';
+        if ($data->deal_type == DealTypes::rent) {
+            foreach ($data->periods as $rent_periods) {
+                $price .= "<b>💰 Цена за {$rent_periods->period->value}:</b> {$rent_periods->price}\n";
+            }
+        } else {
+            $price = "<b>💰 Цена:</b> {$data->price}";
+        }
+
+        return "<b>Статус: {$estate->status}\n\n</b>" .
+            "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
+            "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
+            "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
+            "{$data->bedrooms} спален\n" .
+            "{$data->bathrooms} ванных комнат\n" .
+            "{$data->conditioners} кондиционеров\n" .
             "<b>Описание:</b> {$data->description}\n\n" .
-            "<b>Количество спален:</b> {$data->bedrooms}\n" .
-            "<b>Количество ванных комнат:</b> {$data->bathrooms}\n" .
-            "<b>Количество кондиционеров:</b> {$data->conditioners}\n" .
-            "<b>Включено в стоимость:</b> {$data->includes}\n";
-
-        $preview .= $data->deal_type == DealTypes::rent ? "<b>Период аренды:</b> {$periods}\n<b>Цена за весь период:</b> {$data->period_price}\n"
-            : "<b>Цена:</b> {$data->price}\n";
-
-        return $preview;
+            $price;
     }
 }

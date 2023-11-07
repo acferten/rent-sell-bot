@@ -14,7 +14,6 @@ class GetEstateViewModel implements ToStringInterface
     public static function get(Estate $estate): string
     {
         $data = EstateData::from($estate);
-        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
         $price = '';
 
         if ($data->deal_type == DealTypes::rent) {
@@ -26,9 +25,9 @@ class GetEstateViewModel implements ToStringInterface
         }
 
         return "🤝 {$data->deal_type->value}\n" .
-            "🏡 {$estate_type}\n" .
+            "🏡 {$estate->type->title}\n" .
             "🛏 {$data->bedrooms} спальни\n\n" .
-            "<b>📍Локация:</b > {$data->district}\n" .
+            "<b>📍Локация:</b > {$estate->geoposition()}\n" .
             "{$price}\n";
     }
 }

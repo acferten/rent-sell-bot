@@ -14,7 +14,6 @@ class PreviewCreatedEstateViewModel implements ToStringInterface
     public static function get(Estate $estate): string
     {
         $data = EstateData::from($estate);
-        $estate_type = EstateType::where(['id' => $data->house_type_id])->first()->title;
         $price = '';
 
         if ($data->deal_type == DealTypes::rent) {
@@ -28,7 +27,7 @@ class PreviewCreatedEstateViewModel implements ToStringInterface
         return "Все получилось! 🥳\nВаш объект:\n\n" .
             "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
             "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
-            "<b>🏡 Тип недвижимости:</b> {$estate_type}\n" .
+            "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
             $price;
     }
 }
