@@ -59,11 +59,11 @@
         </div>
     </div>
     @if ($estate_video)
-    <div class="view-page__group">
-        <hr>
-        <label class="form-group__title">Видео объекта</label>
-        <video class="view-video" src="/photos/{{$estate_video}}" controls preload="metadata"></video>
-    </div>
+        <div class="view-page__group">
+            <hr>
+            <label class="form-group__title">Видео объекта</label>
+            <video class="view-video" src="/photos/{{$estate_video}}" controls preload="metadata"></video>
+        </div>
     @endif
     <div class="view-page__group">
         <hr>
@@ -167,16 +167,20 @@
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Удобства проживания</label>
-        <ul>
-            @foreach($estate_includes as $include)
-                <li>{{ $include }}</li>
-            @endforeach
-        </ul>
+        @if(count($estate_includes))
+            <ul>
+                @foreach($estate_includes as $include)
+                    <li>{{ $include }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>Удобства отсутствуют</p>
+        @endif
     </div>
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Расположение</label>
-        <p>{{ $estate->geoposition()  }}</p>
+        <p><a class="link" href="{{$estate->getGoogleLink()}}">{{$estate->geoposition()}}</a></p>
     </div>
     <div class="view-page__group">
         <hr>

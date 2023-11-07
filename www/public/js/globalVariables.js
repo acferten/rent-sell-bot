@@ -2,7 +2,7 @@ const NGROK_URL = "https://7b81-5-136-99-97.ngrok-free.app";
 
 const FORM_FIELDS_ERROR = [
     'deal_type-error',
-    'period',
+    'period-error',
     'price-error',
     'period_price',
     'house_type_id-error',

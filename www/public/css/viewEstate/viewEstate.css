@@ -18,6 +18,10 @@
     margin-block-end: 5px;
 }
 
+.link {
+    color: var(--tg-theme-text-color);
+}
+
 .invalid-field {
     color: red;
     font-size: 14px;

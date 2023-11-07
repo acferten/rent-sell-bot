@@ -67,7 +67,7 @@
             <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена за {{$price_period->value}} аренды</label>
             <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
                    id="{{__("periods.{$price_period->value}")}}_price">
-            <div class="invalid-field" id="period_price-error"></div>
+            <div class="invalid-field" id="{{__("periods.{$price_period->value}")}}_price-error"></div>
         </div>
         @endforeach
 
