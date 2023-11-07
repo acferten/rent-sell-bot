@@ -8,6 +8,7 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Domain\Shared\Enums\MessageText;
+use Domain\Shared\Models\Actor\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -94,14 +95,15 @@ class EstatePaymentMenu extends InlineMenu
             'status' => EstateStatus::pending->value
         ]);
         $preview = AdminEstatePreviewViewModel::get($this->estate);
+        $user_url = 'https://t.me/' . $this->estate->user->username;
 
         $bot->sendPhoto($photoId, '-1001875753187', caption: $preview,
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(
-                    InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"),
-                    InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"),
-                ));
+                ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
+                ->addRow(InlineKeyboardButton::make('Разместить объявление', callback_data: "approve {$this->estate->id}"))
+                ->addRow(InlineKeyboardButton::make('Написать человеку', url: $user_url))
+        );
         $bot->deleteUserData('estate_id', $this->estate->user_id);
         $this->closeMenu();
         $this->end();

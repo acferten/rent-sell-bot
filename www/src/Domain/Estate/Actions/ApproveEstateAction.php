@@ -14,7 +14,9 @@ class ApproveEstateAction
 
         $estate->update(['status' => EstateStatus::active]);
 
-        $bot->sendMessage('Ваша публикация одобрена и объявление теперь активно.', $estate->user_id);
+        $bot->sendMessage('Поздравляем!<b>
+Вы успешно разместили ваш объект. Теперь все соискатели жилья видят его.
+Потенциальные клиенты будут писать вам напрямую.</b>', $estate->user_id, parse_mode: 'html');
         $bot->deleteMessage('-1001875753187', $bot->callbackQuery()->message->message_id);
     }
 }

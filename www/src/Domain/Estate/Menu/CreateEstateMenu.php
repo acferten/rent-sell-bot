@@ -20,14 +20,22 @@ class CreateEstateMenu extends InlineMenu
 
     public function start(Nutgram $bot): void
     {
-        $bot->sendMessage(
-            text: "<b>Шаг 2 из 3</b>\n📝 Отправьте ваши контактные данные Telegram.",
-            parse_mode: 'html',
-            reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
-                KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true))
-        );
-
-        $this->next('contact');
+        if (User::find($bot->userId())->phone) {
+            $bot->sendMessage(
+                text: "<b>Шаг 3 из 3</b>
+📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
+                parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
+            );
+            $this->next('location');
+        } else {
+            $bot->sendMessage(
+                text: "<b>Шаг 2 из 3</b>\n📝 Отправьте ваши контактные данные Telegram.",
+                parse_mode: 'html',
+                reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
+                    KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true))
+            );
+            $this->next('contact');
+        }
     }
 
     public function contact(Nutgram $bot): void
