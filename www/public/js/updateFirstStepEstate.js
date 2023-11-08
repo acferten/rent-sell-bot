@@ -91,12 +91,13 @@ document.getElementById('Аренда').addEventListener("change", () => {
 })
 
 document.getElementById('month').addEventListener("change", () => {
-    console.log("изменен");
     document.getElementById('month_price-container').classList.toggle('d-none');
+    document.getElementById('month_price').value = null;
 })
 
 document.getElementById('year').addEventListener("change", () => {
     document.getElementById('year_price-container').classList.toggle('d-none');
+    document.getElementById('year_price').value = null;
 })
 
 const photosInput = document.getElementById('photos');

@@ -22,7 +22,6 @@
         <input type="hidden" id="first_name" name="first_name" value=""/>
         <input type="hidden" id="last_name" name="last_name" value=""/>
         <input type="hidden" id="initData" name="initData" value=""/>
-        <input type="hidden" id="chat_id" name="chat_id" value=""/>
 
         <div class="form-group">
             <label class="form-group__title">Тип услуги</label>
@@ -45,14 +44,14 @@
             <div class="invalid-field" id="deal_type-error"></div>
         </div>
 
-        <div class="form-group d-none" id="price-container">
+        <div class="form-group @if(isset($price_periods[0])) d-none @endif" id="price-container">
             <label class="form-group__title" for="price">Цена</label>
             <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0"
                    value="{{$estate->price}}">
             <div class="invalid-field" id="price-error"></div>
         </div>
 
-        <div class="form-group d-none" id="period-container">
+        <div class="form-group @if($estate->price) d-none @endif" id="period-container">
             <label class="form-group__title" for="period">Период аренды</label>
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
@@ -60,9 +59,9 @@
                         <input type="checkbox" name="periods[]" value="{{$price_period->value}}"
                                id="{{__("periods.{$price_period->value}")}}"
                                @foreach($estate_rent as $rent)
-                                   @if($price_period->value == $rent->period)
+                                   @if($price_period->value == $rent->period->value)
                                        checked
-                                  @endif
+                            @endif
                             @endforeach
                         />
                         <label for="{{__("periods.{$price_period->value}")}}">
@@ -75,15 +74,23 @@
         </div>
 
         @foreach($price_periods as $price_period)
-            <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
-                <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена за {{$price_period->value}} аренды</label>
-                <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
+            <div class="form-group
+            @foreach($estate_rent as $rent)
+                           @if($price_period->value !== $rent->period->value)
+                               d-none
+            @endif
+        @endforeach
+        " id="{{__("periods.{$price_period->value}")}}_price-container">
+                <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена
+                    за {{$price_period->value}} аренды</label>
+                <input type="number" class="form-control" placeholder="5000" min="10" max="100000000"
+                       name="{{__("periods.{$price_period->value}")}}_price"
                        id="{{__("periods.{$price_period->value}")}}_price"
                        @foreach($estate_rent as $rent)
                            @if($price_period->value == $rent->period->value)
                                value="{{$rent->price}}"
-                           @endif
-                       @endforeach
+                    @endif
+                    @endforeach
                 >
                 <div class="invalid-field" id="{{__("periods.{$price_period->value}")}}_price-error"></div>
             </div>
