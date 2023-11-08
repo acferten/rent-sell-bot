@@ -206,6 +206,7 @@
     color: var(--tg-theme-text-color);
     font-size: 18px;
     font-weight: 600;
+    word-break: break-word;
 }
 
 /* Video */

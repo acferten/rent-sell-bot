@@ -63,7 +63,7 @@
                                    checked
                             @endif
                         />
-                        <label for="{{$price_period->value}}">
+                        <label for="{{__("periods.{$price_period->value}")}}">
                             <span class="radio-label">{{$price_period->value}}</span>
                         </label>
                     </div>

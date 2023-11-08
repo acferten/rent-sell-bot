@@ -100,7 +100,10 @@
                     </svg>
                     <div class="entity__information">
                         <span class="entity__title">Срок аренды</span>
-                        <span class="entity__description">{{ $estate_rent->period }}</span>
+                        <span
+                            class="entity__description">{{ $estate_rent[0]->period->value }} @if(isset($estate_rent[1]))
+                                / {{$estate_rent[1]->period->value}}
+                            @endif</span>
                     </div>
                 </div>
                 <div class="entity">
@@ -111,7 +114,9 @@
                     </svg>
                     <div class="entity__information">
                         <span class="entity__title">Стоимость</span>
-                        <span class="entity__description">{{ $estate_rent->price }}</span>
+                        <span class="entity__description">{{ $estate_rent[0]->price }} @if(isset($estate_rent[1]))
+                                / {{$estate_rent[1]->price}}
+                            @endif</span>
                     </div>
                 </div>
             @endif
@@ -180,7 +185,9 @@
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Расположение</label>
-        <p><a class="link" href="{{$estate->getGoogleLink()}}">{{$estate->geoposition()}}</a></p>
+        <p>{{$estate->geoposition()}}</p>
+        <p>Ссылка на Google maps:<br><a class="link"
+                                        href="{{$estate->getGoogleLink()}}">{{$estate->getGoogleLink()}}</a></p>
     </div>
     <div class="view-page__group">
         <hr>
