@@ -75,7 +75,7 @@
 
         @foreach($price_periods as $price_period)
             <div class="form-group
-            @if($estate_rent->where('period', $price_period->value)->isEmpty())d-none @endif" id="{{$price_period->name}}_price-container">
+            @if($estate_rent->where('period', $price_period)->isEmpty())d-none @endif" id="{{$price_period->name}}_price-container">
                 <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена
                     за {{$price_period->value}} аренды</label>
                 <input type="number" class="form-control" placeholder="5000" min="10" max="100000000"
