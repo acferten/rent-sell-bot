@@ -35,11 +35,6 @@ class EstateData extends Data
         public readonly int                                $house_type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
-        public readonly string|null                        $country,
-        public readonly string|null                        $town,
-        public readonly string|null                        $street,
-        public readonly string|null                        $district,
-        public readonly int|null|string                    $house_number,
         public EstateStatus                                $status = EstateStatus::notFinished
     )
     {

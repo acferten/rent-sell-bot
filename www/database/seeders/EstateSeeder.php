@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 use Domain\Estate\Enums\DealTypes;
+use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Models\Estate;
+use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Models\EstatePrice;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +20,7 @@ class EstateSeeder extends Seeder
     {
         $states = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             DB::table('estates')->insert([
                 'user_id' => 1,
                 'deal_type' => fake()->randomElement(DealTypes::cases()),
@@ -27,13 +31,13 @@ class EstateSeeder extends Seeder
                 'bathrooms' => fake()->randomNumber(1),
                 'house_type_id' => fake()->numberBetween(1, 5),
                 'conditioners' => fake()->randomNumber(1),
-                'description' => fake()->text(100),
+                'description' => fake()->realText(100),
                 'latitude' => fake()->randomFloat(2, -90, 90),
                 'longitude' => fake()->randomFloat(2, -180, 180),
                 'country' => fake()->country,
                 'town' => fake()->city,
                 'state' => fake()->randomElement($states),
-                'county' => fake()->text(15),
+                'county' => fake()->realText(15, 1),
                 'district' => fake()->word,
                 'street' => fake()->streetName,
                 'house_number' => fake()->buildingNumber,
@@ -45,5 +49,14 @@ class EstateSeeder extends Seeder
                 'updated_at' => fake()->dateTimeThisYear,
             ]);
         }
+
+        Estate::all()->each(fn($estate) => $estate->includes()->save(EstateInclude::all()->random()));
+
+        Estate::where('deal_type', DealTypes::rent->value)->get()
+            ->each(fn($estate) => $estate->prices()
+                ->save(new EstatePrice(['price' => fake()->numberBetween(1000, 100000),
+                    'period' => fake()->randomElement(EstatePeriods::cases())]))
+            );
+
     }
 }

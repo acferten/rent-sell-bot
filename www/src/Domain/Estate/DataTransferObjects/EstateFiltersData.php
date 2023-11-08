@@ -24,7 +24,8 @@ class EstateFiltersData extends Data
         public readonly ?array     $house_type_ids,
         public readonly null|array $include_ids,
     )
-    {}
+    {
+    }
 
     public static function fromModel(Estate $estate): self
     {
@@ -51,7 +52,6 @@ class EstateFiltersData extends Data
         return [
             'deal_type' => 'required|string|in:Аренда,Продажа',
             'include_ids' => 'array|exists:includes,id',
-            'period' => 'required_if:deal_type,Аренда|string|nullable',
             'house_type_ids' => 'exists:house_types,id',
             'user_id' => 'required|min:1',
             'username' => 'required|string',

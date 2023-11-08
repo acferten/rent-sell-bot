@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Conversations;
 
+use Domain\Estate\Actions\GetFilteredEstatesAction;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\Actor\User;
@@ -32,23 +33,8 @@ class GetFilteredEstatesConversation extends Conversation
             );
             return;
         }
-        $filters = $user->getFilters()->all();
-        $estates = Estate::filter([...$filters]);
 
-        if (!is_null($filters['house_type_ids'])) {
-            $estates->whereHas('type', function (Builder $query) use ($filters) {
-                $query->whereIn('id', $filters['house_type_ids']);
-            });
-        }
-
-        if (!is_null($filters['include_ids'])) {
-            $estates->whereHas('includes', function (Builder $query) use ($filters) {
-                $query->whereIn('estate_includes.id', $filters['include_ids']);
-            });
-        }
-
-        $this->estates = $estates->get();
-        unset($estates);
+        $this->estates = GetFilteredEstatesAction::execute($user->getFilters())->get();
 
         if ($this->estates->isEmpty()) {
             $bot->sendMessage('Нет объектов!');

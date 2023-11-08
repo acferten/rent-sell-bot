@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Models;
 
+use Domain\Estate\Builders\EstateBuilder;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Filters\Country;
@@ -48,8 +49,6 @@ class Estate extends BaseModel
     use HasFilters;
 
     protected array $filters = [
-        PriceEnd::class,
-        PriceStart::class,
         DealType::class,
         Country::class,
         State::class,
@@ -85,6 +84,11 @@ class Estate extends BaseModel
         'house_number',
         'relevance_date'
     ];
+
+    public function newEloquentBuilder($query): EstateBuilder
+    {
+        return new EstateBuilder($query);
+    }
 
     public function status(): EstateStatus
     {
