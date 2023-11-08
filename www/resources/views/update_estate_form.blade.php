@@ -59,9 +59,11 @@
                     <div class="type_announcement__item">
                         <input type="checkbox" name="periods[]" value="{{$price_period->value}}"
                                id="{{__("periods.{$price_period->value}")}}"
-                               @if($price_period->value == $estate_rent->period)
-                                   checked
-                            @endif
+                               @foreach($estate_rent as $rent)
+                                   @if($price_period->value == $rent->period)
+                                       checked
+                                  @endif
+                            @endforeach
                         />
                         <label for="{{__("periods.{$price_period->value}")}}">
                             <span class="radio-label">{{$price_period->value}}</span>
@@ -72,19 +74,20 @@
             <div id="period-error"></div>
         </div>
 
-        <div class="form-group d-none" id="month_price-container">
-            <label class="form-group__title" for="month_price">Цена за месяц</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="month_price"
-                   id="month_price" value="{{$estate_rent->month_price}}">
-            <div class="invalid-field" id="period_price-error"></div>
-        </div>
-
-        <div class="form-group d-none" id="year_price-container">
-            <label class="form-group__title" for="year_price">Цена за год</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="year_price"
-                   id="year_price" value="{{$estate_rent->year_price}}">
-            <div class="invalid-field" id="period_price-error"></div>
-        </div>
+        @foreach($price_periods as $price_period)
+            <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
+                <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена за {{$price_period->value}} аренды</label>
+                <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
+                       id="{{__("periods.{$price_period->value}")}}_price"
+                       @foreach($estate_rent as $rent)
+                           @if($price_period->value == $rent->period->value)
+                               value="{{$rent->price}}"
+                           @endif
+                       @endforeach
+                >
+                <div class="invalid-field" id="{{__("periods.{$price_period->value}")}}_price-error"></div>
+            </div>
+        @endforeach
 
         <div class="form-group">
             <label class="form-group__title">Вид недвижимости</label>
@@ -108,7 +111,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
             <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example"
-                    >
+            >
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bedrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -118,7 +121,7 @@
         <div class="form-group">
             <label class="form-group__title" for="bathrooms">Количество ванн</label>
             <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example"
-                    >
+            >
                 @for($i = 1; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->bathrooms == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -128,7 +131,7 @@
         <div class="form-group">
             <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
             <select id="conditioners" name="conditioners" class="form-select form-control"
-                    aria-label="Default select example" >
+                    aria-label="Default select example">
                 @for($i = 0; $i <= 10; $i++)
                     <option value="{{$i}}" @if($estate->conditioners == $i) selected @endif>{{$i}}</option>
                 @endfor
@@ -140,13 +143,14 @@
             <label class="form-group__title">Главная фотография</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
-                    <div class="preview-container__photo" style="background-image: url('/photos/{{$estate_main_photo}}');"></div>
+                    <div class="preview-container__photo"
+                         style="background-image: url('/photos/{{$estate_main_photo}}');"></div>
                     <label for="main-photo-hidden" class="photo-uploader__add-button">
                         +
                     </label>
                 </div>
                 <input class="photo-uploader__input" type="file" id="main-photo-hidden">
-                <input class="photo-uploader__input" name="main_photo" id="main-photo"  type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" name="main_photo" id="main-photo" type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="main_photo-error"></div>
@@ -156,14 +160,15 @@
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     @foreach($estate_photos as $photo)
-                    <div class="preview-container__photo" style="background-image: url('/photos/{{$photo}}');"></div>
+                        <div class="preview-container__photo"
+                             style="background-image: url('/photos/{{$photo}}');"></div>
                     @endforeach
                     <label for="photos-hidden" class="photo-uploader__add-button">
                         +
                     </label>
                 </div>
                 <input class="photo-uploader__input" type="file" id="photos-hidden" multiple>
-                <input class="photo-uploader__input" name="photo[]" id="photos"  type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
+                <input class="photo-uploader__input" name="photo[]" id="photos" type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
             <div class="invalid-field" id="photo-error"></div>

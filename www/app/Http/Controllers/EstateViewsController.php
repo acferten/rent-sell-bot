@@ -46,7 +46,7 @@ class EstateViewsController extends Controller
             'estate_types' => EstateType::all(),
             'price_periods' => EstatePeriods::cases(),
             'estate' => $estate,
-            'estate_rent' => EstatePrice::where(['estate_id' => $estate->id])->first() ?? (object)['period' => "", "price" => ""],
+            'estate_rent' => $estate->prices->map(fn($rent_price) => RentPeriodsData::from($rent_price)) ?? null,
             'estate_house_type' => $estate->type,
             'estate_main_photo' => $estate->main_photo,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
