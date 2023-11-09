@@ -52,7 +52,7 @@ class GetFilteredEstatesAction
         // estate includes
         if (!is_null($filters->include_ids)) {
             $estates->whereHas('includes', function (Builder $query) use ($filters) {
-                $query->whereIn('estate_includes.id', $filters->include_ids);
+                $query->whereIn('estate_includes.include_id', $filters->include_ids);
             });
         }
 
