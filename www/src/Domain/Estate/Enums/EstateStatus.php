@@ -8,7 +8,6 @@ enum EstateStatus: string
     case active = 'Активно';
     case closed = 'Закрыто';
     case banned = 'Заблокировано';
-    case pending = 'Ожидает подтверждения';
+    case pending = 'На модерации';
     case notFinished = 'Не заполнен';
-    case paymentRequired = 'Ожидает оплаты';
 }

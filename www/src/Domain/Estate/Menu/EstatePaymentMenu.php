@@ -101,7 +101,7 @@ class EstatePaymentMenu extends InlineMenu
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
-                ->addRow(InlineKeyboardButton::make('Разместить объявление', callback_data: "approve {$this->estate->id}"))
+                ->addRow(InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"))
                 ->addRow(InlineKeyboardButton::make('Написать человеку', url: $user_url))
         );
         $bot->deleteUserData('estate_id', $this->estate->user_id);

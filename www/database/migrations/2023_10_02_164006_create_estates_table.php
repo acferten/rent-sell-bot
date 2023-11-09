@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('video')->nullable();
             $table->integer('bedrooms');
             $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре',
-                'Ожидает подтверждения', 'Не заполнен', 'Ожидает оплаты'])
+                'На модерации', 'Не заполнен'])
                 ->default('Ожидает подтверждения');
             $table->integer('bathrooms');
             $table->integer('house_type_id');
