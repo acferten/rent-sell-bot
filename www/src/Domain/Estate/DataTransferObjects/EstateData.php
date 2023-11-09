@@ -47,6 +47,7 @@ class EstateData extends Data
             'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'user' => UserData::from($estate->user),
             'periods' => RentPeriodsData::collection($estate->prices),
+            'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray())
         ]);
     }
 
