@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->integer('bedrooms');
             $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре',
                 'На модерации', 'Не заполнен'])
-                ->default('Ожидает подтверждения');
+                ->default('Активно');
             $table->integer('bathrooms');
             $table->integer('house_type_id');
             $table->integer('conditioners');
