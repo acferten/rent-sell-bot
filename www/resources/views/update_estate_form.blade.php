@@ -44,7 +44,7 @@
             <div class="invalid-field" id="deal_type-error"></div>
         </div>
 
-        <div class="form-group @if(isset($price_periods[0])) d-none @endif" id="price-container">
+        <div class="form-group @if(!$estate->price) d-none @endif" id="price-container">
             <label class="form-group__title" for="price">Цена</label>
             <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0"
                    value="{{$estate->price}}">
