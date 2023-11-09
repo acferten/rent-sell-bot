@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Domain\Estate\Actions\UpsertEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Nutgram\Laravel\Facades\Telegram;
 use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
 use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
@@ -16,7 +17,6 @@ class EstateController extends Controller
     {
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
-
         $estate = UpsertEstateAction::execute($data);
         Telegram::setUserData('estate_id', $estate->id, $data->user->id);
 

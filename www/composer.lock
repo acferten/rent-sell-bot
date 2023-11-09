@@ -7146,16 +7146,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "13.4.0",
+            "version": "13.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "47aaf37dd005b9d047d92008eaf3aad1982e3fc5"
+                "reference": "56cc6c142289c31606fc29402f79b3837ef55e22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/47aaf37dd005b9d047d92008eaf3aad1982e3fc5",
-                "reference": "47aaf37dd005b9d047d92008eaf3aad1982e3fc5",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/56cc6c142289c31606fc29402f79b3837ef55e22",
+                "reference": "56cc6c142289c31606fc29402f79b3837ef55e22",
                 "shasum": ""
             },
             "require": {
@@ -7202,7 +7202,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2023-11-03T14:35:44+00:00"
+            "time": "2023-11-08T22:59:10+00:00"
         },
         {
             "name": "laravel-lang/locales",

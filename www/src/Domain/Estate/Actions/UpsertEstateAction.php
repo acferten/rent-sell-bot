@@ -8,13 +8,14 @@ use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstatePhoto;
 use Domain\Estate\Models\EstatePrice;
 use Domain\Shared\Models\Actor\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class UpsertEstateAction
 {
     public static function execute(EstateData $data): Estate
     {
-        $user = User::updateOrCreate(
+       User::updateOrCreate(
             [
                 'id' => $data->user->id
             ],
@@ -22,7 +23,6 @@ class UpsertEstateAction
                 ...$data->user->all(),
             ]
         );
-
         if ($data->id != null) {
             $estate_photos = EstatePhoto::where('estate_id', $data->id);
             $estate_photos->get()
@@ -41,7 +41,7 @@ class UpsertEstateAction
             ],
             [
                 ...$data->all(),
-                'user_id' => $user->id,
+                'user_id' => $data->user->id,
                 'main_photo' => $data->main_photo->storePublicly('', ['disk' => 'photos']),
                 'video' => $data->video ? $data->video->storePublicly('', ['disk' => 'photos']) : null
             ]);

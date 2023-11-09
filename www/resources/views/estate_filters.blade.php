@@ -55,9 +55,8 @@
                     </div>
                 @endforeach
             </div>
+            <div class="invalid-field" id="period-error"></div>
         </div>
-
-        <div class="debug"></div>
 
         <div class="form-group" id="price-container">
             <label class="form-group__title" for="price-start">Цена от</label>
