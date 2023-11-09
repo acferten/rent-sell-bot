@@ -21,8 +21,8 @@ return new class extends Migration {
             $table->integer('conditioners');
             $table->string('description', 1000);
             $table->string('main_photo');
-            $table->float('latitude',20, 17)->nullable();
-            $table->float('longitude', 20, 17)->nullable();
+            $table->float('latitude',12, 9)->nullable();
+            $table->float('longitude', 12, 9)->nullable();
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('county')->nullable();
