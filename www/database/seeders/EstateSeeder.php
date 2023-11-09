@@ -20,7 +20,7 @@ class EstateSeeder extends Seeder
     {
         $states = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona", "California", "Colorado", "Connecticut", "District of Columbia", "Delaware", "Florida", "Georgia", "Guam", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Puerto Rico", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Virgin Islands", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"];
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             DB::table('estates')->insert([
                 'user_id' => 1,
                 'deal_type' => fake()->randomElement(DealTypes::cases()),
@@ -50,7 +50,10 @@ class EstateSeeder extends Seeder
             ]);
         }
 
-        Estate::all()->each(fn($estate) => $estate->includes()->save(EstateInclude::all()->random()));
+        Estate::all()->each(function ($estate) {
+            $estateIncludes = EstateInclude::all()->random(3);
+            $estate->includes()->attach($estateIncludes);
+        });
 
         Estate::where('deal_type', DealTypes::rent->value)->get()
             ->each(fn($estate) => $estate->prices()
