@@ -15,7 +15,7 @@ class UpsertEstateAction
 {
     public static function execute(EstateData $data): Estate
     {
-       User::updateOrCreate(
+        User::updateOrCreate(
             [
                 'id' => $data->user->id
             ],
@@ -33,6 +33,7 @@ class UpsertEstateAction
             if (Estate::find($data->id)->video) {
                 Storage::disk('photos')->delete(Estate::find($data->id)->video);
             }
+            Estate::find($data->id)->prices()->delete();
         }
 
         $estate = Estate::updateOrCreate(

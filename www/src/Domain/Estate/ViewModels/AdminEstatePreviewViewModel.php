@@ -23,7 +23,21 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             $price = "<b>💰 Цена:</b> {$data->price}";
         }
 
-        return "<b>Статус: {$estate->status}\n\n</b>" .
+        return
+            "Poster: #{$estate->id}\n" .
+            "Created: {$estate->created_at}\n" .
+            "User id: {$estate->user->id}\n" .
+            "User login TG: @{$estate->user->username}\n" .
+            "User poster count: 4\n" .
+            "Number TG: {$estate->user->phone}\n" .
+            "📍Object location: {$estate->getGoogleLink()}\n" .
+            "👛Rate: 5 / 30 days\n" .
+            "💰Order price: 150.000 IDR\n" .
+            "Payment: transfer to BRI Bank card\n" .
+            "Paid: paid by BRI Bank card .\n" .
+            "Rating: 4🔑\n" .
+
+            "<b>Статус: {$estate->status}\n\n</b>" .
             "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
             "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
