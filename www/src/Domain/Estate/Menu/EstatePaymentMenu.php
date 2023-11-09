@@ -13,6 +13,7 @@ use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
+use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class EstatePaymentMenu extends InlineMenu
 {
@@ -102,6 +103,7 @@ class EstatePaymentMenu extends InlineMenu
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
                 ->addRow(InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"))
+//                ->addRow(InlineKeyboardButton::make('Подробнее', web_app: new WebAppInfo('https://vk.com')))
                 ->addRow(InlineKeyboardButton::make('Написать человеку', url: $user_url))
         );
         $bot->deleteUserData('estate_id', $this->estate->user_id);

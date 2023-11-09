@@ -22,7 +22,7 @@ class CreateEstateMenu extends InlineMenu
     {
         if (User::find($bot->userId())->phone) {
             $bot->sendMessage(
-                text: "<b>Шаг 3 из 3</b>
+                text: "<b>Шаг 2 из 2</b>
 📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
                 parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
             );
