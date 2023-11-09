@@ -15,36 +15,30 @@ class GetFilteredEstatesAction
 
         // price filter
         if ($filters->deal_type == DealTypes::rent->value) {
-            if (is_null($filters->price_start)) {
-                $estates->whereHas(
-                    'prices', function (Builder $query) use ($filters) {
-                    $query->where('price', '<=', $filters->price_end);
-                });
-            } else if (is_null($filters->price_end)) {
+            if (!is_null($filters->price_start)) {
                 $estates->whereHas(
                     'prices', function (Builder $query) use ($filters) {
                     $query->where('price', '>=', $filters->price_start);
                 });
-            } else {
+            }
+            if (!is_null($filters->price_end)) {
                 $estates->whereHas(
                     'prices', function (Builder $query) use ($filters) {
-                    $query->whereBetween('price', [$filters->price_start, $filters->price_end]);
+                    $query->where('price', '<=', $filters->price_end);
                 });
             }
-
+            // periods filter
             if ($filters->periods) {
                 $estates->whereHas('prices', function (Builder $query) use ($filters) {
                     $query->whereIn('period', $filters->periods);
                 });
             }
-
         } else {
-            if (is_null($filters->price_start)) {
-                $estates->where('price', '<=', $filters->price_end);
-            } else if (is_null($filters->price_end)) {
+            if (!is_null($filters->price_start)) {
                 $estates->where('price', '>=', $filters->price_start);
-            } else {
-                $estates->whereBetween('price', [$filters->price_start, $filters->price_end]);
+            }
+            if (!is_null($filters->price_end)) {
+                $estates->where('price', '<=', $filters->price_end);
             }
         }
 
