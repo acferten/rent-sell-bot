@@ -53,6 +53,7 @@ $bot->onException(function (Nutgram $bot, \Throwable $exception) {
 
 $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
     $bot->sendMessage($exception->getMessage());
-    $bot->sendMessage($exception->getCode());
+    $bot->sendMessage("File: " . $exception->getFile());
+    $bot->sendMessage("Line: " . $exception->getLine());
     Log::error($exception);
 });
