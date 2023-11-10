@@ -56,3 +56,8 @@ $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
     $bot->sendMessage($exception->getCode());
     Log::error($exception);
 });
+
+$bot = new Nutgram($_ENV['NGROK_SERVER']);
+$bot->setRunningMode(Webhook::class);
+
+$bot->run();
