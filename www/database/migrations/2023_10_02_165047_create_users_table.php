@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('last_name')->nullable();
             $table->string('username');
             $table->text('filters')->nullable();
+            $table->boolean('is_admin')->default(0);
             $table->timestamps();
         });
     }

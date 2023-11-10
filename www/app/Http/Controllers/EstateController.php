@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Domain\Estate\Actions\UpsertEstateAction;
+use Domain\Estate\Actions\CreateEstateAction;
+use Domain\Estate\Actions\UpdateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Illuminate\Http\Request;
 use Nutgram\Laravel\Facades\Telegram;
@@ -16,7 +17,7 @@ class EstateController extends Controller
     {
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
-        $estate = UpsertEstateAction::execute($data);
+        $estate = CreateEstateAction::execute($data);
         Telegram::setUserData('estate_id', $estate->id, $data->user->id);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
@@ -30,7 +31,7 @@ class EstateController extends Controller
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
 
-        UpsertEstateAction::execute($data);
+        UpdateEstateAction::execute($data, webAppData()->user);
 
         $result = new InlineQueryResultArticle(1, 'Успех',
             new InputTextMessageContent("Данные первого шага успешно обновлены! 🥳"));

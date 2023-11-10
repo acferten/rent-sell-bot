@@ -11,7 +11,7 @@ use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class UpsertEstateAction
+class CreateEstateAction
 {
     public static function execute(EstateData $data): Estate
     {
@@ -23,23 +23,8 @@ class UpsertEstateAction
                 ...$data->user->all(),
             ]
         );
-        if ($data->id != null) {
-            $estate_photos = EstatePhoto::where('estate_id', $data->id);
-            $estate_photos->get()
-                ->each(fn($photo) => Storage::disk('photos')->delete($photo->photo));
-            $estate_photos->delete();
-            Storage::disk('photos')->delete(Estate::find($data->id)->main_photo);
 
-            if (Estate::find($data->id)->video) {
-                Storage::disk('photos')->delete(Estate::find($data->id)->video);
-            }
-            Estate::find($data->id)->prices()->delete();
-        }
-
-        $estate = Estate::updateOrCreate(
-            [
-                'id' => $data->id
-            ],
+        $estate = Estate::create(
             [
                 ...$data->all(),
                 'user_id' => $data->user->id,
@@ -50,16 +35,14 @@ class UpsertEstateAction
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
         if ($data->deal_type == DealTypes::rent) {
-            $estate->prices()->delete();
             $data->periods->each(fn($rent_price) => $estate->prices()->save(new EstatePrice($rent_price->all())));
         }
 
         if ($data->photo) {
             foreach ($data->photo as $photo) {
-                EstatePhoto::create([
-                    'photo' => $photo->storePublicly('', ['disk' => 'photos']),
-                    'estate_id' => $estate->id
-                ]);
+                $estate->photos()->save(new EstatePhoto([
+                    'photo' => $photo->storePublicly('', ['disk' => 'photos'])
+                ]));
             }
         }
         return $estate;
