@@ -2,6 +2,7 @@
 
 namespace Domain\Shared\Models\Actor;
 
+use Database\Factories\UserFactory;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,11 @@ class User extends Authenticatable
         'phone',
         'filters'
     ];
+
+    protected static function newFactory()
+    {
+        return app(UserFactory::class);
+    }
 
     public function estates(): HasMany
     {

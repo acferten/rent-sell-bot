@@ -2,27 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domain\Shared\Models\Actor\User;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('users')->insert([
-            'id' => fake()->unique()->numberBetween(1, 1),
-            'phone' => fake()->unique()->phoneNumber(),
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'username' => fake()->userName(),
-            'created_at' => fake()->dateTime(),
-            'updated_at' => fake()->dateTime(),
-        ]);
+        User::factory()->count(2)
+            ->state(new Sequence([
+                'id' => 472041603,
+                'is_admin' => 1,
+                'username' => 'grepnam3',
+                'first_name' => "/////////"],
+
+                ['id' => 415670490,
+                    'username' => 'Silvery11',
+                    'first_name' => 'Кирилл']
+            ))
+            ->create();
     }
 }
