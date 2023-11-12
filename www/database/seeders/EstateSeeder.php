@@ -8,6 +8,7 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\EstateInclude;
 use Domain\Estate\Models\EstatePrice;
+use Domain\Shared\Models\Actor\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -22,12 +23,12 @@ class EstateSeeder extends Seeder
 
         for ($i = 0; $i < 100; $i++) {
             DB::table('estates')->insert([
-                'user_id' => 1,
                 'deal_type' => fake()->randomElement(DealTypes::cases()),
                 'video' => null,
                 'main_photo' => fake()->randomElement(['1.jpg', '2.jpg']),
                 'bedrooms' => fake()->randomNumber(1),
                 'status' => 'Активно',
+                'user_id' => User::all()->random()->id,
                 'bathrooms' => fake()->randomNumber(1),
                 'house_type_id' => fake()->numberBetween(1, 5),
                 'conditioners' => fake()->randomNumber(1),

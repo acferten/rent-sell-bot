@@ -110,12 +110,12 @@ class UserEstatesMenu extends InlineMenu
                 callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
         }
 
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
-        }
-
         if (array_key_exists($this->element - 1, $this->estates->toArray())) {
             $this->addButtonRow(InlineKeyboardButton::make('Назад', callback_data: 'next@handleBack'));
+        }
+
+        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
+            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
         }
 
         $this->orNext('none')

@@ -2,6 +2,7 @@
 
 namespace Domain\Shared\Models\Actor;
 
+use Database\Factories\UserFactory;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +32,11 @@ class User extends Authenticatable
         'filters'
     ];
 
+    protected static function newFactory()
+    {
+        return app(UserFactory::class);
+    }
+
     public function estates(): HasMany
     {
         return $this->hasMany(Estate::class);
@@ -39,5 +45,10 @@ class User extends Authenticatable
     public function getFilters(): EstateFiltersData
     {
         return EstateFiltersData::from(json_decode($this->filters));
+    }
+
+    public function getTelegramUrl(): string
+    {
+        return 'https://t.me/' . $this->username;
     }
 }

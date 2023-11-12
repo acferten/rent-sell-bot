@@ -19,7 +19,6 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\RunningMode\Webhook;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 
@@ -31,11 +30,12 @@ $bot->onCommand('estates', GetFilteredEstatesConversation::class);
 
 $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::class);
 $bot->onCallbackQueryData('cancel publish', CancelEstatePublicationMenu::class);
+$bot->onCallbackQueryData('start search', GetFilteredEstatesConversation::class);
 $bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 
-//$bot->onCallbackQueryData('report {estate_id}', ReportEstateAction::class);
-//$bot->onCallbackQueryData('reportReason{estate_id} {reason}', SendReportEstateAction::class)
-//    ->where(['estate_id' => '[0-9]+']);
+$bot->onCallbackQueryData('report {estate_id}', ReportEstateAction::class);
+$bot->onCallbackQueryData('reportReason{estate_id} {reason}', SendReportEstateAction::class)
+    ->where(['estate_id' => '[0-9]+']);
 
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);

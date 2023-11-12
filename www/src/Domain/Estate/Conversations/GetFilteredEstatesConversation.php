@@ -3,13 +3,12 @@
 namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\GetFilteredEstatesAction;
-use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\Actor\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
@@ -27,8 +26,11 @@ class GetFilteredEstatesConversation extends Conversation
             $bot->sendMessage(
                 text: '🧐 Похоже, что Вы еще не задали настройки поиска. Можете сделать это по кнопке ниже.',
                 reply_markup: InlineKeyboardMarkup::make()
-                    ->addRow(InlineKeyboardButton::make('Настроить фильтр',
+                    ->addRow(InlineKeyboardButton::make('⚙ Настроить фильтр',
                         web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
+                    )
+                    ->addRow(InlineKeyboardButton::make('🚀 Запустить поиск',
+                        callback_data: "start search")
                     )
             );
             return;
@@ -69,14 +71,14 @@ class GetFilteredEstatesConversation extends Conversation
         ]);
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
-        $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $bot->sendMessage($preview, parse_mode: 'html',
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
-                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
+                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
+                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report ' . $estate->id))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 
@@ -93,15 +95,14 @@ class GetFilteredEstatesConversation extends Conversation
         ]);
 
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
-        $user_url = 'https://t.me/' . User::where('id', $estate->user_id)->first()->username;
+        $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-
-        $bot->sendMessage($preview, parse_mode: 'html',
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: "$user_url"))
+                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
         );
         $this->end();
     }
