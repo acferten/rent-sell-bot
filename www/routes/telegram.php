@@ -15,7 +15,9 @@ use Domain\Estate\Menu\CreateEstateMenu;
 use Domain\Estate\Menu\EstatePaymentMenu;
 use Domain\Estate\Menu\UserEstatesMenu;
 use Domain\Shared\Menu\StartMenu;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Log;
+use SergiX44\Nutgram\Configuration;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\RunningMode\Webhook;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
@@ -58,8 +60,3 @@ $bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
     $bot->sendMessage("Line: " . $exception->getLine());
     Log::error($exception);
 });
-
-$bot = new Nutgram($_ENV['NGROK_SERVER']);
-$bot->setRunningMode(Webhook::class);
-
-$bot->run();

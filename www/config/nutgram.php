@@ -8,7 +8,12 @@ return [
     'safe_mode' => env('APP_ENV', 'local') === 'production',
 
     // Extra or specific configurations
-    'config' => [],
+    'config' => [
+    'cache' => [
+        'driver' => 'file', // Choose the cache driver (file, database, redis, etc.)
+        // Add other cache related settings here based on the chosen cache driver
+        ],
+    ],
 
     // Set if the service provider should automatically load
     // handlers from /routes/telegram.php

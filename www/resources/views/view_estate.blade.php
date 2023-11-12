@@ -193,6 +193,32 @@
         <hr>
         <label class="form-group__title">Описание</label>
         <p>{{ $estate->description  }}</p>
+        <hr>
+    </div>
+    <div class="form-group report-form-wrapper d-none">
+        <form action="" id="report-form">
+            <label class="form-group__title" for="conditioners">Причина жалобы</label>
+            <select id="report_reason" name="report_reason" class="form-select form-control"
+                    aria-label="Default select example">
+                <option selected>Неверная цена</option>
+                <option>Неверное описание</option>
+                <option>Фото</option>
+                <option>Неверный адрес</option>
+                <option>Продавец не отвечает</option>
+                <option>Мошенник</option>
+            </select>
+            <button type="submit" id="send-report" class="btn">Отправить жалобу</button>
+        </form>
+        <div class="invalid-field" id="report-error"></div>
+        <hr>
+    </div>
+    <div class="actions">
+        <div class="col">
+            <button id="btn-report" class="btn">Жалоба</button>
+        </div>
+        <div class="col">
+            <a href="https://t.me/Silvery11" id="btn-write" class="btn">Написать</a>
+        </div>
     </div>
 </div>
 </body>

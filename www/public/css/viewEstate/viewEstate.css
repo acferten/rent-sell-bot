@@ -217,3 +217,28 @@
     max-height: 300px;
 }
 
+/* buttons */
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#send-report {
+    width: 100%;
+    background-color: var(--bs-danger) !important;
+    margin: 20px 0 0 0 !important;
+}
+
+#btn-report {
+    width: 100%;
+    background-color: var(--bs-danger) !important;
+    margin-bottom: 0;
+}
+
+#btn-write {
+    width: 100%;
+    margin-bottom: 0;
+}
