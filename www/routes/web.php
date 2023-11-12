@@ -21,4 +21,6 @@ Route::resource('estate', EstateViewsController::class)->only('create', 'show', 
 Route::resource('estate', EstateController::class)->only('store', 'update')
     ->middleware(ValidateWebAppData::class);
 
+Route::post('estate/{estate}/report');
+
 Route::post('webhook', WebhookController::class);

@@ -17,7 +17,6 @@ use Domain\Estate\Menu\UserEstatesMenu;
 use Domain\Shared\Menu\StartMenu;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\RunningMode\Webhook;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 
@@ -29,11 +28,12 @@ $bot->onCommand('estates', GetFilteredEstatesConversation::class);
 
 $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::class);
 $bot->onCallbackQueryData('cancel publish', CancelEstatePublicationMenu::class);
+$bot->onCallbackQueryData('start search', GetFilteredEstatesConversation::class);
 $bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 
-//$bot->onCallbackQueryData('report {estate_id}', ReportEstateAction::class);
-//$bot->onCallbackQueryData('reportReason{estate_id} {reason}', SendReportEstateAction::class)
-//    ->where(['estate_id' => '[0-9]+']);
+$bot->onCallbackQueryData('report {estate_id}', ReportEstateAction::class);
+$bot->onCallbackQueryData('reportReason{estate_id} {reason}', SendReportEstateAction::class)
+    ->where(['estate_id' => '[0-9]+']);
 
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
@@ -45,21 +45,16 @@ $bot->onText('Данные первого шага успешно обновле
     SendPreviewMessageAction::execute($bot);
 });
 
-//$bot->onException(function (Nutgram $bot, \Throwable $exception) {
-//    $bot->sendMessage($exception->getMessage());
-//    $bot->sendMessage("File: " . $exception->getFile());
-//    $bot->sendMessage("Line: " . $exception->getLine());
-//    Log::error($exception);
-//});
-//
-//$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
-//    $bot->sendMessage($exception->getMessage());
-//    $bot->sendMessage("File: " . $exception->getFile());
-//    $bot->sendMessage("Line: " . $exception->getLine());
-//    Log::error($exception);
-//});
-//
-//$bot = new Nutgram($_ENV['NGROK_SERVER']);
-//$bot->setRunningMode(Webhook::class);
-//
-//$bot->run();
+$bot->onException(function (Nutgram $bot, \Throwable $exception) {
+    $bot->sendMessage($exception->getMessage());
+    $bot->sendMessage("File: " . $exception->getFile());
+    $bot->sendMessage("Line: " . $exception->getLine());
+    Log::error($exception);
+});
+
+$bot->onApiError(function (Nutgram $bot, TelegramException $exception) {
+    $bot->sendMessage($exception->getMessage());
+    $bot->sendMessage("File: " . $exception->getFile());
+    $bot->sendMessage("Line: " . $exception->getLine());
+    Log::error($exception);
+});

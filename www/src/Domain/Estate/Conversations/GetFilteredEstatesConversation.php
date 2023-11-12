@@ -3,10 +3,8 @@
 namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\GetFilteredEstatesAction;
-use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\Actor\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
@@ -27,8 +25,11 @@ class GetFilteredEstatesConversation extends Conversation
             $bot->sendMessage(
                 text: '🧐 Похоже, что Вы еще не задали настройки поиска. Можете сделать это по кнопке ниже.',
                 reply_markup: InlineKeyboardMarkup::make()
-                    ->addRow(InlineKeyboardButton::make('Настроить фильтр',
+                    ->addRow(InlineKeyboardButton::make('⚙ Настроить фильтр',
                         web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
+                    )
+                    ->addRow(InlineKeyboardButton::make('🚀 Запустить поиск',
+                        callback_data: "start search")
                     )
             );
             return;

@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return EstateFiltersData::from(json_decode($this->filters));
     }
+
+    public function getTelegramUrl(): string
+    {
+        return 'https://t.me/' . $this->username;
+    }
 }
