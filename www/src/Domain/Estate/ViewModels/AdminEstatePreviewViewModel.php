@@ -30,12 +30,12 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             "User login TG: @{$estate->user->username}\n" .
             "User poster count: 4\n" .
             "Number TG: {$estate->user->phone}\n" .
-            "📍Object location: {$estate->getGoogleLink()}\n" .
-            "👛Rate: 5 / 30 days\n" .
-            "💰Order price: 150.000 IDR\n" .
-            "Payment: transfer to BRI Bank card\n" .
-            "Paid: paid by BRI Bank card .\n" .
-            "Rating: 4🔑\n" .
+            "📍Object location: {$estate->getGoogleLink()}\n\n" .
+//            "👛Rate: 5 / 30 days\n" .
+//            "💰Order price: 150.000 IDR\n" .
+//            "Payment: transfer to BRI Bank card\n" .
+//            "Paid: paid by BRI Bank card .\n" .
+//            "Rating: 4🔑\n" .
 
             "<b>Статус: {$estate->status}\n\n</b>" .
             "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
@@ -43,8 +43,7 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
             "{$data->bedrooms} спален\n" .
             "{$data->bathrooms} ванных комнат\n" .
-            "{$data->conditioners} кондиционеров\n" .
-            "<b>Описание:</b> {$data->description}\n\n" .
+            "{$data->conditioners} кондиционеров\n".
             $price;
     }
 }

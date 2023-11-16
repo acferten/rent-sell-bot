@@ -101,10 +101,11 @@ class EstatePaymentMenu extends InlineMenu
         $bot->sendPhoto($photoId, '-1001875753187', caption: $preview,
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('Отклонить', callback_data: "decline {$this->estate->id}"))
-                ->addRow(InlineKeyboardButton::make('Одобрить', callback_data: "approve {$this->estate->id}"))
-//                ->addRow(InlineKeyboardButton::make('Подробнее', web_app: new WebAppInfo('https://vk.com')))
-                ->addRow(InlineKeyboardButton::make('Написать человеку', url: $user_url))
+                ->addRow(InlineKeyboardButton::make('✅ Одобрить', callback_data: "approve {$this->estate->id}"))
+                ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
+                    url: env('NGROK_SERVER') . "/estate/{$this->estate->id}"))
+                ->addRow(InlineKeyboardButton::make('✍️ Написать человеку', url: $user_url))
+                ->addRow(InlineKeyboardButton::make('❌ Отклонить', callback_data: "decline {$this->estate->id}"))
         );
         $bot->deleteUserData('estate_id', $this->estate->user_id);
         $this->closeMenu();
