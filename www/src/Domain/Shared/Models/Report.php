@@ -1,10 +1,9 @@
 <?php
 
-namespace Domain\Shared\Models\Reports;
+namespace Domain\Shared\Models;
 
 use Domain\Estate\Models\Estate;
 use Domain\Shared\Enums\Reports\ReportReasons;
-use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**

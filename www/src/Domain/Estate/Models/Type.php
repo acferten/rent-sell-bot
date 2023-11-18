@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $title
  */
-class EstateType extends BaseModel
+class Type extends BaseModel
 {
-    protected $table = 'house_types';
-
     protected $fillable = [
         'title'
     ];

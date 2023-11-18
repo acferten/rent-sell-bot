@@ -2,7 +2,7 @@
 
 namespace Domain\Estate\DataTransferObjects;
 
-use Domain\Estate\Models\EstateInclude;
+use Domain\Estate\Models\Amenity;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 
@@ -15,7 +15,7 @@ class EstateIncludeData extends Data
     {
     }
 
-    public static function fromModel(EstateInclude $model): EstateIncludeData
+    public static function fromModel(Amenity $model): EstateIncludeData
     {
         return new EstateIncludeData(
             id: $model->id,

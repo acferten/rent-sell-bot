@@ -5,11 +5,9 @@ namespace Domain\Estate\Actions;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstatePhoto;
-use Domain\Estate\Models\EstatePrice;
-use Domain\Shared\Models\Actor\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use Domain\Estate\Models\Photo;
+use Domain\Estate\Models\Price;
+use Domain\Shared\Models\User;
 
 class CreateEstateAction
 {
@@ -35,12 +33,12 @@ class CreateEstateAction
         $estate->includes()->syncWithPivotValues($data->includes->pluck('id'), ['estate_id' => $estate->id]);
 
         if ($data->deal_type == DealTypes::rent) {
-            $data->periods->each(fn($rent_price) => $estate->prices()->save(new EstatePrice($rent_price->all())));
+            $data->periods->each(fn($rent_price) => $estate->prices()->save(new Price($rent_price->all())));
         }
 
         if ($data->photo) {
             foreach ($data->photo as $photo) {
-                $estate->photos()->save(new EstatePhoto([
+                $estate->photos()->save(new Photo([
                     'photo' => $photo->storePublicly('', ['disk' => 'photos'])
                 ]));
             }

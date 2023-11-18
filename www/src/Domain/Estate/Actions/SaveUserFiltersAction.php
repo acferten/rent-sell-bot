@@ -3,7 +3,7 @@
 namespace Domain\Estate\Actions;
 
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
-use Domain\Shared\Models\Actor\User;
+use Domain\Shared\Models\User;
 
 class SaveUserFiltersAction
 {

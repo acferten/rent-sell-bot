@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Domain\Shared\Models\Actor\User;
+use Domain\Shared\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 

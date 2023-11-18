@@ -5,7 +5,7 @@ namespace Domain\Estate\ViewModels;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstateType;
+use Domain\Estate\Models\Type;
 use Domain\Shared\ViewModels\ToStringInterface;
 
 class AdminEstatePreviewViewModel implements ToStringInterface

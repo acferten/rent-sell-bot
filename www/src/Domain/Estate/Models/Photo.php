@@ -11,10 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $photo
  * @property Estate $estate
  */
-class EstatePhoto extends BaseModel
+class Photo extends BaseModel
 {
-    protected $table = 'estate_photos';
-
     protected $fillable = [
         'photo',
         'estate_id'

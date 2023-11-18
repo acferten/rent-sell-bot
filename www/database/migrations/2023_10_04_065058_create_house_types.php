@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('house_types', function (Blueprint $table) {
+        Schema::create('types', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('title');
             $table->timestamps();
@@ -22,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('house_types');
+        Schema::dropIfExists('types');
     }
 };

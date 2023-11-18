@@ -13,11 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $price
  * @property string $period
  */
-class EstatePrice extends BaseModel
+class Price extends BaseModel
 {
     protected string $dataClass = RentPeriodsData::class;
-
-    protected $table = 'estate_prices';
 
     protected $fillable = [
         'price',

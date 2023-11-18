@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('estate_photos', function (Blueprint $table) {
+        Schema::create('photos', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->integer('estate_id');
             $table->string('photo');
@@ -17,6 +17,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('estate_photos');
+        Schema::dropIfExists('photos');
     }
 };

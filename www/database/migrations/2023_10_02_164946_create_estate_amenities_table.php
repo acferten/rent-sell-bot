@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('estate_includes', function (Blueprint $table) {
+        Schema::create('amenity_estate', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->integer('estate_id');
-            $table->integer('include_id');
+            $table->integer('amenity_id');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('estate_includes');
+        Schema::dropIfExists('amenity_estate');
     }
 };
