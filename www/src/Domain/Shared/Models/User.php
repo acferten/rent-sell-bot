@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Shared\Models\Actor;
+namespace Domain\Shared\Models;
 
-use Database\Factories\UserFactory;
+use Database\Factories\Shared\UserFactory;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

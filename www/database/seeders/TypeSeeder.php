@@ -1,0 +1,22 @@
+<?php
+
+namespace Database\Seeders;
+
+use Domain\Estate\Models\Type;
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\Sequence;
+
+class TypeSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Type::factory()->count(5)
+            ->state(new Sequence(
+                ['title' => 'Вилла'],
+                ['title' => 'Дом'],
+                ['title' => 'Апартаменты'],
+                ['title' => 'Квартира'],
+                ['title' => 'Пентхаус']
+            ))->create();
+    }
+}

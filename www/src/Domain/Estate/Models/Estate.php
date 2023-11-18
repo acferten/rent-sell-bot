@@ -2,48 +2,22 @@
 
 namespace Domain\Estate\Models;
 
-use Domain\Estate\Builders\EstateBuilder;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Filters\Country;
 use Domain\Estate\Models\Filters\County;
 use Domain\Estate\Models\Filters\DealType;
-use Domain\Estate\Models\Filters\PriceEnd;
-use Domain\Estate\Models\Filters\PriceStart;
 use Domain\Estate\Models\Filters\State;
 use Domain\Estate\Models\Filters\Town;
-use Domain\Shared\Models\Actor\User;
 use Domain\Shared\Models\BaseModel;
-use Domain\Shared\Models\Reports\Report;
+use Domain\Shared\Models\Report;
+use Domain\Shared\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Collection;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
 
-/**
- * @property string $id
- * @property string $user_id
- * @property string $estate_type
- * @property string $deal_type
- * @property string $video
- * @property string $main_photo
- * @property string $description
- * @property string $status
- * @property integer $views
- * @property integer $chattings
- * @property integer $bedrooms
- * @property integer $bathrooms
- * @property integer $conditioners
- * @property string $latitude
- * @property string $longitude
- * @property int|string $house_number
- * @property EstateType $type
- * @property User $user
- * @property Collection $photos
- * @property Collection $prices
- * @property Collection $includes
- */
+
 class Estate extends BaseModel
 {
     use HasFilters;
@@ -69,7 +43,7 @@ class Estate extends BaseModel
         'main_photo',
         'status',
         'deal_type',
-        'house_type_id',
+        'type_id',
         'user_id',
         'country',
         'state',
@@ -85,11 +59,6 @@ class Estate extends BaseModel
         'relevance_date'
     ];
 
-    public function newEloquentBuilder($query): EstateBuilder
-    {
-        return new EstateBuilder($query);
-    }
-
     public function status(): EstateStatus
     {
         return EstateStatus::from($this->status);
@@ -98,7 +67,7 @@ class Estate extends BaseModel
     // Relations
     public function includes(): BelongsToMany
     {
-        return $this->belongsToMany(EstateInclude::class, 'estate_includes', 'estate_id', 'include_id');
+        return $this->belongsToMany(Amenity::class);
     }
 
     public function reports(): HasMany
@@ -108,12 +77,12 @@ class Estate extends BaseModel
 
     public function photos(): HasMany
     {
-        return $this->hasMany(EstatePhoto::class);
+        return $this->hasMany(Photo::class);
     }
 
     public function prices(): HasMany
     {
-        return $this->hasMany(EstatePrice::class);
+        return $this->hasMany(Price::class);
     }
 
     public function user(): BelongsTo
@@ -123,7 +92,7 @@ class Estate extends BaseModel
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(EstateType::class, 'house_type_id', 'id');
+        return $this->belongsTo(Type::class);
     }
 
     public function geoposition(): string

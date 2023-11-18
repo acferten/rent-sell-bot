@@ -6,7 +6,6 @@ namespace Domain\Estate\Conversations;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\GetEstateViewModel;
-use Domain\Shared\Models\Actor\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
@@ -64,7 +63,6 @@ class GetEstatesConversation extends Conversation
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
-                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report ' . $estate->id))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
 
@@ -87,7 +85,6 @@ class GetEstatesConversation extends Conversation
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('😡 Пожаловаться', callback_data: 'report'))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
         );
         $this->end();

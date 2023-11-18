@@ -5,7 +5,7 @@ namespace Domain\Estate\Menu;
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Traits\SetLocationProperties;
-use Domain\Shared\Models\Actor\User;
+use Domain\Shared\Models\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\KeyboardButton;

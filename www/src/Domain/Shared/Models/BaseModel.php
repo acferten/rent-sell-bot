@@ -18,8 +18,7 @@ abstract class BaseModel extends Model
         $parts = Str::of(get_called_class())->explode("\\");
         $domain = $parts[1];
         $model = $parts->last();
-        $folderModel = $parts[$parts->count()-2];
 
-        return app("Database\\Factories\\{$domain}\\{$folderModel}\\{$model}Factory");
+        return app("Database\\Factories\\{$domain}\\{$model}Factory");
     }
 }

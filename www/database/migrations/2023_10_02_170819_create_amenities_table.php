@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('includes', function (Blueprint $table) {
+        Schema::create('amenities', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('title');
+            $table->timestamps();
         });
     }
 
@@ -21,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('includes');
+        Schema::dropIfExists('amenities');
     }
 };

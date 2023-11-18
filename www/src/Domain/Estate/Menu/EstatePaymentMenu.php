@@ -8,12 +8,10 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Domain\Shared\Enums\MessageText;
-use Domain\Shared\Models\Actor\User;
 use SergiX44\Nutgram\Conversations\InlineMenu;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
-use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class EstatePaymentMenu extends InlineMenu
 {

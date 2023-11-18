@@ -3,18 +3,16 @@
 namespace Domain\Estate\DataTransferObjects;
 
 use Domain\Estate\Enums\DealTypes;
-use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstateInclude;
-use Domain\Estate\Models\EstatePhoto;
+use Domain\Estate\Models\Amenity;
+use Domain\Estate\Models\Photo;
 use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
-use Spatie\LaravelData\Lazy;
 
 class EstateData extends Data
 {
@@ -44,7 +42,7 @@ class EstateData extends Data
     {
         return self::from([
             ...$estate->toArray(),
-            'photo' => EstatePhoto::where(['estate_id' => $estate->id])->get()->pluck('photo'),
+            'photo' => Photo::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'user' => UserData::from($estate->user),
             'periods' => RentPeriodsData::collection($estate->prices),
             'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray())
@@ -56,7 +54,7 @@ class EstateData extends Data
         return self::from([
             ...$request->all(),
             'id' => (int)$request->estate,
-            'includes' => EstateInclude::whereIn('id', $request->collect('include_ids'))->get(),
+            'includes' => Amenity::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
