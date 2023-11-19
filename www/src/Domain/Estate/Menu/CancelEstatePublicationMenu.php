@@ -6,7 +6,6 @@ use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Enums\CancelReasons;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\EstatePhoto;
 use Domain\Shared\Enums\MessageText;
 use Illuminate\Support\Facades\Storage;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -57,7 +56,7 @@ class CancelEstatePublicationMenu extends InlineMenu
         $this->estate->delete();
 
         // clear storage files
-        EstatePhoto::where('estate_id', $this->estate->id)->get()
+        $this->estate->photos
             ->each(fn($photo) => Storage::disk('photos')->delete($photo->photo));
         Storage::disk('photos')->delete($this->estate->main_photo);
         if ($this->estate->video) {

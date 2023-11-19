@@ -11,7 +11,6 @@ use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
-
 class UserEstatesMenu extends InlineMenu
 {
     public Collection $estates;
@@ -63,13 +62,13 @@ class UserEstatesMenu extends InlineMenu
                 ->addButtonRow(InlineKeyboardButton::make(EstateStatus::inspection->value,
                     callback_data: "inspection,{$bot->callbackQuery()->data}@handleChangeSelectedStatus")),
 
-            EstateStatus::closed->value => $this->addButtonRow(InlineKeyboardButton::make(EstateStatus::inspection->value,
+            EstateStatus::closedByOwner->value => $this->addButtonRow(InlineKeyboardButton::make(EstateStatus::inspection->value,
                 callback_data: "inspection,{$bot->callbackQuery()->data}@handleChangeSelectedStatus"))
                 ->addButtonRow(InlineKeyboardButton::make(EstateStatus::active->value,
-                    callback_data: "active,{$bot->callbackQuery()->data}@handleChangeSelectedStatus")),
+                    callback_data: "active,{$bot->callbackQuery()->data}@handleChangeSelectedStatus"))
         };
 
-        $this->addButtonRow(InlineKeyboardButton::make("Вернуться назад", callback_data: "back@returnBack"))
+        $this->addButtonRow(InlineKeyboardButton::make("◀️ Вернуться назад", callback_data: "back@returnBack"))
             ->orNext('none')
             ->showMenu();
     }
@@ -88,7 +87,7 @@ class UserEstatesMenu extends InlineMenu
             ]),
 
             'closed' => Estate::where(['id' => $updateInfo[1]])->update([
-                'status' => EstateStatus::closed->value
+                'status' => EstateStatus::closedByOwner->value
             ]),
         };
 
@@ -97,25 +96,27 @@ class UserEstatesMenu extends InlineMenu
 
     public function getEstateLayout(): void
     {
+        $estate = $this->estates[$this->element];
         $count = count($this->estates);
         $element = $this->element + 1;
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . UserEstateViewModel::get($this->estates[$this->element]);
+
+        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . UserEstateViewModel::get($estate);
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('Посмотреть подробнее',
-                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$this->estates[$this->element]->id}")));
+            ->addButtonRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")));
 
-        if ($this->estates[$this->element]->status != EstateStatus::pending->value) {
-            $this->addButtonRow(InlineKeyboardButton::make('Изменить статус',
-                callback_data: "{$this->estates[$this->element]->id}@handleChangeStatus"));
+        if ($estate->status()->canBeChanged()) {
+            $this->addButtonRow(InlineKeyboardButton::make('✍️ Изменить статус',
+                callback_data: "{$estate->id}@handleChangeStatus"));
         }
 
         if (array_key_exists($this->element - 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Назад', callback_data: 'next@handleBack'));
+            $this->addButtonRow(InlineKeyboardButton::make('◀️ Назад', callback_data: 'next@handleBack'));
         }
 
         if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->addButtonRow(InlineKeyboardButton::make('Далее', callback_data: 'next@handleNext'));
+            $this->addButtonRow(InlineKeyboardButton::make('▶️ Далее', callback_data: 'next@handleNext'));
         }
 
         $this->orNext('none')
@@ -124,7 +125,7 @@ class UserEstatesMenu extends InlineMenu
 
     public function none(Nutgram $bot): void
     {
-        $bot->sendMessage('Bye!');
+        $bot->sendMessage('Вы вышли из просмотра списка ваших объектов.');
         $this->end();
     }
 }

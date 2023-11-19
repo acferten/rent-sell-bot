@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->integer('id')->autoIncrement();
 
             $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре',
-                'На модерации', 'Не заполнен'])
+                'На модерации', 'Не заполнен', 'Закрыто владельцем'])
                 ->default('Не заполнен');
 
             $table->string('deal_type');

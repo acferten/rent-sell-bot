@@ -66,6 +66,11 @@ class Estate extends BaseModel
         'user_id',
     ];
 
+    public function status(): EstateStatus
+    {
+        return EstateStatus::from($this->status);
+    }
+
     public function geoposition(): string
     {
         return implode(", ", array_filter(array($this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number)));
