@@ -49,7 +49,7 @@ class StartMenu extends InlineMenu
                 ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make(
                 '✍️ Заполнить форму',
-                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/create"))
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/create"))
             )->orNext('none')
             ->backButton()
             ->showMenu();
@@ -65,7 +65,7 @@ class StartMenu extends InlineMenu
             )
             ->addButtonRow(InlineKeyboardButton::make(
                 EstateCallbacks::GetFilteredEstates->value,
-                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/filters"))
             )->backButton()
             ->orNext('none')
             ->showMenu();

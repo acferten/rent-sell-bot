@@ -29,11 +29,11 @@ class SendPreviewMessageAction
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('✅ Все верно, перейти к оплате',
                     callback_data: "pay"))
                 ->addRow(InlineKeyboardButton::make('◀️ Вернуться к первому шагу',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}/edit")))
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}/edit")))
                 ->addRow(InlineKeyboardButton::make('✍️ Изменить локацию объекта',
                     callback_data: "change location"))
                 ->addRow(InlineKeyboardButton::make('❌ Отменить публикацию объявления',

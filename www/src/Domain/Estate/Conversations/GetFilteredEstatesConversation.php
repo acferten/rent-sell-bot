@@ -27,7 +27,7 @@ class GetFilteredEstatesConversation extends Conversation
                 text: '🧐 Похоже, что Вы еще не задали настройки поиска. Можете сделать это по кнопке ниже.',
                 reply_markup: InlineKeyboardMarkup::make()
                     ->addRow(InlineKeyboardButton::make('⚙ Настроить фильтр',
-                        web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/filters"))
+                        web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/filters"))
                     )
                     ->addRow(InlineKeyboardButton::make('🚀 Запустить поиск',
                         callback_data: "start search")
@@ -76,7 +76,7 @@ class GetFilteredEstatesConversation extends Conversation
         $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
                 ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
         );
@@ -99,7 +99,7 @@ class GetFilteredEstatesConversation extends Conversation
         $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
         );
         $this->end();

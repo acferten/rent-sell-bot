@@ -16,11 +16,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
+use Spatie\LaravelData\WithData;
 
 
 class Estate extends BaseModel
 {
     use HasFilters;
+    use WithData;
+
+    protected string $dataClass = EstateData::class;
 
     protected array $filters = [
         DealType::class,
@@ -29,8 +33,6 @@ class Estate extends BaseModel
         County::class,
         Town::class,
     ];
-
-    protected string $dataClass = EstateData::class;
 
     protected $fillable = [
         'description',
@@ -65,7 +67,7 @@ class Estate extends BaseModel
     }
 
     // Relations
-    public function includes(): BelongsToMany
+    public function amenities(): BelongsToMany
     {
         return $this->belongsToMany(Amenity::class);
     }

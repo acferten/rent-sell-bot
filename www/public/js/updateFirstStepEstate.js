@@ -33,7 +33,7 @@ form.addEventListener('submit', (e) => {
     })
     formData.set('periods', JSON.stringify(formatPeriods));
 
-    fetch(`${NGROK_URL}/estate/${ID_ESTATE}?_method=PATCH`, {
+    fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}?_method=PATCH`, {
         headers: {
             Accept: "application/json"
         },

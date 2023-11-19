@@ -14,7 +14,7 @@ sendReportForm.addEventListener('submit', (event) => {
     sendReportFormButton.disabled = true;
     sendReportFormButton.innerText = "Обработка...";
     const formData = new FormData(event.currentTarget);
-    fetch(`${NGROK_URL}/estate/${ID_ESTATE}/report`, {
+    fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}/report`, {
         headers: {
             Accept: "application/json"
         },

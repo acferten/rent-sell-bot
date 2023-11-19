@@ -2,8 +2,10 @@
 
 namespace Domain\Estate\Models;
 
+use Domain\Estate\DataTransferObjects\AmenityData;
 use Domain\Shared\Models\BaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\LaravelData\WithData;
 
 /**
  * @property int $id
@@ -12,6 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Amenity extends BaseModel
 {
+    use WithData;
+
+    protected string $dataClass = AmenityData::class;
+
     protected $fillable = [
         'title'
     ];

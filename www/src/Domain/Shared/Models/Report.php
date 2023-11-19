@@ -3,7 +3,6 @@
 namespace Domain\Shared\Models;
 
 use Domain\Estate\Models\Estate;
-use Domain\Shared\Enums\Reports\ReportReasons;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -13,11 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Report extends BaseModel
 {
-    public function reason(): ReportReasons
-    {
-        return ReportReasons::from($this->reason);
-    }
-
     // Relations
     public function estate(): BelongsTo
     {

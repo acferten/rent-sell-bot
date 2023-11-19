@@ -6,7 +6,7 @@ use Domain\Estate\Models\Amenity;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Lazy;
 
-class EstateIncludeData extends Data
+class AmenityData extends Data
 {
     public function __construct(
         public readonly int    $id,
@@ -15,9 +15,9 @@ class EstateIncludeData extends Data
     {
     }
 
-    public static function fromModel(Amenity $model): EstateIncludeData
+    public static function fromModel(Amenity $model): AmenityData
     {
-        return new EstateIncludeData(
+        return new AmenityData(
             id: $model->id,
             title: $model->title,
         );

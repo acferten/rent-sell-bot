@@ -24,7 +24,7 @@ class SendReportEstateAction
             '-1001875753187', parse_mode: 'html', disable_notification: true,
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('👀 Посмотреть объявление',
-                    url: (env('NGROK_SERVER') . "/estate/{$estate->id}")))
+                    url: (env('NGROK_SERVER') . "/estates/{$estate->id}")))
                 ->addRow(InlineKeyboardButton::make('✏ Написать владельцу',
                     url: $estate->user->getTelegramUrl()))
         );

@@ -13,7 +13,7 @@ const stateSelect = document.getElementById('state');
 const countySelect = document.getElementById('county');
 const townSelect = document.getElementById('town');
 
-fetch(`${NGROK_URL}/estate/countries`, {
+fetch(`${NGROK_URL}/api/countries`, {
     headers: {
         Accept: "application/json"
     },
@@ -38,7 +38,7 @@ countrySelect.addEventListener('change', (event) => {
         townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
         return;
     }
-    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states`, {
+    fetch(`${NGROK_URL}/api/countries/${countrySelect.value}/states`, {
         headers: {
             Accept: "application/json"
         },
@@ -67,7 +67,7 @@ stateSelect.addEventListener('change', (event) => {
         townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
         return;
     }
-    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states/${stateSelect.value}/counties`, {
+    fetch(`${NGROK_URL}/api/countries/${countrySelect.value}/states/${stateSelect.value}/counties`, {
         headers: {
             Accept: "application/json"
         },
@@ -92,7 +92,7 @@ countySelect.addEventListener('change', (event) => {
         townSelect.innerHTML = "<option value='' selected>Выберите город</option>";
         return;
     }
-    fetch(`${NGROK_URL}/estate/countries/${countrySelect.value}/states/${stateSelect.value}/counties/${countySelect.value}/towns`, {
+    fetch(`${NGROK_URL}/api/countries/${countrySelect.value}/states/${stateSelect.value}/counties/${countySelect.value}/towns`, {
         headers: {
             Accept: "application/json"
         },
@@ -126,7 +126,7 @@ form.addEventListener('submit', (e) => {
 
     const formData = new FormData(e.currentTarget);
 
-    fetch(`${NGROK_URL}/estate/filters`, {
+    fetch(`${NGROK_URL}/api/filters`, {
         headers: {
             Accept: "application/json"
         },

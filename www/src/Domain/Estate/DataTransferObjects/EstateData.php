@@ -25,7 +25,7 @@ class EstateData extends Data
         public null|int                                    $price,
         /** @var DataCollection<RentPeriodsData> */
         public null|DataCollection                         $periods,
-        public readonly null|Collection|string             $includes,
+        public readonly null|Collection|string             $amenities,
         public readonly null|array|UploadedFile|Collection $photo,
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
@@ -45,7 +45,7 @@ class EstateData extends Data
             'photo' => Photo::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'user' => UserData::from($estate->user),
             'periods' => RentPeriodsData::collection($estate->prices),
-            'includes' => implode(', ', $estate->includes->map(fn($include) => $include->title)->toArray())
+            'amenities' => implode(', ', $estate->amenities->map(fn($include) => $include->title)->toArray())
         ]);
     }
 
