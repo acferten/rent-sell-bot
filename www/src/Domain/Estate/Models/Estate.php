@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
 use Spatie\LaravelData\WithData;
 
-
 class Estate extends BaseModel
 {
     use HasFilters;
@@ -39,31 +38,42 @@ class Estate extends BaseModel
         'bathrooms',
         'bedrooms',
         'conditioners',
-        'views',
-        'chattings',
+        'price',
+
         'video',
         'main_photo',
+
         'status',
         'deal_type',
-        'type_id',
-        'user_id',
+
+        'latitude',
+        'longitude',
         'country',
         'state',
         'county',
         'town',
         'district',
         'street',
-        'price',
-        'latitude',
-        'longitude',
-        'end_date',
         'house_number',
-        'relevance_date'
+
+        'end_date',
+        'relevance_date',
+
+        'views',
+        'chattings',
+
+        'type_id',
+        'user_id',
     ];
 
-    public function status(): EstateStatus
+    public function geoposition(): string
     {
-        return EstateStatus::from($this->status);
+        return implode(", ", array_filter(array($this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number)));
+    }
+
+    public function getGoogleLink(): string
+    {
+        return "https://maps.google.com/?q={$this->latitude},{$this->longitude}";
     }
 
     // Relations
@@ -95,15 +105,5 @@ class Estate extends BaseModel
     public function type(): BelongsTo
     {
         return $this->belongsTo(Type::class);
-    }
-
-    public function geoposition(): string
-    {
-        return implode(", ", array_filter(array($this->country, $this->state, $this->county, $this->town, $this->district, $this->street, $this->house_number)));
-    }
-
-    public function getGoogleLink(): string
-    {
-        return "https://maps.google.com/?q={$this->latitude},{$this->longitude}";
     }
 }

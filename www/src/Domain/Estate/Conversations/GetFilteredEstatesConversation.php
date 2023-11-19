@@ -3,6 +3,7 @@
 namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\GetFilteredEstatesAction;
+use Domain\Estate\Messages\EstateCardMessage;
 use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\User;
 use Illuminate\Support\Collection;
@@ -63,40 +64,21 @@ class GetFilteredEstatesConversation extends Conversation
 
     public function getEstateLayout(Nutgram $bot): void
     {
-        $count = count($this->estates);
-        $element = $this->element + 1;
-        $estate = $this->estates[$this->element];
-        $estate->update([
-            'views' => $estate->views + 1
-        ]);
-
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
-        $photo = fopen("photos/{$estate->main_photo}", 'r+');
-
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
-            reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
-                ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
-        );
+        EstateCardMessage::send($this->estates[$this->element], $bot->userId());
 
         $this->next('handleNext');
     }
 
     public function getLastEstateLayout(Nutgram $bot): void
     {
-        $count = count($this->estates);
-        $element = $this->element + 1;
         $estate = $this->estates[$this->element];
         $estate->update([
             'views' => $estate->views + 1
         ]);
 
-        $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . GetEstateViewModel::get($estate);
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview, parse_mode: 'html',
+        $bot->sendPhoto(photo: InputFile::make($photo), caption: GetEstateViewModel::get($estate), parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))

@@ -201,7 +201,7 @@
                     <div class="estate_includes__item">
                         <input type="checkbox" name="include_ids[]" value="{{$include->id}}"
                                id="{{$include->title}}-{{$include->id}}"
-                               @if($estate_includes->contains("$include->title")) checked @endif
+                               @if($estate_amenities->contains("$include->title")) checked @endif
                         />
                         <label for="{{$include->title}}-{{$include->id}}">
                             <span class="radio-label">{{$include->title}}</span>

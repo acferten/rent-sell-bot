@@ -30,7 +30,7 @@ class EstateData extends Data
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
         public readonly UploadedFile|string                $main_photo,
-        public readonly int                                $house_type_id,
+        public readonly int                                $type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
         public EstateStatus                                $status = EstateStatus::notFinished

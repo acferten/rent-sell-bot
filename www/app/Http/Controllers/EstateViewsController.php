@@ -7,7 +7,6 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Amenity;
-use Domain\Estate\Models\Price;
 use Domain\Estate\Models\Type;
 use Illuminate\View\View;
 
@@ -32,7 +31,7 @@ class EstateViewsController extends Controller
             'estate_main_photo' => $estate->main_photo,
             'estate_photos' => [$estate->main_photo, ...$estate->photos->map(fn($photo) => $photo->photo)],
             'estate_video' => $estate->video,
-            'estate_includes' => $estate->includes->map(fn($include) => $include->title),
+            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
             'estate_rent' => $estate->prices->map(fn($rent_price) => RentPeriodsData::from($rent_price)) ?? null,
         ];
         return view('view_estate', $data);
@@ -51,7 +50,7 @@ class EstateViewsController extends Controller
             'estate_main_photo' => $estate->main_photo,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_video' => $estate->video,
-            'estate_includes' => $estate->includes->map(fn($include) => $include->title),
+            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
         ];
         return view('update_estate_form', $data);
     }

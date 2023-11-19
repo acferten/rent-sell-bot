@@ -172,9 +172,9 @@
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Удобства проживания</label>
-        @if(count($estate_includes))
+        @if(count($estate_amenities))
             <ul>
-                @foreach($estate_includes as $include)
+                @foreach($estate_amenities as $include)
                     <li>{{ $include }}</li>
                 @endforeach
             </ul>

@@ -19,8 +19,8 @@ class EstateSeeder extends Seeder
         Estate::factory()->count(50)->create();
 
         Estate::all()->each(function ($estate) {
-            $estateIncludes = Amenity::all()->random(3);
-            $estate->includes()->attach($estateIncludes);
+            $amenities = Amenity::all()->random(3);
+            $estate->amenities()->attach($amenities);
         });
 
         Estate::where('deal_type', DealTypes::rent->value)->get()

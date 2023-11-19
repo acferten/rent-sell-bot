@@ -2,7 +2,8 @@
 
 namespace Domain\Shared\Menu;
 
-use Domain\Estate\Conversations\GetEstatesConversation;
+use Domain\Estate\Actions\GetFilteredEstatesAction;
+use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Shared\Enums\MessageText;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -75,7 +76,7 @@ class StartMenu extends InlineMenu
     public function getEstatesChoice(Nutgram $bot): void
     {
         $this->closeMenu();
-        GetEstatesConversation::begin($bot);
+        GetFilteredEstatesConversation::begin($bot);
     }
 
     public function backButton(): self
