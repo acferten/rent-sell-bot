@@ -26,7 +26,7 @@ class PreviewCreatedEstateViewModel implements ToStringInterface
 
         return "Все получилось! 🥳\nВаш объект:\n\n" .
             "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
+            "<b>🎯 Включено в стоимость:</b> {$data->amenities}\n" .
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
             $price;
     }

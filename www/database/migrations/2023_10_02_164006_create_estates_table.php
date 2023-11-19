@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->integer('views')->default(0);
             $table->integer('chattings')->default(0);
             $table->date('end_date')->nullable();
-            $table->date('relevance_date')->nullable();
+            $table->date('relevance_date')->default(now());
 
             $table->integer('type_id');
             $table->bigInteger('user_id');

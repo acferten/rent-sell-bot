@@ -12,21 +12,22 @@ use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
 
 class EstateCardMessage
 {
-    public static function send(Estate $estate, int $user_id)
+    public static function send(Estate $estate, int $user_id, bool $button_next = false)
     {
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
-        $estate->update([
-            'views' => $estate->views + 1
-        ]);
+        $markup = InlineKeyboardMarkup::make()
+            ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
+            ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()));
+
+        if ($button_next) {
+            $markup->addRow(InlineKeyboardButton::make('🔽 Следующее объявление', callback_data: 'next'));
+        }
 
         Telegram::sendPhoto(photo: InputFile::make($photo), chat_id: $user_id,
             caption: GetEstateViewModel::get($estate), parse_mode: 'html',
-            reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
-                ->addRow(InlineKeyboardButton::make('➡ Следующее объявление', callback_data: 'next'))
+            reply_markup: $markup
         );
     }
 }

@@ -54,7 +54,7 @@ class EstateData extends Data
         return self::from([
             ...$request->all(),
             'id' => (int)$request->estate,
-            'includes' => Amenity::whereIn('id', $request->collect('include_ids'))->get(),
+            'amenities' => Amenity::whereIn('id', $request->collect('include_ids'))->get(),
             'photo' => $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
@@ -62,6 +62,7 @@ class EstateData extends Data
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
             ]),
+            'type_id' => $request->input('house_type_id'),
             'periods' => RentPeriodsData::collection(collect(json_decode($request->input('periods')))),
             'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
@@ -84,8 +85,8 @@ class EstateData extends Data
             'photo*' => 'image',
             'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
 
-            'include_ids' => 'array|exists:includes,id',
-            'house_type_id' => 'required|exists:house_types,id',
+            'include_ids' => 'array|exists:amenities,id',
+            'house_type_id' => 'required|exists:types,id',
 
             'user_id' => 'required|min:1',
             'username' => 'required|string',

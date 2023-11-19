@@ -5,7 +5,7 @@ document.getElementById('username').value = tg.initDataUnsafe.user.username;
 document.getElementById('user_id').value = tg.initDataUnsafe.user.id;
 document.getElementById('first_name').value = tg.initDataUnsafe.user.first_name;
 document.getElementById('last_name').value = tg.initDataUnsafe.user.last_name;
-
+document.getElementById('initData').value = tg.initData;
 // dynamic location
 
 const countrySelect = document.getElementById('country');

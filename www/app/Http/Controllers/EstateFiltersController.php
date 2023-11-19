@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Domain\Estate\Actions\SaveUserFiltersAction;
+use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
@@ -12,6 +13,11 @@ use Domain\Estate\Models\Estate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use Nutgram\Laravel\Facades\Telegram;
+use SergiX44\Nutgram\Nutgram;
+use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
+use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
+use function Nutgram\Laravel\Support\webAppData;
 
 class EstateFiltersController extends Controller
 {
@@ -30,6 +36,11 @@ class EstateFiltersController extends Controller
     {
         $request->validate(EstateFiltersData::rules());
         $data = EstateFiltersData::fromRequest($request);
+
+        $result = new InlineQueryResultArticle(1, 'Успех',
+            new InputTextMessageContent("/estates"));
+
+        Telegram::answerWebAppQuery(webAppData()->query_id, $result);
 
         return SaveUserFiltersAction::execute($data);
     }

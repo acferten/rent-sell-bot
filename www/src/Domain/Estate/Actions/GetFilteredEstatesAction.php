@@ -6,10 +6,11 @@ use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class GetFilteredEstatesAction
 {
-    public static function execute(EstateFiltersData $filters)
+    public static function execute(EstateFiltersData $filters): Builder
     {
         $estates = Estate::filter([...$filters->all()]);
 
@@ -49,12 +50,14 @@ class GetFilteredEstatesAction
             });
         }
 
-        // estate includes
+        // estate amenities
         if (!is_null($filters->include_ids)) {
-            $estates->whereHas('includes', function (Builder $query) use ($filters) {
-                $query->whereIn('estate_includes.include_id', $filters->include_ids);
+            $estates->whereHas('amenities', function (Builder $query) use ($filters) {
+                $query->whereIn('amenity_estate.amenity_id', $filters->include_ids);
             });
         }
+
+        $estates->orderBy('relevance_date', 'DESC');
 
         return $estates;
     }

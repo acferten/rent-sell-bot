@@ -4,12 +4,10 @@ namespace Domain\Estate\Conversations;
 
 use Domain\Estate\Actions\GetFilteredEstatesAction;
 use Domain\Estate\Messages\EstateCardMessage;
-use Domain\Estate\ViewModels\GetEstateViewModel;
 use Domain\Shared\Models\User;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\Conversation;
 use SergiX44\Nutgram\Nutgram;
-use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 use SergiX44\Nutgram\Telegram\Types\WebApp\WebAppInfo;
@@ -30,9 +28,6 @@ class GetFilteredEstatesConversation extends Conversation
                     ->addRow(InlineKeyboardButton::make('⚙ Настроить фильтр',
                         web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/filters"))
                     )
-                    ->addRow(InlineKeyboardButton::make('🚀 Запустить поиск',
-                        callback_data: "start search")
-                    )
             );
             return;
         }
@@ -40,7 +35,11 @@ class GetFilteredEstatesConversation extends Conversation
         $this->estates = GetFilteredEstatesAction::execute($user->getFilters())->get();
 
         if ($this->estates->isEmpty()) {
-            $bot->sendMessage('Нет объектов!');
+            $bot->sendMessage("🧐 Упс! Ничего не найдено…\nВы задали слишком узкие параметры поиска.\nПросто измените фильтр и бот покажет подходящие объявления.", parse_mode: 'html',
+                reply_markup: InlineKeyboardMarkup::make()
+                    ->addRow(InlineKeyboardButton::make('⚙ Настроить фильтр',
+                        web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/filters"))
+                    ));
             $this->end();
             return;
         }
@@ -51,7 +50,10 @@ class GetFilteredEstatesConversation extends Conversation
 
     public function handleNext(Nutgram $bot): void
     {
-        $bot->callbackQuery()->data;
+        if (!$bot->isCallbackQuery()) {
+            $this->getEstateLayout($bot);
+            return;
+        }
         $bot->answerCallbackQuery();
         $this->element += 1;
 
@@ -64,7 +66,13 @@ class GetFilteredEstatesConversation extends Conversation
 
     public function getEstateLayout(Nutgram $bot): void
     {
-        EstateCardMessage::send($this->estates[$this->element], $bot->userId());
+        $estate = $this->estates[$this->element];
+
+        $estate->update([
+            'views' => $estate->views + 1
+        ]);
+
+        EstateCardMessage::send($estate, $bot->userId(), true);
 
         $this->next('handleNext');
     }
@@ -72,18 +80,13 @@ class GetFilteredEstatesConversation extends Conversation
     public function getLastEstateLayout(Nutgram $bot): void
     {
         $estate = $this->estates[$this->element];
+
         $estate->update([
             'views' => $estate->views + 1
         ]);
 
-        $photo = fopen("photos/{$estate->main_photo}", 'r+');
+        EstateCardMessage::send($estate, $bot->userId());
 
-        $bot->sendPhoto(photo: InputFile::make($photo), caption: GetEstateViewModel::get($estate), parse_mode: 'html',
-            reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
-                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()))
-        );
         $this->end();
     }
 

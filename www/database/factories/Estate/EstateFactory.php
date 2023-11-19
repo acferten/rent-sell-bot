@@ -48,6 +48,7 @@ class EstateFactory extends Factory
             'end_date' => fake()->dateTimeThisYear,
             'created_at' => fake()->dateTimeThisYear,
             'updated_at' => fake()->dateTimeThisYear,
+            'relevance_date' => fake()->dateTime,
         ];
     }
 }

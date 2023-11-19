@@ -39,7 +39,7 @@ class AdminEstatePreviewViewModel implements ToStringInterface
 
             "<b>Статус: {$estate->status}\n\n</b>" .
             "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>🎯 Включено в стоимость:</b> {$data->includes}\n" .
+            "<b>🎯 Включено в стоимость:</b> {$data->amenities}\n" .
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
             "{$data->bedrooms} спален\n" .
             "{$data->bathrooms} ванных комнат\n" .

@@ -51,8 +51,8 @@ class EstateFiltersData extends Data
     {
         return [
             'deal_type' => 'required|string|in:Аренда,Продажа',
-            'include_ids' => 'array|exists:includes,id',
-            'house_type_ids' => 'exists:house_types,id',
+            'include_ids' => 'array|exists:amenities,id',
+            'house_type_ids' => 'exists:types,id',
             'user_id' => 'required|min:1',
             'username' => 'required|string',
             'first_name' => 'required|string'

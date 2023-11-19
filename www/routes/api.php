@@ -6,7 +6,8 @@ use App\Http\Controllers\EstateLocationsController;
 use Illuminate\Support\Facades\Route;
 use Nutgram\Laravel\Middleware\ValidateWebAppData;
 
-Route::post('estates/filters', [EstateFiltersController::class, 'store']);
+Route::post('estates/filters', [EstateFiltersController::class, 'store'])
+    ->middleware(ValidateWebAppData::class);;
 
 Route::resource('estates', EstateController::class)->only('store', 'update')
     ->middleware(ValidateWebAppData::class);
