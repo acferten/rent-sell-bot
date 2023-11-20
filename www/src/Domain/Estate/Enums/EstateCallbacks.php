@@ -6,7 +6,7 @@ enum  EstateCallbacks: string
 {
     case StartCreateEstate = '👨‍💼 Сдать \ продать жильё';
     case CreateEstate = '🏡 Разместить объект';
-    case CallManager = '🙋‍ Написать менеджеру';
+    case CallManager = '🙋‍♀ Чат с менеджером';
     case StartGetEstates = '🕵 Найти жильё';
     case GetEstates = '🏡 Посмотреть все';
     case GetFilteredEstates = '🎯 Настроить фильтр';

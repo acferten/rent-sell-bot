@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('bathrooms');
             $table->integer('conditioners');
             $table->string('main_photo');
+            $table->string('check_photo')->nullable();
             $table->string('video')->nullable();
             $table->text('description');
 

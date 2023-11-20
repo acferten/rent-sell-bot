@@ -54,13 +54,15 @@ class GetFilteredEstatesConversation extends Conversation
             $this->getEstateLayout($bot);
             return;
         }
-        $bot->answerCallbackQuery();
-        $this->element += 1;
+        if ($bot->callbackQuery()->data == 'next') {
+            $bot->answerCallbackQuery();
+            $this->element += 1;
 
-        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
-            $this->getEstateLayout($bot);
-        } else {
-            $this->getLastEstateLayout($bot);
+            if (array_key_exists($this->element + 1, $this->estates->toArray())) {
+                $this->getEstateLayout($bot);
+            } else {
+                $this->getLastEstateLayout($bot);
+            }
         }
     }
 

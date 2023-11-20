@@ -24,26 +24,20 @@ class AdminEstatePreviewViewModel implements ToStringInterface
         }
 
         return
-            "Poster: #{$estate->id}\n" .
+            "✅ Poster: #{$estate->id}\n" .
             "Created: {$estate->created_at}\n" .
             "User id: {$estate->user->id}\n" .
             "User login TG: @{$estate->user->username}\n" .
-            "User poster count: 4\n" .
+            "User poster count: {$estate->user->estates->count()}\n" .
             "Number TG: {$estate->user->phone}\n" .
-            "📍Object location: {$estate->getGoogleLink()}\n\n" .
-//            "👛Rate: 5 / 30 days\n" .
-//            "💰Order price: 150.000 IDR\n" .
-//            "Payment: transfer to BRI Bank card\n" .
-//            "Paid: paid by BRI Bank card .\n" .
-//            "Rating: 4🔑\n" .
+            "💰Order price: 300.000 IDR\n\n" .
+
+            "<b>Status: {$estate->status}</b>" .
 
             "<b>Статус: {$estate->status}\n\n</b>" .
-            "<b>🤝 Сделка:</b> {$data->deal_type->value}\n" .
-            "<b>🎯 Включено в стоимость:</b> {$data->amenities}\n" .
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
-            "{$data->bedrooms} спален\n" .
-            "{$data->bathrooms} ванных комнат\n" .
-            "{$data->conditioners} кондиционеров\n".
+            "🛏 {$data->bedrooms} спален\n" .
+            "{$estate->getGoogleLink()}" .
             $price;
     }
 }

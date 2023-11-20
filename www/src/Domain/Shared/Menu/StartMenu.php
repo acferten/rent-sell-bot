@@ -2,7 +2,6 @@
 
 namespace Domain\Shared\Menu;
 
-use Domain\Estate\Actions\GetFilteredEstatesAction;
 use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Shared\Enums\MessageText;
@@ -30,7 +29,7 @@ class StartMenu extends InlineMenu
 
     public function startCreateEstateChoice(Nutgram $bot): void
     {
-        $this->menuText(MessageText::StartCommandText->value)
+        $this->menuText(MessageText::CreateRentText->value, ['parse_mode' => 'html'])
             ->clearButtons()->addButtonRow(InlineKeyboardButton::make(
                 EstateCallbacks::CreateEstate->value,
                 callback_data: EstateCallbacks::CreateEstate->name . '@createEstateChoice'
