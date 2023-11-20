@@ -16,7 +16,7 @@ form.addEventListener('submit', (e) => {
     })
 
     document.getElementById('btn-submit').disabled = true;
-    document.getElementById('btn-submit').innerText = "Обработка...";
+    document.getElementById('btn-submit').innerText = "💆‍♂️ Релакс… Идёт загрузка объявления";
 
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

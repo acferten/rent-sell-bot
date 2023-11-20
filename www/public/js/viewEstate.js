@@ -12,7 +12,7 @@ sendReportShowButton.addEventListener('click', (event) => {
 sendReportForm.addEventListener('submit', (event) => {
     event.preventDefault();
     sendReportFormButton.disabled = true;
-    sendReportFormButton.innerText = "Обработка...";
+    sendReportFormButton.innerText = "💆‍♂️ Релакс… Идёт загрузка объявления";
     const formData = new FormData(event.currentTarget);
     fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}/report`, {
         headers: {
