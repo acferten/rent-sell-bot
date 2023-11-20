@@ -17,9 +17,9 @@ class EstateCardMessage
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
 
         $markup = InlineKeyboardMarkup::make()
-            ->addRow(InlineKeyboardButton::make('🔍 Посмотреть подробнее',
+            ->addRow(InlineKeyboardButton::make('👉 Подробнее',
                 web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
-            ->addRow(InlineKeyboardButton::make('🥸 Написать владельцу', url: $estate->user->getTelegramUrl()));
+            ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу', url: $estate->user->getTelegramUrl()));
 
         if ($button_next) {
             $markup->addRow(InlineKeyboardButton::make('🔽 Следующее объявление', callback_data: 'next'));

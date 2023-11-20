@@ -2,7 +2,6 @@
 
 namespace Domain\Estate\Menu;
 
-use Carbon\Carbon;
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
@@ -21,66 +20,53 @@ class EstatePaymentMenu extends InlineMenu
     {
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
+        AdminChatEstateCardMessage::
+
         $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
 
         $this->clearButtons()
-            ->menuText("<b>Выбор тарифа</b>\n\nОпределите на какой период вы бы хотели разместить объявление об аренде вашего объекта.\nОбратите внимание, размещая на месяц вы экономите 50%.\n\nПрайс\nНа 5 дней - 10$\nНа 30 дней - 30$\n\nВыберите на какой срок вы бы хотели разместить объявление?",
+            ->menuText("🌟 Прекрасно! Вам осталось оплатить объявление и его увидят все пользователи GetKeysBot.
+
+💸 Стоимость размещение одного объявления на 30 дней:
+300.000 IDR
+
+Как вам удобнее оплатить?
+",
                 ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('На 5 дней', callback_data: '5days@handlePaymentPlan'))
-            ->addButtonRow(InlineKeyboardButton::make('На 30 дней', callback_data: '30days@handlePaymentPlan'))
-            ->addButtonRow(InlineKeyboardButton::make('Отмена публикации', callback_data: 'cancel publish'))
+            ->addButtonRow(InlineKeyboardButton::make('💰 На карту Тинькофф в рублях', callback_data: 'tinkoff@handlePaymentBank'))
+            ->addButtonRow(InlineKeyboardButton::make('💸 На индонезийскую карту в рупиях', callback_data: 'indonesia@handlePaymentBank'))
+            ->addButtonRow(InlineKeyboardButton::make('🙅‍♂️ Отменить размещение ', callback_data: 'cancel publish'))
             ->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
             ->showMenu();
     }
 
-    public function handlePaymentPlan(Nutgram $bot): void
-    {
-        if ($bot->callbackQuery()->data == '5days') {
-
-            $this->estate->update([
-                'end_date' => Carbon::now()->addDays(5)
-            ]);
-
-            $this->clearButtons()
-                ->menuText("<b>Вы выбрали размещение на 5 дней.</b>\n\nСтоимость размещения 10$\n\nВы можете оплатить двумя способами:\n\nПеревод на карту Тинькофф в рублях. Сумма перевода ЧЧЧ рублей. (делаем формулу для конвертации)\n\nПеревод на индонезийскую карту банка BRI в рупиях. Сумма перевода ЯЯЯ рупий. (делаем формулу для конвертации)\n\nКак вам удобнее оплатить?",
-                    ['parse_mode' => 'html'])
-                ->addButtonRow(InlineKeyboardButton::make('На карту Тинькофф в рублях', callback_data: 'tinkoff5@handlePaymentBank'))
-                ->addButtonRow(InlineKeyboardButton::make('На индонезийскую карту в рупиях', callback_data: 'indonesia5@handlePaymentBank'))
-                ->showMenu();
-        } else if ($bot->callbackQuery()->data == '30days') {
-
-            $this->estate->update([
-                'end_date' => Carbon::now()->addDays(30)
-            ]);
-
-            $this->clearButtons()
-                ->menuText("<b>Вы выбрали размещение на 30 дней.</b>\n\nСтоимость размещения 30$\n\nВы можете оплатить двумя способами:\n\nПеревод на карту Тинькофф в рублях. Сумма перевода ЧЧЧ рублей. (делаем формулу для конвертации)\n\nПеревод на индонезийскую карту банка BRI в рупиях. Сумма перевода ЯЯЯ рупий. (делаем формулу для конвертации)\n\nКак вам удобнее оплатить?",
-                    ['parse_mode' => 'html'])
-                ->addButtonRow(InlineKeyboardButton::make('На карту Тинькофф в рублях', callback_data: 'tinkoff30@handlePaymentBank'))
-                ->addButtonRow(InlineKeyboardButton::make('На индонезийскую карту в рупиях', callback_data: 'indonesia30@handlePaymentBank'))
-                ->showMenu();
-        }
-
-    }
 
     public function handlePaymentBank(Nutgram $bot): void
     {
-        if ($bot->callbackQuery()->data == 'tinkoff5') {
+        $rub = 300000 / 1000 * 6.2;
+
+        if ($bot->callbackQuery()->data == 'tinkoff') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 1000 рублей.",
-                    ['parse_mode' => 'html'])->showMenu();
-        } else if ($bot->callbackQuery()->data == 'tinkoff30') {
+                ->menuText("💳 Вот данные для перевода на карту Тинькофф в рублях:
+
+         <b>2200 7007 7932 1818
+            Olga G. </b>
+
+Сумма для перевода {$rub} рублей.
+
+ 🧾 После того как переведёте, нажмите Отправить чек и прикрепите скриншот.
+", ['parse_mode' => 'html'])->showMenu();
+
+        } else if ($bot->callbackQuery()->data == 'indonesia') {
             $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту Тинькофф в рублях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n2200 7007 7932 1818\n\nOlga G.\n\nСумма для перевода 3000 рублей.",
-                    ['parse_mode' => 'html'])->showMenu();
-        } else if ($bot->callbackQuery()->data == 'indonesia5') {
-            $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много рупий.",
-                    ['parse_mode' => 'html'])->showMenu();
-        } else if ($bot->callbackQuery()->data == 'indonesia30') {
-            $this->clearButtons()
-                ->menuText("Вот данные для перевода на карту индонезийского банка BRI в рупиях.\n\nПосле того как переведёте, пришлите, пожалуйста, чек об оплате боту в формате изображения.\n\n4628 0100 4036 508\n\nAnak Agung Gede Adi Semara\n\nСумма для перевода много30 рупий.",
-                    ['parse_mode' => 'html'])->showMenu();
+                ->menuText("💳 Вот данные для перевода на карту индонезийского банка BRI в рупиях:
+            <b>4628 0100 4036 508
+               Anak Agung Gede Adi Semara</b>
+
+Сумма для перевода 300.000 IDR
+
+ 🧾 После того как переведёте, нажмите Отправить чек и прикрепите скриншот.
+", ['parse_mode' => 'html'])->showMenu();
         }
 
         $this->next('getPaymentCheque');
@@ -93,18 +79,7 @@ class EstatePaymentMenu extends InlineMenu
         $this->estate->update([
             'status' => EstateStatus::pending->value
         ]);
-        $preview = AdminEstatePreviewViewModel::get($this->estate);
-        $user_url = 'https://t.me/' . $this->estate->user->username;
 
-        $bot->sendPhoto($photoId, '-1001875753187', caption: $preview,
-            parse_mode: 'html',
-            reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('✅ Одобрить', callback_data: "approve {$this->estate->id}"))
-                ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
-                    url: env('NGROK_SERVER') . "/estate/{$this->estate->id}"))
-                ->addRow(InlineKeyboardButton::make('✍️ Написать человеку', url: $user_url))
-                ->addRow(InlineKeyboardButton::make('❌ Отклонить', callback_data: "decline {$this->estate->id}"))
-        );
         $bot->deleteUserData('estate_id', $this->estate->user_id);
         $this->closeMenu();
         $this->end();

@@ -3,7 +3,6 @@
 namespace Domain\Estate\Actions;
 
 use Domain\Estate\Models\Estate;
-use Domain\Estate\ViewModels\PreviewCreatedEstateViewModel;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Types\Internal\InputFile;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -23,20 +22,22 @@ class SendPreviewMessageAction
                 $estate = Estate::find($estate_id);
         }
 
-        $preview = PreviewCreatedEstateViewModel::get($estate);
         $photo = fopen("photos/{$estate->main_photo}", 'r+');
-        $message = $bot->sendPhoto(photo: InputFile::make($photo), caption: $preview,
+        $message = $bot->sendPhoto(photo: InputFile::make($photo), caption: "Отлично! Вы заполнили объявление.\n
+🎬 Обязательно нажмите <b>Предпросмотр</b>, чтобы понять, как будут видеть клиенты ваше подробное объявление.
+🧞‍♂️ Нажмите <b>Редактировать</b>, если хотите внести изменения.
+🐶 Если вам нравится ваше объявление, то нажимайте <b>Оплатить и разместить.</b>",
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
-                ->addRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
+                ->addRow(InlineKeyboardButton::make('🎬 Предпросмотр',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")))
-                ->addRow(InlineKeyboardButton::make('✅ Все верно, перейти к оплате',
+                ->addRow(InlineKeyboardButton::make('🐶 Оплатить и разместить',
                     callback_data: "pay"))
-                ->addRow(InlineKeyboardButton::make('◀️ Вернуться к первому шагу',
+                ->addRow(InlineKeyboardButton::make('🧞‍♂️ Редактировать',
                     web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}/edit")))
-                ->addRow(InlineKeyboardButton::make('✍️ Изменить локацию объекта',
+                ->addRow(InlineKeyboardButton::make('✍️ Редактировать локацию объекта',
                     callback_data: "change location"))
-                ->addRow(InlineKeyboardButton::make('❌ Отменить публикацию объявления',
+                ->addRow(InlineKeyboardButton::make('🙅‍♂️ Отменить размещение',
                     callback_data: "cancel publish")));
 
         $bot->setUserData('preview_message_id', $message->message_id, $bot->userId());

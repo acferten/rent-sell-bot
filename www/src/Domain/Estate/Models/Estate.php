@@ -18,6 +18,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
 use Spatie\LaravelData\WithData;
 
+
+
+/**
+ * @property int $id
+ *
+ * @property string $description
+ * @property int $bathrooms
+ * @property int $bedrooms
+ * @property int $conditioners
+ * @property int $price
+ *
+ * @property string $video
+ * @property string $main_photo
+ * @property string $check_photo
+ *
+ * @property string $status
+ * @property string $deal_type
+ *
+ * @property string $latitude
+ * @property string $longitude
+ * @property string $country
+ * @property string $state
+ * @property string $county
+ * @property string $town
+ * @property string $district
+ *
+ */
 class Estate extends BaseModel
 {
     use HasFilters;

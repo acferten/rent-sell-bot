@@ -12,11 +12,9 @@ class TypeSeeder extends Seeder
     {
         Type::factory()->count(5)
             ->state(new Sequence(
-                ['title' => 'Вилла'],
-                ['title' => 'Дом'],
-                ['title' => 'Апартаменты'],
-                ['title' => 'Квартира'],
-                ['title' => 'Пентхаус']
+                ['title' => 'Вилла/дом'],
+                ['title' => 'Апартаменты/квартира'],
+                ['title' => 'Комната'],
             ))->create();
     }
 }
