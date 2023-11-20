@@ -16,7 +16,7 @@
     <title>Просмотр объекта</title>
 </head>
 <body>
-<div class="container mt-4 view-page">
+<div class="container mt-3 view-page">
     <h1 class="page-title">Просмотр объекта</h1>
     <div class="form-group">
         <div id="carouselExampleIndicators" class="carousel slide">
@@ -193,7 +193,6 @@
         <hr>
         <label class="form-group__title">Описание</label>
         <p>{{ $estate->description  }}</p>
-        <hr>
     </div>
     <div class="form-group report-form-wrapper d-none">
         <form action="" id="report-form">
@@ -212,7 +211,7 @@
         <div class="invalid-field" id="report-error"></div>
         <hr>
     </div>
-    <div class="actions">
+    <div class="actions main-buttons">
         <div class="col">
             <button id="btn-report" class="btn">Жалоба</button>
         </div>

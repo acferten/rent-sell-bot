@@ -9,6 +9,10 @@ body {
 
 /* Изменение стилей bootstrap */
 
+.container {
+    margin-bottom: 80px !important;
+}
+
 ol, ul {
     padding-left: 1rem !important;
 }
@@ -50,7 +54,7 @@ textarea {
     font-size: 18px !important;
     background-color: var(--tg-theme-button-color) !important;
     color: var(--tg-theme-button-text-color) !important;
-    margin-bottom: 30px;
+    border-radius: 10px !important;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
