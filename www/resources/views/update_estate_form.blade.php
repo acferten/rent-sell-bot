@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div class="container mt-5">
+<div class="container mt-3">
     <h1 class="page-title">Обновление данных объекта</h1>
     <form method="post" enctype="multipart/form-data" id="form">
         <input type="hidden" id="username" name="username" value=""/>
@@ -216,7 +216,7 @@
                       placeholder="Подробное описание вашего объекта">{{$estate->description}}</textarea>
             <div class="invalid-field" id="description-error"></div>
         </div>
-        <div class="d-grid gap-2">
+        <div class="d-grid gap-2 main-buttons">
             <button type="submit" id="btn-submit" class="btn">Сохранить</button>
         </div>
     </form>
