@@ -200,3 +200,34 @@ function deletePhoto(photoElement, photoFile, photoContainer, photoInput, maxEle
     photoInput.files = dt.files;
     removeAddButton(photoInput, maxElem, photoContainer);
 }
+
+let descField = document.getElementById('description');
+let closeDescFn = (event, descriptionEvent) => {
+    console.log(descriptionEvent);
+    descriptionEvent.target.blur();
+};
+
+if (!/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+
+}
+
+
+let windowHeight = window.innerHeight;
+
+
+let addMarginInForm = (event) => {
+    console.log(visualViewport.height);
+    const h = event.target.height;
+    console.log(h);
+    document.getElementsByTagName("form")[0].style.marginBottom = windowHeight - h + 100 + 'px';
+    descField.innerText = windowHeight - h + 100 + 'px';
+    window.scrollTo(0, 99999);
+}
+
+descField.addEventListener("focus", (event) => {
+    visualViewport.addEventListener('resize', addMarginInForm);
+})
+
+descField.addEventListener('blur', (event) => {
+    visualViewport.removeEventListener('resize', addMarginInForm);
+})
