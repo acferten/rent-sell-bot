@@ -108,7 +108,10 @@ class UserEstatesMenu extends InlineMenu
 
         if ($estate->status()->canBeChanged()) {
             $this->addButtonRow(InlineKeyboardButton::make('✍️ Изменить статус',
-                callback_data: "{$estate->id}@handleChangeStatus"));
+                callback_data: "{$estate->id}@handleChangeStatus"))
+//            ->addButtonRow(InlineKeyboardButton::make('✍️ Редактировать',
+//                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}/edit")))
+            ;
         }
 
         if (array_key_exists($this->element - 1, $this->estates->toArray())) {

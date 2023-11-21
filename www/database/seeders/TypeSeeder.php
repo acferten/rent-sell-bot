@@ -10,7 +10,7 @@ class TypeSeeder extends Seeder
 {
     public function run(): void
     {
-        Type::factory()->count(5)
+        Type::factory()->count(3)
             ->state(new Sequence(
                 ['title' => 'Вилла/дом'],
                 ['title' => 'Апартаменты/квартира'],

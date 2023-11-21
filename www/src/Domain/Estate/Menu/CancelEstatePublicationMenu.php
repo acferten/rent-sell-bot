@@ -76,6 +76,9 @@ class CancelEstatePublicationMenu extends InlineMenu
 
     public function cancel(Nutgram $bot): void
     {
+        if ($bot->getUserData('preview_message_id')) {
+            $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
+        }
         SendPreviewMessageAction::execute($bot, $this->estate->id);
         $this->closeMenu();
     }

@@ -10,7 +10,7 @@ class AmenitySeeder extends Seeder
 {
     public function run(): void
     {
-        Amenity::factory()->count(16)
+        Amenity::factory()->count(12)
             ->state(new Sequence(
                 ['title' => 'Бассейн'],
                 ['title' => 'Закрытый ливинг рум'],

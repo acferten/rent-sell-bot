@@ -22,14 +22,14 @@ class CreateEstateMenu extends InlineMenu
     {
         if (User::find($bot->userId())->phone) {
             $bot->sendMessage(
-                text: "<b>Шаг 2 из 2.</b>
+                text: "<b>Шаг 2 из 2</b>
 📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
                 parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
             );
             $this->next('location');
         } else {
             $bot->sendMessage(
-                text: "<b>Шаг 2 из 3.</b>\nОтправьте ваши контактные данные Telegram для связи клиентов с вами.",
+                text: "<b>Шаг 2 из 3</b>\nОтправьте ваши контактные данные Telegram для связи клиентов с вами.",
                 parse_mode: 'html',
                 reply_markup: ReplyKeyboardMarkup::make(resize_keyboard: true, one_time_keyboard: true)->addRow(
                     KeyboardButton::make('📞 Поделиться контактными данными', request_contact: true))
@@ -47,7 +47,7 @@ class CreateEstateMenu extends InlineMenu
             ]);
 
         $bot->sendMessage(
-            text: "<b>Шаг 3 из 3.</b>
+            text: "<b>Шаг 3 из 3</b>
 📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
             parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
         );
