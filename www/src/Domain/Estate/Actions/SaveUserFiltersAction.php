@@ -2,11 +2,8 @@
 
 namespace Domain\Estate\Actions;
 
-use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Shared\Models\User;
-use SergiX44\Nutgram\Nutgram;
-use function Nutgram\Laravel\Support\webAppData;
 
 class SaveUserFiltersAction
 {

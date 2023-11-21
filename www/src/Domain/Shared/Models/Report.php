@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Report extends BaseModel
 {
+    protected $fillable = [
+        'reason',
+    ];
+
     // Relations
     public function estate(): BelongsTo
     {

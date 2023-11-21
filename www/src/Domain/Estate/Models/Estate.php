@@ -15,10 +15,9 @@ use Domain\Shared\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Lacodix\LaravelModelFilter\Traits\HasFilters;
 use Spatie\LaravelData\WithData;
-
-
 
 /**
  * @property int $id
@@ -43,6 +42,13 @@ use Spatie\LaravelData\WithData;
  * @property string $county
  * @property string $town
  * @property string $district
+ *
+ * @property User $user
+ * @property Type $type
+ *
+ * @property Collection $amenities
+ * @property Collection $photos
+ * @property Collection $reports
  *
  */
 class Estate extends BaseModel

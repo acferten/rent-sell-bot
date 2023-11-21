@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('reports', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->integer('estate_id');
-            $table->enum('reason', ['Уже не актуально', 'Владелец не отвечает', 'Владелец невежливый']);
+            $table->enum('reason', ['Не соответствует описанию', 'Неверная цена', 'Уже сняли', 'Владелец не отвечает', 'Владелец не вежливый']);
             $table->timestamps();
         });
     }
