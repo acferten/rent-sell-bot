@@ -207,27 +207,35 @@ let closeDescFn = (event, descriptionEvent) => {
     descriptionEvent.target.blur();
 };
 
-if (!/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    // let heightWindow = window.innerHeight;
 
+    closeKeyboardAfterScroll = () => {
+        descField.blur();
+    }
+
+    descField.addEventListener("focus", (event) => {
+        // setTimeout(() => {
+        //     window.scrollTo({
+        //         top: 9999,
+        //         behavior: "instant",
+        //     });
+        // }, 800);
+        // setTimeout(() => {
+        //     document.getElementsByTagName("form")[0].style.marginBottom = heightWindow - visualViewport.height + 'px';
+        //     window.scrollTo({
+        //         top: 9999,
+        //         behavior: "instant",
+        //     });
+        // }, 900)
+        setTimeout(() => {
+            window.addEventListener('scroll', closeKeyboardAfterScroll)
+        }, 1000);
+    })
+
+
+    descField.addEventListener('blur', () => {
+        // document.getElementsByTagName("form")[0].style.marginBottom = null;
+        window.removeEventListener('scroll', closeKeyboardAfterScroll);
+    })
 }
-
-
-let windowHeight = window.innerHeight;
-
-
-let addMarginInForm = (event) => {
-    console.log(visualViewport.height);
-    const h = event.target.height;
-    console.log(h);
-    document.getElementsByTagName("form")[0].style.marginBottom = windowHeight - h + 100 + 'px';
-    descField.innerText = windowHeight - h + 100 + 'px';
-    window.scrollTo(0, 99999);
-}
-
-descField.addEventListener("focus", (event) => {
-    visualViewport.addEventListener('resize', addMarginInForm);
-})
-
-descField.addEventListener('blur', (event) => {
-    visualViewport.removeEventListener('resize', addMarginInForm);
-})
