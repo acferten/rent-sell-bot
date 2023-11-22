@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="container mt-3 view-page">
-    <h1 class="page-title">Просмотр объекта</h1>
+    <h1 class="page-title">{{$estate->title}}</h1>
     <div class="form-group">
         <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-indicators">
@@ -174,12 +174,25 @@
         <label class="form-group__title">Удобства проживания</label>
         @if(count($estate_amenities))
             <ul>
-                @foreach($estate_amenities as $include)
-                    <li>{{ $include }}</li>
+                @foreach($estate_amenities as $amenity)
+                    <li>{{ $amenity }}</li>
                 @endforeach
             </ul>
         @else
             <p>Удобства отсутствуют</p>
+        @endif
+    </div>
+    <div class="view-page__group">
+        <hr>
+        <label class="form-group__title">Включено в стоимость</label>
+        @if(count($estate_services))
+            <ul>
+                @foreach($estate_services as $service)
+                    <li>{{ $service }}</li>
+                @endforeach
+            </ul>
+        @else
+            <p>Дополнительных услуг не предусмотрено</p>
         @endif
     </div>
     <div class="view-page__group">
@@ -192,9 +205,14 @@
     <div class="view-page__group">
         <hr>
         <label class="form-group__title">Описание</label>
-        <p>{{ $estate->description  }}</p>
+        <p>
+            {{ $estate->description  }}
+            <br><br>
+            Свободен для заселения с {{ $check_in_date }}
+        </p>
     </div>
     <div class="form-group report-form-wrapper d-none">
+        <hr>
         <form action="" id="report-form">
             <label class="form-group__title" for="conditioners">Причина жалобы</label>
             <select id="report_reason" name="report_reason" class="form-select form-control"

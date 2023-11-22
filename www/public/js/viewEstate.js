@@ -2,7 +2,7 @@ sendReportShowButton = document.getElementById('btn-report');
 sendReportForm = document.getElementById('report-form');
 sendReportFormButton = document.getElementById('send-report');
 sendReportFormWrapper = document.getElementsByClassName('report-form-wrapper')[0];
-const ID_ESTATE = window.location.href.match(/\/estates\/(\d+)/)[1];
+const ID_ESTATE = window.location.href.match(/\/estate\/(\d+)/)[1];
 sendReportShowButton.addEventListener('click', (event) => {
     sendReportFormWrapper.classList.toggle('d-none');
     sendReportShowButton.classList.toggle('placeholder-wave');
@@ -12,7 +12,7 @@ sendReportShowButton.addEventListener('click', (event) => {
 sendReportForm.addEventListener('submit', (event) => {
     event.preventDefault();
     sendReportFormButton.disabled = true;
-    sendReportFormButton.innerText = "💆‍♂️ Релакс… Идёт загрузка объявления";
+    sendReportFormButton.innerText = "💆‍♂️ Релакс. Идёт загрузка…";
     const formData = new FormData(event.currentTarget);
     fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}/report`, {
         headers: {

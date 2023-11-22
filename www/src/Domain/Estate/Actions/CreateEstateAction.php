@@ -31,6 +31,7 @@ class CreateEstateAction
             ]);
 
         $estate->amenities()->syncWithPivotValues($data->amenities->pluck('id'), ['estate_id' => $estate->id]);
+        $estate->services()->syncWithPivotValues($data->services->pluck('id'), ['estate_id' => $estate->id]);
 
         if ($data->deal_type == DealTypes::rent) {
             $data->periods->each(fn($rent_price) => $estate->prices()->save(new Price($rent_price->all())));

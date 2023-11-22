@@ -7,6 +7,24 @@ body {
     background-color: var(--tg-theme-bg-color) !important;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+}
+
+input[type="date"]::-moz-calendar-picker-indicator {
+    filter: invert(0.5);
+}
+
+input[type="date"]::-ms-clear {
+    display: none;
+    width : 0;
+    height: 0;
+}
+
 /* Изменение стилей bootstrap */
 
 .container {

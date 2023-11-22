@@ -25,6 +25,11 @@ return new class extends Migration {
             $table->foreign('amenity_id')->references('id')->on('amenities')->onDelete('cascade');;
         });
 
+        Schema::table('estate_service', function (Blueprint $table) {
+            $table->foreign('estate_id')->references('id')->on('estates')->onDelete('cascade');
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');;
+        });
+
         Schema::table('reports', function (Blueprint $table) {
             $table->foreign('estate_id')->references('id')->on('estates')->onDelete('cascade');;
         });

@@ -13,7 +13,8 @@ return new class extends Migration {
             $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре',
                 'На модерации', 'Не заполнен', 'Закрыто владельцем'])
                 ->default('Не заполнен');
-
+            $table->string('title');
+            $table->date('available_date');
             $table->string('deal_type');
             $table->integer('bedrooms');
             $table->integer('bathrooms');

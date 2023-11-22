@@ -109,6 +109,12 @@
             <div class="invalid-field" id="house_type_id-error"></div>
         </div>
 
+        <div class="form-group">
+            <label class="form-group__title" for="title">Название</label>
+            <input class="form-control" name="title" id="title" value="{{$estate->title}}"
+                   placeholder="Вилла с видом на море в Чангу">
+            <div class="invalid-field" id="title-error"></div>
+        </div>
 
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
@@ -176,7 +182,6 @@
             <div class="invalid-field" id="photo-error"></div>
         </div>
 
-        {{--        TODO: Добавить вывод выбранного ранее видео --}}
         <div class="form-group">
             <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
             <div class="form-outline">
@@ -195,21 +200,47 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Включено в стоимость</label>
+            <label class="form-group__title" for="available_date">свободен для заселения</label>
+            <div class="form-outline">
+                <input type="date" id="available_date" name="available_date" value="{{$check_in_date}}" class="form-control" />
+            </div>
+            <div class="invalid-field" id="available_date-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title">Удобства на объекте</label>
             <div class="estate_includes">
-                @foreach($includes as $include)
+                @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
-                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}"
-                               id="{{$include->title}}-{{$include->id}}"
-                               @if($estate_amenities->contains("$include->title")) checked @endif
+                        <input type="checkbox" name="amenities_ids[]" value="{{$amenity->id}}"
+                               id="{{$amenity->title}}-{{$amenity->id}}"
+                               @if($estate_amenities->contains("$amenity->title")) checked @endif
                         />
-                        <label for="{{$include->title}}-{{$include->id}}">
-                            <span class="radio-label">{{$include->title}}</span>
+                        <label for="{{$amenity->title}}-{{$amenity->id}}">
+                            <span class="radio-label">{{$amenity->title}}</span>
                         </label>
                     </div>
                 @endforeach
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="form-group__title">Включено в стоимость</label>
+            <div class="estate_includes">
+                @foreach($services as $service)
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="include_ids[]" value="{{$service->id}}"
+                               id="{{$service->title}}-{{$service->id}}"
+                               @if($estate_services->contains("$service->title")) checked @endif
+                        />
+                        <label for="{{$service->title}}-{{$service->id}}">
+                            <span class="radio-label">{{$service->title}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="form-group__title" for="description">Описание</label>
             <textarea class="form-control" name="description" id="description" rows="3"

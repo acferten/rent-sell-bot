@@ -11,7 +11,7 @@ Route::post('estates/filters', [EstateFiltersController::class, 'store'])
     ->middleware(ValidateWebAppData::class);;
 
 Route::resource('estates', EstateController::class)->only('store', 'update');
-  //  ->middleware(ValidateWebAppData::class);
+//    ->middleware(ValidateWebAppData::class);
 
 Route::post('estates/{estate}/report', ReportEstateController::class);
 
