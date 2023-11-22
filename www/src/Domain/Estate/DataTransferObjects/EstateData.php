@@ -7,6 +7,7 @@ use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Amenity;
 use Domain\Estate\Models\Photo;
+use Domain\Estate\Models\Service;
 use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -19,6 +20,8 @@ class EstateData extends Data
     public function __construct(
         public readonly ?int                               $id,
         public string                                      $description,
+        public string                                      $title,
+        public string                                      $available_date,
         public int                                         $bedrooms,
         public int                                         $conditioners,
         public int                                         $bathrooms,
@@ -26,6 +29,7 @@ class EstateData extends Data
         /** @var DataCollection<RentPeriodsData> */
         public null|DataCollection                         $periods,
         public readonly null|Collection|string             $amenities,
+        public readonly null|Collection|string             $services,
         public readonly null|array|UploadedFile|Collection $photo,
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
@@ -45,7 +49,8 @@ class EstateData extends Data
             'photo' => Photo::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'user' => UserData::from($estate->user),
             'periods' => RentPeriodsData::collection($estate->prices),
-            'amenities' => implode(', ', $estate->amenities->map(fn($include) => $include->title)->toArray())
+            'amenities' => implode(', ', $estate->amenities->map(fn($amenity) => $amenity->title)->toArray()),
+            'services' => implode(', ', $estate->services->map(fn($service) => $service->title)->toArray())
         ]);
     }
 
@@ -54,7 +59,8 @@ class EstateData extends Data
         return self::from([
             ...$request->all(),
             'id' => (int)$request->estate,
-            'amenities' => Amenity::whereIn('id', $request->collect('include_ids'))->get(),
+            'amenities' => Amenity::whereIn('id', $request->collect('amenity_ids'))->get(),
+            'services' => Service::whereIn('id', $request->collect('service_ids'))->get(),
             'photo' => $request->file('photo'),
             'user' => UserData::from([
                 'id' => $request->input('user_id'),
@@ -71,7 +77,9 @@ class EstateData extends Data
     public static function rules(): array
     {
         return [
+            'title' => 'required|string|max:80',
             'description' => 'required|string|max:1000',
+            'available_date' => 'required|date',
             'deal_type' => 'required|in:Аренда,Продажа',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
 
@@ -84,7 +92,8 @@ class EstateData extends Data
             'photo*' => 'image',
             'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
 
-            'include_ids' => 'array|exists:amenities,id',
+            'amenity_ids' => 'array|exists:amenities,id',
+            'service_ids' => 'array|exists:services,id',
             'house_type_id' => 'required|exists:types,id',
 
             'user_id' => 'required|min:1',

@@ -41,7 +41,7 @@
 
         <div class="form-group d-none" id="price-container">
             <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0">
+            <input type="number" class="form-control" id="price" name="price" placeholder="5100000000 IDR" min="0">
             <div class="invalid-field" id="price-error"></div>
         </div>
 
@@ -65,7 +65,7 @@
         @foreach($price_periods as $price_period)
         <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
             <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена за {{$price_period->value}} аренды</label>
-            <input type="number" class="form-control" placeholder="5000" min="10" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
+            <input type="number" class="form-control" placeholder="1000000 IDR" min="1" max="100000000" name="{{__("periods.{$price_period->value}")}}_price"
                    id="{{__("periods.{$price_period->value}")}}_price">
             <div class="invalid-field" id="{{__("periods.{$price_period->value}")}}_price-error"></div>
         </div>
@@ -85,6 +85,12 @@
                 @endforeach
             </div>
             <div class="invalid-field" id="house_type_id-error"></div>
+        </div>
+        <div class="form-group">
+            <label class="form-group__title" for="title">Название</label>
+            <input class="form-control" name="title" id="title"
+                   placeholder="Вилла с видом на море в Чангу">
+            <div class="invalid-field" id="title-error"></div>
         </div>
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
@@ -158,19 +164,43 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Включено в стоимость</label>
+            <label class="form-group__title" for="available_date">свободен для заселения</label>
+            <div class="form-outline">
+                <input type="date" id="available_date" name="available_date" value="{{date("Y-m-d")}}" min="{{date("Y-m-d")}}" class="form-control" />
+            </div>
+            <div class="invalid-field" id="available_date-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title">Удобства на объекте</label>
             <div class="estate_includes">
-                @foreach($includes as $include)
+                @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
-                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}"
-                               id="{{$include->title}}-{{$include->id}}"/>
-                        <label for="{{$include->title}}-{{$include->id}}">
-                            <span class="radio-label">{{$include->title}}</span>
+                        <input type="checkbox" name="amenity_ids[]" value="{{$amenity->id}}"
+                               id="{{$amenity->title}}-{{$amenity->id}}"/>
+                        <label for="{{$amenity->title}}-{{$amenity->id}}">
+                            <span class="radio-label">{{$amenity->title}}</span>
                         </label>
                     </div>
                 @endforeach
             </div>
         </div>
+
+        <div class="form-group">
+            <label class="form-group__title">Включено в стоимость</label>
+            <div class="estate_includes">
+                @foreach($services as $service)
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="service_ids[]" value="{{$service->id}}"
+                               id="{{$service->title}}-{{$service->id}}"/>
+                        <label for="{{$service->title}}-{{$service->id}}">
+                            <span class="radio-label">{{$service->title}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="form-group__title" for="description">Описание</label>
             <textarea class="form-control" name="description" id="description" rows="3"

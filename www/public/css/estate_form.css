@@ -82,6 +82,7 @@ body {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    text-align: center;
     user-select: none;
     transition: 0.2s;
     display: flex;

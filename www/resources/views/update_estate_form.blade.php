@@ -109,6 +109,12 @@
             <div class="invalid-field" id="house_type_id-error"></div>
         </div>
 
+        <div class="form-group">
+            <label class="form-group__title" for="title">Название</label>
+            <input class="form-control" name="title" id="title"
+                   placeholder="Вилла с видом на море в Чангу">
+            <div class="invalid-field" id="title-error"></div>
+        </div>
 
         <div class="form-group">
             <label class="form-group__title" for="bedrooms">Количество спален</label>
@@ -195,6 +201,21 @@
         </div>
 
         <div class="form-group">
+            <label class="form-group__title">Удобства на объекте</label>
+            <div class="estate_includes">
+                @foreach($amenities as $amenity)
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="amenities_ids[]" value="{{$amenity->id}}"
+                               id="{{$amenity->title}}-{{$amenity->id}}"/>
+                        <label for="{{$amenity->title}}-{{$amenity->id}}">
+                            <span class="radio-label">{{$amenity->title}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
                 @foreach($includes as $include)
@@ -210,6 +231,9 @@
                 @endforeach
             </div>
         </div>
+
+
+
         <div class="form-group">
             <label class="form-group__title" for="description">Описание</label>
             <textarea class="form-control" name="description" id="description" rows="3"

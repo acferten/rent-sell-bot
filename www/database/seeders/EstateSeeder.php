@@ -7,6 +7,7 @@ use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Amenity;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Price;
+use Domain\Estate\Models\Service;
 use Illuminate\Database\Seeder;
 
 class EstateSeeder extends Seeder
@@ -20,7 +21,9 @@ class EstateSeeder extends Seeder
 
         Estate::all()->each(function ($estate) {
             $amenities = Amenity::all()->random(3);
+            $services = Service::all()->random(3);
             $estate->amenities()->attach($amenities);
+            $estate->services()->attach($services);
         });
 
         Estate::where('deal_type', DealTypes::rent->value)->get()

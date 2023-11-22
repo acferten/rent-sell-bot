@@ -19,7 +19,7 @@ form.addEventListener('submit', (e) => {
     })
 
     document.getElementById('btn-submit').disabled = true;
-    document.getElementById('btn-submit').innerText = "💆‍♂️ Релакс… Идёт загрузка объявления";
+    document.getElementById('btn-submit').innerText = "💆‍♂️ Релакс. Идёт загрузка…";
 
     const formData = new FormData(e.currentTarget);
     let monthPrice = formData.get('month_price');

@@ -47,6 +47,7 @@ use Spatie\LaravelData\WithData;
  * @property Type $type
  *
  * @property Collection $amenities
+ * @property Collection $services
  * @property Collection $photos
  * @property Collection $reports
  *
@@ -67,6 +68,8 @@ class Estate extends BaseModel
     ];
 
     protected $fillable = [
+        'title',
+        'available_date',
         'description',
         'bathrooms',
         'bedrooms',
@@ -118,6 +121,11 @@ class Estate extends BaseModel
     public function amenities(): BelongsToMany
     {
         return $this->belongsToMany(Amenity::class);
+    }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany(Service::class);
     }
 
     public function reports(): HasMany
