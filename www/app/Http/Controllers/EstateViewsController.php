@@ -46,7 +46,6 @@ class EstateViewsController extends Controller
     public function edit(Estate $estate): View
     {
         $data = [
-            'includes' => Amenity::all(),
             'deal_types' => DealTypes::cases(),
             'estate_types' => Type::all(),
             'price_periods' => EstatePeriods::cases(),
@@ -57,8 +56,8 @@ class EstateViewsController extends Controller
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_video' => $estate->video,
             'check_in_date' => date('d.m.Y', strtotime($estate->available_date)),
-            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
-            'estate_services' => $estate->services->map(fn($service) => $service->title),
+            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity),
+            'estate_services' => $estate->services->map(fn($service) => $service),
         ];
         return view('update_estate_form', $data);
     }

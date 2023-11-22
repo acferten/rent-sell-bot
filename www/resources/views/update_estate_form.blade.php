@@ -182,7 +182,6 @@
             <div class="invalid-field" id="photo-error"></div>
         </div>
 
-        {{--        TODO: Добавить вывод выбранного ранее видео --}}
         <div class="form-group">
             <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
             <div class="form-outline">
@@ -205,13 +204,13 @@
             <div class="estate_includes">
                 @foreach($estate_amenities as $amenity)
                     <p>{{$amenity}}</p>
-{{--                    <div class="estate_includes__item">--}}
-{{--                        <input type="checkbox" name="amenities_ids[]" value="{{$amenity->id}}"--}}
-{{--                               id="{{$amenity->title}}-{{$amenity->id}}"/>--}}
-{{--                        <label for="{{$amenity->title}}-{{$amenity->id}}">--}}
-{{--                            <span class="radio-label">{{$amenity->title}}</span>--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="amenities_ids[]" value="{{$amenity->id}}"
+                               id="{{$amenity->title}}-{{$amenity->id}}"/>
+                        <label for="{{$amenity->title}}-{{$amenity->id}}">
+                            <span class="radio-label">{{$amenity->title}}</span>
+                        </label>
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -221,20 +220,18 @@
             <div class="estate_includes">
                 @foreach($estate_services as $service)
                     <p>{{$service}}</p>
-{{--                    <div class="estate_includes__item">--}}
-{{--                        <input type="checkbox" name="include_ids[]" value="{{$service->id}}"--}}
-{{--                               id="{{$service->title}}-{{$service->id}}"--}}
-{{--                               @if($estate_services->contains("$service->title")) checked @endif--}}
-{{--                        />--}}
-{{--                        <label for="{{$service->title}}-{{$service->id}}">--}}
-{{--                            <span class="radio-label">{{$service->title}}</span>--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="include_ids[]" value="{{$service->id}}"
+                               id="{{$service->title}}-{{$service->id}}"
+                               @if($estate_services->contains("$service->title")) checked @endif
+                        />
+                        <label for="{{$service->title}}-{{$service->id}}">
+                            <span class="radio-label">{{$service->title}}</span>
+                        </label>
+                    </div>
                 @endforeach
             </div>
         </div>
-
-
 
         <div class="form-group">
             <label class="form-group__title" for="description">Описание</label>
