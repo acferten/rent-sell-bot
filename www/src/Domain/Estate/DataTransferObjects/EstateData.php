@@ -72,7 +72,6 @@ class EstateData extends Data
     {
         return [
             'description' => 'required|string|max:1000',
-
             'deal_type' => 'required|in:Аренда,Продажа',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
 
@@ -98,6 +97,11 @@ class EstateData extends Data
     {
         return [
             'description' => 'описание',
+            'deal_type' => 'тип услуги',
+            'house_type_id' => 'тип недвижимости',
+            'bedrooms' => 'количество спален',
+            'bathrooms' => 'количество ванных комнат',
+            'conditioners' => 'количество кондиционеров'
         ];
     }
 }

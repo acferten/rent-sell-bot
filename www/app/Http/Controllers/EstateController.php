@@ -13,10 +13,8 @@ use function Nutgram\Laravel\Support\webAppData;
 
 class EstateController extends Controller
 {
-    public function store(Request $request): void
+    public function store(Request $request, EstateData $data): void
     {
-        $request->validate(EstateData::rules());
-        $data = EstateData::fromRequest($request);
         $estate = CreateEstateAction::execute($data);
         Telegram::setUserData('estate_id', $estate->id, $data->user->id);
 
