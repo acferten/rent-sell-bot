@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Domain\Estate\DataTransferObjects\RentPeriodsData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
+use Domain\Estate\Enums\ReportReasons;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Amenity;
 use Domain\Estate\Models\Type;
@@ -33,6 +34,7 @@ class EstateViewsController extends Controller
             'estate_video' => $estate->video,
             'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
             'estate_rent' => $estate->prices->map(fn($rent_price) => RentPeriodsData::from($rent_price)) ?? null,
+            'report_reasons' => ReportReasons::cases()
         ];
         return view('view_estate', $data);
     }

@@ -199,12 +199,9 @@
             <label class="form-group__title" for="conditioners">Причина жалобы</label>
             <select id="report_reason" name="report_reason" class="form-select form-control"
                     aria-label="Default select example">
-                <option selected>Неверная цена</option>
-                <option>Неверное описание</option>
-                <option>Фото</option>
-                <option>Неверный адрес</option>
-                <option>Продавец не отвечает</option>
-                <option>Мошенник</option>
+                @foreach($report_reasons as $reason)
+                    <option>{{$reason->value}}</option>
+                @endforeach
             </select>
             <button type="submit" id="send-report" class="btn">Отправить жалобу</button>
         </form>
