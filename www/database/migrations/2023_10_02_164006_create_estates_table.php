@@ -44,6 +44,7 @@ return new class extends Migration {
 
             $table->integer('type_id');
             $table->bigInteger('user_id');
+            $table->bigInteger('admin_message_id')->nullable();
 
             $table->timestamps();
         });

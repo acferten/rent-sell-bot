@@ -12,6 +12,7 @@ use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Spatie\LaravelData\Attributes\WithoutValidation;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
@@ -26,6 +27,7 @@ class EstateData extends Data
         public int                                         $conditioners,
         public int                                         $bathrooms,
         public null|int                                    $price,
+        #[WithoutValidation]
         /** @var DataCollection<RentPeriodsData> */
         public null|DataCollection                         $periods,
         public readonly null|Collection|string             $amenities,
@@ -34,6 +36,7 @@ class EstateData extends Data
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
         public readonly UploadedFile|string                $main_photo,
+        #[WithoutValidation]
         public readonly int                                $type_id,
         public readonly null|int                           $chat_id,
         public readonly DealTypes                          $deal_type,
@@ -110,7 +113,8 @@ class EstateData extends Data
             'house_type_id' => 'тип недвижимости',
             'bedrooms' => 'количество спален',
             'bathrooms' => 'количество ванных комнат',
-            'conditioners' => 'количество кондиционеров'
+            'conditioners' => 'количество кондиционеров',
+            'main_photo' => 'главное фото'
         ];
     }
 }

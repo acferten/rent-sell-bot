@@ -3,7 +3,9 @@
 namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Messages\AdminChatEstateCardMessage;
 use Domain\Estate\Models\Estate;
+use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Domain\Estate\ViewModels\UserEstateViewModel;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -62,8 +64,11 @@ class UserEstatesMenu extends InlineMenu
                 ->addButtonRow(InlineKeyboardButton::make(EstateStatus::inspection->value,
                     callback_data: "inspection,{$bot->callbackQuery()->data}@handleChangeSelectedStatus")),
 
-            EstateStatus::closedByOwner->value => $this->addButtonRow(InlineKeyboardButton::make(EstateStatus::inspection->value,
-                callback_data: "inspection,{$bot->callbackQuery()->data}@handleChangeSelectedStatus"))
+            EstateStatus::closedByOwner->value =>
+            $this->addButtonRow(InlineKeyboardButton::make(
+                EstateStatus::inspection->value,
+                callback_data: "inspection,{$bot->callbackQuery()->data}@handleChangeSelectedStatus")
+            )
                 ->addButtonRow(InlineKeyboardButton::make(EstateStatus::active->value,
                     callback_data: "active,{$bot->callbackQuery()->data}@handleChangeSelectedStatus"))
         };
@@ -76,22 +81,27 @@ class UserEstatesMenu extends InlineMenu
     public function handleChangeSelectedStatus(Nutgram $bot): void
     {
         $updateInfo = explode(",", $bot->callbackQuery()->data);
+        $estate = Estate::findOrFail($updateInfo[1]);
 
         match ($updateInfo[0]) {
-            'active' => Estate::where(['id' => $updateInfo[1]])->update([
+            'active' => $estate->update([
                 'status' => EstateStatus::active->value
             ]),
 
-            'inspection' => Estate::where(['id' => $updateInfo[1]])->update([
+            'inspection' => $estate->update([
                 'status' => EstateStatus::inspection->value
             ]),
 
-            'closed' => Estate::where(['id' => $updateInfo[1]])->update([
+            'closed' => $estate->update([
                 'status' => EstateStatus::closedByOwner->value
             ]),
         };
 
-        $this->start($bot);
+        $bot->editMessageCaption(env('ADMIN_CHAT_ID'),
+            $estate->admin_message_id,
+            caption: AdminEstatePreviewViewModel::get($estate));
+
+        $this->getEstateLayout();
     }
 
     public function getEstateLayout(): void

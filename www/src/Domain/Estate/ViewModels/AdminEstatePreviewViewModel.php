@@ -26,6 +26,7 @@ class AdminEstatePreviewViewModel implements ToStringInterface
         return
             "✅ Poster: #{$estate->id}\n" .
             "Created: {$estate->created_at}\n" .
+            "Updated: {$estate->updated_at}\n" .
             "User id: {$estate->user->id}\n" .
             "User login TG: @{$estate->user->username}\n" .
             "User poster count: {$estate->user->estates->count()}\n" .

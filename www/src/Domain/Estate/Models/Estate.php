@@ -46,6 +46,10 @@ use Spatie\LaravelData\WithData;
  * @property User $user
  * @property Type $type
  *
+ * @property int $admin_message_id
+ * @property int $type_id
+ * @property int $user_id
+ *
  * @property Collection $amenities
  * @property Collection $services
  * @property Collection $photos
@@ -100,6 +104,7 @@ class Estate extends BaseModel
 
         'type_id',
         'user_id',
+        'admin_message_id'
     ];
 
     public function status(): EstateStatus
