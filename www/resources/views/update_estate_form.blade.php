@@ -111,7 +111,7 @@
 
         <div class="form-group">
             <label class="form-group__title" for="title">Название</label>
-            <input class="form-control" name="title" id="title"
+            <input class="form-control" name="title" id="title" value="{{$estate->title}}"
                    placeholder="Вилла с видом на море в Чангу">
             <div class="invalid-field" id="title-error"></div>
         </div>
@@ -200,13 +200,22 @@
         </div>
 
         <div class="form-group">
+            <label class="form-group__title" for="available_date">свободен для заселения</label>
+            <div class="form-outline">
+                <input type="date" id="available_date" name="available_date" value="{{$check_in_date}}" class="form-control" />
+            </div>
+            <div class="invalid-field" id="available_date-error"></div>
+        </div>
+
+        <div class="form-group">
             <label class="form-group__title">Удобства на объекте</label>
             <div class="estate_includes">
-                @foreach($estate_amenities as $amenity)
-                    <p>{{$amenity}}</p>
+                @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
                         <input type="checkbox" name="amenities_ids[]" value="{{$amenity->id}}"
-                               id="{{$amenity->title}}-{{$amenity->id}}"/>
+                               id="{{$amenity->title}}-{{$amenity->id}}"
+                               @if($estate_amenities->contains("$amenity->title")) checked @endif
+                        />
                         <label for="{{$amenity->title}}-{{$amenity->id}}">
                             <span class="radio-label">{{$amenity->title}}</span>
                         </label>
@@ -218,8 +227,7 @@
         <div class="form-group">
             <label class="form-group__title">Включено в стоимость</label>
             <div class="estate_includes">
-                @foreach($estate_services as $service)
-                    <p>{{$service}}</p>
+                @foreach($services as $service)
                     <div class="estate_includes__item">
                         <input type="checkbox" name="include_ids[]" value="{{$service->id}}"
                                id="{{$service->title}}-{{$service->id}}"

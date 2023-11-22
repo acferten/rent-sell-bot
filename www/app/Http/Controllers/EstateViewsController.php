@@ -55,9 +55,11 @@ class EstateViewsController extends Controller
             'estate_main_photo' => $estate->main_photo,
             'estate_photos' => $estate->photos->map(fn($photo) => $photo->photo),
             'estate_video' => $estate->video,
-            'check_in_date' => date('d.m.Y', strtotime($estate->available_date)),
-            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity),
-            'estate_services' => $estate->services->map(fn($service) => $service),
+            'check_in_date' => date('Y-m-d', strtotime($estate->available_date)),
+            'services' => Service::all(),
+            'amenities' => Amenity::all(),
+            'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
+            'estate_services' => $estate->services->map(fn($service) => $service->title),
         ];
         return view('update_estate_form', $data);
     }
