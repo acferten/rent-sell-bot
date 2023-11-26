@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-  #Image for php
   web:
     build:
       context: images/php
@@ -12,7 +11,6 @@ services:
     networks:
       - nginx-php-postgres-network
 
-  #Image for proxy server
   proxy:
     build:
       context: images/proxy
@@ -45,8 +43,6 @@ services:
       POSTGRES_DB: ${DB_NAME:-db}
       POSTGRES_PASSWORD: ${USER_DB_PASSWORD:-password}
       POSTGRES_USER: ${USER_LOGIN:-login}
-    ports:
-      - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgres
     networks:

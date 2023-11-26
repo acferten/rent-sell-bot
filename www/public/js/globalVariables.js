@@ -1,4 +1,4 @@
-const NGROK_URL = "https://49ee-88-204-127-15.ngrok-free.app";
+const NGROK_URL = "https://5793-88-204-127-15.ngrok-free.app";
 
 const FORM_FIELDS_ERROR = [
     'deal_type-error',
