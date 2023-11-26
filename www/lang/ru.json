@@ -35,5 +35,6 @@
     "Unauthorized": "Не авторизован",
     "Verify Email Address": "Подтвердить адрес электронной почты",
     "Whoops!": "Упс!",
-    "You are receiving this email because we received a password reset request for your account.": "Вы получили это письмо, потому что мы получили запрос на сброс пароля для Вашей учётной записи."
+    "You are receiving this email because we received a password reset request for your account.": "Вы получили это письмо, потому что мы получили запрос на сброс пароля для Вашей учётной записи.",
+    "bedrooms": "{1} спальня|[2,4] спальни|[5,10,*] спален"
 }

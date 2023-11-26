@@ -4,6 +4,7 @@ namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\EstateCallbacks;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Messages\AdminChatEstateCardMessage;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Domain\Shared\Enums\MessageText;
@@ -20,7 +21,7 @@ class EstatePaymentMenu extends InlineMenu
     {
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
-        AdminChatEstateCardMessage::
+        AdminChatEstateCardMessage::send($this->estate);
 
         $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
 

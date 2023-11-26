@@ -45,7 +45,8 @@ class StartMenu extends InlineMenu
     public function createEstateChoice(Nutgram $bot): void
     {
         $this->clearButtons()
-            ->menuText("<b>Шаг 1 из 3 </b>\nЗаполните основные данные об объекте, который Вы хотите продать или сдать в аренду.",
+            ->menuText("<b>Шаг 1 из 3</b>
+Заполните данные об объекте, который Вы хотите сдать в долгосрочную аренду. Это займёт не более 5 минут.",
                 ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make(
                 '✍️ Заполнить форму',

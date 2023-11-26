@@ -14,21 +14,21 @@ class GetEstateViewModel implements ToStringInterface
     public static function get(Estate $estate): string
     {
         $data = EstateData::from($estate);
-        $price = '';
 
         if ($data->deal_type == DealTypes::rent) {
+            $price = "<b>💰 Цена</b>\n";
             foreach ($data->periods as $rent_periods) {
-                $price .= "<b>💰 Цена за {$rent_periods->period->value}:</b> {$rent_periods->price}\n";
+                $price .= "За {$rent_periods->period->value} - {$rent_periods->price} млн. IDR\n";
             }
         } else {
             $price = "<b>💰 Цена:</b> {$data->price}";
         }
-
-        return "🤝 {$data->deal_type->value}\n" .
-            "🏡 {$estate->type->title}\n" .
-            "🛏 {$data->bedrooms} спальни\n\n" .
+        $test = trans_choice('bedrooms', $data->bedrooms);
+        return "<b>{$data->title}</b>\n\n" .
+            $price .
+            "\n🏡 {$estate->type->title}\n" .
+            "🛏 {$data->bedrooms}{$test}\n\n" .
             "<b>📍Локация:</b > {$estate->geoposition()}\n" .
-            "<b>📍Google maps:</b > {$estate->getGoogleLink()}\n\n" .
-            "{$price}\n";
+            "<b>📍Google maps:</b > {$estate->getGoogleLink()}\n\n";
     }
 }

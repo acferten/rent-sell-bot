@@ -35,8 +35,8 @@ return new class extends Migration {
             $table->string('street')->nullable();
             $table->string('house_number')->nullable();
 
-
             $table->integer('price')->nullable();
+            $table->enum('paid_with', ['Bank BRI', 'Tinkoff'])->nullable();
             $table->integer('views')->default(0);
             $table->integer('chattings')->default(0);
             $table->date('end_date')->nullable();

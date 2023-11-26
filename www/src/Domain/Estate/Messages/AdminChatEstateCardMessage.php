@@ -11,7 +11,7 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class AdminChatEstateCardMessage
 {
-    public static function send(Estate $estate, int $user_id): void
+    public static function send(Estate $estate): void
     {
         $photo = InputFile::make(fopen("photos/{$estate->main_photo}", 'r+'));
 
@@ -22,16 +22,17 @@ class AdminChatEstateCardMessage
             parse_mode: 'html',
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('👉 Подробнее',
-                    url: env('NGROK_SERVER') . "/estate/{$estate->id}"))
+                    url: env('NGROK_SERVER') . "/estates/{$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу',
                     url: $estate->user->getTelegramUrl()))
                 ->addRow(InlineKeyboardButton::make('🌟 Разместить', callback_data: "approve {$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('🔴 Отклонить', callback_data: "decline {$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('🧾 Чек об оплате', url: "https://vk.com"))
         );
-
-        $estate->update([
-            'admin_message_id' => $message->message_id
-        ]);
+        Estate::withoutEvents(function () use ($estate, $message) {
+            $estate->update([
+                'admin_message_id' => $message->message_id
+            ]);
+        });;
     }
 }

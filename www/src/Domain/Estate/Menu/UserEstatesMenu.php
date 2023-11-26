@@ -97,10 +97,6 @@ class UserEstatesMenu extends InlineMenu
             ]),
         };
 
-        $bot->editMessageCaption(env('ADMIN_CHAT_ID'),
-            $estate->admin_message_id,
-            caption: AdminEstatePreviewViewModel::get($estate));
-
         $this->getEstateLayout();
     }
 

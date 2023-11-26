@@ -33,12 +33,11 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             "Number TG: {$estate->user->phone}\n" .
             "💰Order price: 300.000 IDR\n\n" .
 
-            "<b>Status: {$estate->status}</b>" .
+            "<b>Status: {$estate->status}</b>\n\n" .
 
-            "<b>Статус: {$estate->status}\n\n</b>" .
             "<b>🏡 Тип недвижимости:</b> {$estate->type->title}\n" .
             "🛏 {$data->bedrooms} спален\n" .
-            "{$estate->getGoogleLink()}" .
+            "{$estate->getGoogleLink()}\n" .
             $price;
     }
 }

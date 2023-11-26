@@ -4,6 +4,7 @@ namespace Domain\Estate\Models;
 
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Events\EstateUpdatedEvent;
 use Domain\Estate\Models\Filters\Country;
 use Domain\Estate\Models\Filters\County;
 use Domain\Estate\Models\Filters\DealType;
@@ -79,6 +80,7 @@ class Estate extends BaseModel
         'bedrooms',
         'conditioners',
         'price',
+        'paid_with',
 
         'video',
         'main_photo',
@@ -105,6 +107,10 @@ class Estate extends BaseModel
         'type_id',
         'user_id',
         'admin_message_id'
+    ];
+
+    protected $dispatchesEvents = [
+        'updated' => EstateUpdatedEvent::class,
     ];
 
     public function status(): EstateStatus

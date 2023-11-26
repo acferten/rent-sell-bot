@@ -13,12 +13,12 @@ class ApproveEstateAction
     {
         $estate = Estate::find($estate_id);
 
-        if ($estate->status != EstateStatus::closed->value && $estate->status != EstateStatus::pending->value) {
+        if ($estate->status()->canBeChanged()) {
             $bot->answerCallbackQuery(text: 'Объявление уже имеет статус "Активно"');
             return;
         }
 
-        $estate->update(['status' => EstateStatus::active]);
+        $estate->update(['status' => EstateStatus::active->value]);
 
         $bot->sendMessage("🥳 Поздравляем!
 Вы успешно разместили ваш объект.
