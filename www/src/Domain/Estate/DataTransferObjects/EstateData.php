@@ -90,10 +90,10 @@ class EstateData extends Data
             'bathrooms' => 'required|int|between:1,10',
             'conditioners' => 'required|int|between:0,25',
 
-            'main_photo' => 'required|image',
+            'main_photo' => 'required|image|max:4192',
             'photo' => 'required|array',
-            'photo*' => 'image',
-            'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4',
+            'photo*' => 'image|max:4192',
+            'video' => 'mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4|max:30000',
 
             'amenity_ids' => 'array|exists:amenities,id',
             'service_ids' => 'array|exists:services,id',
