@@ -81,7 +81,7 @@ class EstateData extends Data
     {
         return [
             'title' => 'required|string|max:80',
-            'description' => 'required|string|max:1000',
+            'description' => 'required|string|max:400',
             'available_date' => 'required|date',
             'deal_type' => 'required|in:Аренда,Продажа',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
