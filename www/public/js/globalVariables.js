@@ -1,4 +1,4 @@
-const NGROK_URL = "https://e689-37-21-207-145.ngrok-free.app";
+const NGROK_URL = "https://getkeysbot.com";
 
 const FORM_FIELDS_ERROR = [
     'deal_type-error',
