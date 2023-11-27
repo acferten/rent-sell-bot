@@ -239,3 +239,9 @@ if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         window.removeEventListener('scroll', closeKeyboardAfterScroll);
     })
 }
+
+// TODO: УДАЛИТЬ КОГДА НУЖНО БУДЕТ ДОБАВИТЬ ТИП УСЛУГИ ПРОДАЖА
+
+document.getElementById("Аренда").checked = true;
+changeTypePrice('Аренда');
+document.getElementsByClassName("form-group")[0].classList.add('d-none');

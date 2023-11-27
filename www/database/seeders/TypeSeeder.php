@@ -12,8 +12,8 @@ class TypeSeeder extends Seeder
     {
         Type::factory()->count(3)
             ->state(new Sequence(
-                ['title' => 'Вилла/дом'],
-                ['title' => 'Апартаменты/квартира'],
+                ['title' => 'Вилла / дом'],
+                ['title' => 'Апартаменты / квартира'],
                 ['title' => 'Комната'],
             ))->create();
     }

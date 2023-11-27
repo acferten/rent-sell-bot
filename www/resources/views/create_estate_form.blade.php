@@ -58,6 +58,7 @@
                     </div>
                 @endforeach
             </div>
+            <p class="form-group__description">* Выберите и установите цену исходя из срока аренды: за месяц и/или за год.</p>
             <div class="invalid-field" id="period-error"></div>
         </div>
 
@@ -87,13 +88,14 @@
             <div class="invalid-field" id="house_type_id-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="title">Название</label>
+            <label class="form-group__title" for="title">📜 Название</label>
             <input class="form-control" name="title" id="title"
                    placeholder="Вилла с видом на море в Чангу">
+            <p class="form-group__description">* Напишите уникальное короткое привлекательное название вашего объекта. Например, Вилла с видом на море в Чангу.</p>
             <div class="invalid-field" id="title-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="bedrooms">Количество спален</label>
+            <label class="form-group__title" for="bedrooms">🛏 Количество спален</label>
             <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example">
                 <option selected>Выберите количество</option>
                 @for($i = 1; $i <= 10; $i++)
@@ -103,7 +105,7 @@
             <div class="invalid-field" id="bedrooms-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="bathrooms">Количество ванн</label>
+            <label class="form-group__title" for="bathrooms">🛁 Количество ванных комнат</label>
             <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example">
                 <option selected>Выберите количество</option>
                 @for($i = 1; $i <= 10; $i++)
@@ -113,7 +115,7 @@
             <div class="invalid-field" id="bathrooms-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
+            <label class="form-group__title" for="conditioners">💨 Количество кондиционеров</label>
             <select id="conditioners" name="conditioners" class="form-select form-control"
                     aria-label="Default select example">
                 <option selected>Выберите количество</option>
@@ -125,7 +127,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Главная фотография</label>
+            <label class="form-group__title">📸 Главная фотография</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
                     <label for="main-photo-hidden" class="photo-uploader__add-button">
@@ -136,10 +138,11 @@
                 <input class="photo-uploader__input" name="main_photo" id="main-photo" type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
+            <p class="form-group__description">* Именно эту фотография клиенты будут видеть первой при просмотре вашего объявления.</p>
             <div class="invalid-field" id="main_photo-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title">Дополнительные фотографии</label>
+            <label class="form-group__title">🎞 Дополнительные фотографии</label>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     <label for="photos-hidden" class="photo-uploader__add-button">
@@ -150,21 +153,23 @@
                 <input class="photo-uploader__input" name="photo[]" id="photos" type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
+            <p class="form-group__description">Добавьте не менее 5 фотографий, показывающих ваш объект с выгодной стороны. Рекомендуем добавить: фото снаружи, ливинг рум, кухня, спальня, ванная комната. Это значительно увеличит заинтересованность к вашему объекту.</p>
             <div class="invalid-field" id="photo-error"></div>
         </div>
 
 
         <div class="form-group">
-            <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
+            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт) </label>
             <div class="form-outline">
                 <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
                        class="form-control" />
             </div>
+            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем без видео. Видеоролики желательно добавлять в вертикальном формате.</p>
             <div class="invalid-field" id="video-error"></div>
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="available_date">свободен для заселения</label>
+            <label class="form-group__title" for="available_date">🗓 С какой даты объект свободен для заселения?</label>
             <div class="form-outline">
                 <input type="date" id="available_date" name="available_date" value="{{date("Y-m-d")}}" min="{{date("Y-m-d")}}" class="form-control" />
             </div>
@@ -172,7 +177,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Удобства на объекте</label>
+            <label class="form-group__title">🛎 Удобства на вашем объекте</label>
             <div class="estate_includes">
                 @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
@@ -187,7 +192,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Включено в стоимость</label>
+            <label class="form-group__title">🤝 Что включено в стоимость аренды?</label>
             <div class="estate_includes">
                 @foreach($services as $service)
                     <div class="estate_includes__item">
@@ -202,13 +207,14 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="description">Описание</label>
+            <label class="form-group__title" for="description">ℹ️ Опишите ваш объект в свободной форме.</label>
             <textarea class="form-control" name="description" id="description" rows="3"
                       placeholder="Подробное описание вашего объекта"></textarea>
+            <p class="form-group__description">* Напишите, что ещё хорошего есть на вашем объекте. Какие преимущества территориального расположения.</p>
             <div class="invalid-field" id="description-error"></div>
         </div>
         <div class="d-grid gap-2 main-buttons">
-            <button type="submit" id="btn-submit" class="btn">Сохранить</button>
+            <button type="submit" id="btn-submit" class="btn">✅ Сохранить</button>
         </div>
     </form>
 </div>
