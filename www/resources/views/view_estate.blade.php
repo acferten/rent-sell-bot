@@ -212,7 +212,7 @@
             <button id="btn-report" class="btn">Жалоба</button>
         </div>
         <div class="col">
-            <a href="https://t.me/Silvery11" id="btn-write" class="btn">Написать</a>
+            <a href="{{$estate->user->getTelegramUrl()}}" id="btn-write" class="btn">Написать</a>
         </div>
     </div>
 </div>
