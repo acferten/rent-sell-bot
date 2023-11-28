@@ -247,6 +247,17 @@
         </div>
 
         <div class="form-group">
+            <label class="form-group__title">📍 Выберите район, где располагается объект</label>
+            <div class="estate_districts">
+                <select id="custom_district" name="custom_district" class="form-select form-control" aria-label="Default select example">
+                    @foreach($custom_districts as $custom_district)
+                        <option value="{{$custom_district}}" @if($custom_district == $estate_custom_district) selected @endif>{{$custom_district}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="form-group__title" for="description">ℹ️ Опишите ваш объект в свободной форме.</label>
             <p class="form-group__description">Напишите, что ещё хорошего есть на вашем объекте. Какие преимущества территориального расположения.</p>
             <textarea class="form-control" name="description" id="description" rows="3"

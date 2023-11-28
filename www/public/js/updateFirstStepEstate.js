@@ -260,3 +260,9 @@ mainPhoto().then(() => {
     reader.readAsDataURL(mainPhotoInput.files[0]);
     removeAddButton(mainPhotoInput, 1, mainPhotoContainer);
 })
+
+// TODO: УДАЛИТЬ КОГДА НУЖНО БУДЕТ ДОБАВИТЬ ТИП УСЛУГИ ПРОДАЖА
+
+document.getElementById("Аренда").checked = true;
+changeTypePrice('Аренда');
+document.getElementsByClassName("form-group")[0].classList.add('d-none');

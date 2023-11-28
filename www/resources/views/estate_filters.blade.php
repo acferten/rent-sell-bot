@@ -82,7 +82,20 @@
             </div>
         </div>
 
+        {{--        TODO: УДАЛИТЬ КОГДА НУЖНО БУДЕТ ДОБАВИТЬ ПОИСК ПО РАЗНЫМ СТРАНАМ--}}
         <div class="form-group">
+            <label class="form-group__title" for="country">📍 Выберите район</label>
+            <select id="custom_district" name="custom_district" class="form-select form-control"
+                    aria-label="Default select example">
+                <option value="" selected>Выберите район</option>
+                @foreach($custom_districts as $custom_district)
+                    <option value="{{$custom_district}}">{{$custom_district}}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{--        TODO: УДАЛИТЬ d-none КОГДА НУЖНО БУДЕТ ДОБАВИТЬ ПОИСК ПО РАЗНЫМ СТРАНАМ--}}
+        <div class="form-group d-none">
             <label class="form-group__title" for="country">Страна</label>
             <select id="country" name="country" class="form-select form-control"
                     aria-label="Default select example">
@@ -109,14 +122,29 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Включено в стоимость</label>
+            <label class="form-group__title">🛎 Удобства на объекте</label>
             <div class="estate_includes">
-                @foreach($includes as $include)
+                @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
-                        <input type="checkbox" name="include_ids[]" value="{{$include->id}}"
-                               id="{{$include->title}}-{{$include->id}}"/>
-                        <label for="{{$include->title}}-{{$include->id}}">
-                            <span class="radio-label">{{$include->title}}</span>
+                        <input type="checkbox" name="amenity_ids[]" value="{{$amenity->id}}"
+                               id="{{$amenity->title}}-{{$amenity->id}}"/>
+                        <label for="{{$amenity->title}}-{{$amenity->id}}">
+                            <span class="radio-label">{{$amenity->title}}</span>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title">🤝 Включено в стоимость аренды</label>
+            <div class="estate_includes">
+                @foreach($services as $service)
+                    <div class="estate_includes__item">
+                        <input type="checkbox" name="service_ids[]" value="{{$service->id}}"
+                               id="{{$service->title}}-{{$service->id}}"/>
+                        <label for="{{$service->title}}-{{$service->id}}">
+                            <span class="radio-label">{{$service->title}}</span>
                         </label>
                     </div>
                 @endforeach

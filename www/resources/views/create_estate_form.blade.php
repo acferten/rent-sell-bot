@@ -210,7 +210,7 @@
             <label class="form-group__title">📍 Выберите район, где располагается объект</label>
             <div class="estate_districts">
                 <select id="custom_district" name="custom_district" class="form-select form-control" aria-label="Default select example">
-                    <option selected>Выберите район</option>
+                    <option value="" selected>Выберите район</option>
                     @foreach($custom_districts as $custom_district)
                         <option value="{{$custom_district}}">{{$custom_district}}</option>
                     @endforeach

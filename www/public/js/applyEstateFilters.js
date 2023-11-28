@@ -182,3 +182,8 @@ document.getElementById('Аренда').addEventListener("change", () => {
     changeTypePrice('Аренда');
 })
 
+// TODO: УДАЛИТЬ КОГДА НУЖНО БУДЕТ ДОБАВИТЬ ТИП УСЛУГИ ПРОДАЖА
+
+document.getElementById("Аренда").checked = true;
+changeTypePrice('Аренда');
+document.getElementsByClassName("form-group")[0].classList.add('d-none');

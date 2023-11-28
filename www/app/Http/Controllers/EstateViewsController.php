@@ -61,6 +61,7 @@ class EstateViewsController extends Controller
             'services' => Service::all(),
             'amenities' => Amenity::all(),
             'custom_districts' => BaliDistricts::cases(),
+            'estate_custom_district' => $estate->custom_district,
             'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
             'estate_services' => $estate->services->map(fn($service) => $service->title),
         ];
