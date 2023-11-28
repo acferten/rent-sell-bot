@@ -18,7 +18,6 @@ class EstateController extends Controller
     {
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
-        log::debug($data);
         $estate = CreateEstateAction::execute($data);
         Telegram::setUserData('estate_id', $estate->id, $data->user->id);
 

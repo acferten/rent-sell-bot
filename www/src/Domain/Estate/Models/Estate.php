@@ -6,6 +6,7 @@ use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Filters\Country;
 use Domain\Estate\Models\Filters\County;
+use Domain\Estate\Models\Filters\CustomDistrict;
 use Domain\Estate\Models\Filters\DealType;
 use Domain\Estate\Models\Filters\State;
 use Domain\Estate\Models\Filters\Town;
@@ -65,6 +66,7 @@ class Estate extends BaseModel
 
     protected array $filters = [
         DealType::class,
+        CustomDistrict::class,
         Country::class,
         State::class,
         County::class,

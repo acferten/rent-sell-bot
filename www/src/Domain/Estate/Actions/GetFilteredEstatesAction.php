@@ -51,9 +51,15 @@ class GetFilteredEstatesAction
         }
 
         // estate amenities
-        if (!is_null($filters->include_ids)) {
+        if (!is_null($filters->amenity_ids)) {
             $estates->whereHas('amenities', function (Builder $query) use ($filters) {
-                $query->whereIn('amenity_estate.amenity_id', $filters->include_ids);
+                $query->whereIn('amenity_estate.amenity_id', $filters->amenity_ids);
+            });
+        }
+
+        if (!is_null($filters->service_ids)) {
+            $estates->whereHas('services', function (Builder $query) use ($filters) {
+                $query->whereIn('estate_service.service_id', $filters->service_ids);
             });
         }
 
