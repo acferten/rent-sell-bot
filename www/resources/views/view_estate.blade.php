@@ -130,21 +130,21 @@
             <div class="entity">
                 <span class="entity__icon">🛏</span>
                 <div class="entity__information">
-                    <span class="entity__title">Количество спален</span>
+                    <span class="entity__title">Спален</span>
                     <span class="entity__description">{{ $estate->bedrooms }}</span>
                 </div>
             </div>
             <div class="entity">
                 <span class="entity__icon">💨</span>
                 <div class="entity__information">
-                    <span class="entity__title">Количество кондиционеров</span>
+                    <span class="entity__title">Кондиционеров</span>
                     <span class="entity__description">{{ $estate->conditioners }}</span>
                 </div>
             </div>
             <div class="entity">
                 <span class="entity__icon">🛁</span>
                 <div class="entity__information">
-                    <span class="entity__title">Количество ванных комнат</span>
+                    <span class="entity__title">Ванных комнат</span>
                     <span class="entity__description">{{ $estate->bathrooms }}</span>
                 </div>
             </div>
@@ -189,7 +189,6 @@
         <p>
             {{ $estate->description  }}
             <br><br>
-            Свободен для заселения с {{ $check_in_date }}
         </p>
     </div>
     <div class="form-group report-form-wrapper d-none">

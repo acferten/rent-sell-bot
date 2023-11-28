@@ -93,6 +93,7 @@ class Estate extends BaseModel
         'county',
         'town',
         'district',
+        'custom_district',
         'street',
         'house_number',
 
