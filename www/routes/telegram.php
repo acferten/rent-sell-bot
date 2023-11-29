@@ -2,6 +2,7 @@
 /** @var SergiX44\Nutgram\Nutgram $bot */
 
 use Domain\Estate\Actions\ApproveEstateAction;
+use Domain\Estate\Actions\CloseEstateAction;
 use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
 use Domain\Estate\Actions\DeclineEstateAction;
 use Domain\Estate\Actions\SendPreviewMessageAction;
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
-
 $bot->onCommand('start', StartMenu::class);
 
 $bot->onCommand('myestates', UserEstatesMenu::class);
@@ -30,6 +30,7 @@ $bot->onCallbackQueryData('pay', EstatePaymentMenu::class);
 $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
 $bot->onCallbackQueryData('relevant {estate_id}', ConfirmEstateRelevanceAction::class);
+$bot->onCallbackQueryData('close {estate_id}', CloseEstateAction::class);
 
 $bot->onText('Данные первого шага успешно переданы! 🥳', CreateEstateMenu::class);
 $bot->onText('Данные первого шага успешно обновлены! 🥳', function (Nutgram $bot) {

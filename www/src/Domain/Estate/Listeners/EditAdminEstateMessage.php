@@ -27,7 +27,7 @@ class EditAdminEstateMessage
 
         if ($event->estate->status()->canBeChanged()) {
             $reply_markup->addRow(InlineKeyboardButton::make('🔴 Снять с размещения',
-                callback_data: "decline {$event->estate->id}"));
+                callback_data: "close {$event->estate->id}"));
         }
 
         if ($event->estate->admin_message_id) {
