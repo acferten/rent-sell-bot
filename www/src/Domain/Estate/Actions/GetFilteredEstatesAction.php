@@ -6,7 +6,6 @@ use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Log;
 
 class GetFilteredEstatesAction
 {
@@ -57,6 +56,7 @@ class GetFilteredEstatesAction
             });
         }
 
+        // estate services
         if (!is_null($filters->service_ids)) {
             $estates->whereHas('services', function (Builder $query) use ($filters) {
                 $query->whereIn('estate_service.service_id', $filters->service_ids);

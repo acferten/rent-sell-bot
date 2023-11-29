@@ -45,7 +45,11 @@ class GetFilteredEstatesConversation extends Conversation
         }
 
         $this->element = 0;
-        $this->getEstateLayout($bot);
+        if (array_key_exists($this->element + 1, $this->estates->toArray())) {
+            $this->getEstateLayout($bot);
+        } else {
+            $this->getLastEstateLayout($bot);
+        }
     }
 
     public function handleNext(Nutgram $bot): void

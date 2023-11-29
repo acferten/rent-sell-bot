@@ -20,9 +20,9 @@ class EditAdminEstateMessage
 
         if (is_null($event->estate->paid_with)) {
             $reply_markup->addRow(InlineKeyboardButton::make('💳 Paid to Bank BRI',
-                callback_data: "paid {$event->estate->id}"))
+                callback_data: "payment BankBRI {$event->estate->id}"))
                 ->addRow(InlineKeyboardButton::make('💎 Paid to Tinkoff',
-                    callback_data: "paid {$event->estate->id}"));
+                    callback_data: "payment Tinkoff {$event->estate->id}"));
         }
 
         if ($event->estate->status()->canBeChanged()) {

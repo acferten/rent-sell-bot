@@ -6,6 +6,7 @@ use Domain\Estate\Actions\CloseEstateAction;
 use Domain\Estate\Actions\ConfirmEstateRelevanceAction;
 use Domain\Estate\Actions\DeclineEstateAction;
 use Domain\Estate\Actions\SendPreviewMessageAction;
+use Domain\Estate\Actions\SetEstatePaymentTypeAction;
 use Domain\Estate\Conversations\ChangeEstateLocationConversation;
 use Domain\Estate\Conversations\GetFilteredEstatesConversation;
 use Domain\Estate\Menu\CancelEstatePublicationMenu;
@@ -31,6 +32,7 @@ $bot->onCallbackQueryData('approve {estate_id}', ApproveEstateAction::class);
 $bot->onCallbackQueryData('decline {estate_id}', DeclineEstateAction::class);
 $bot->onCallbackQueryData('relevant {estate_id}', ConfirmEstateRelevanceAction::class);
 $bot->onCallbackQueryData('close {estate_id}', CloseEstateAction::class);
+$bot->onCallbackQueryData('payment {bank} {estate_id}', SetEstatePaymentTypeAction::class);
 
 $bot->onText('Данные первого шага успешно переданы! 🥳', CreateEstateMenu::class);
 $bot->onText('Данные первого шага успешно обновлены! 🥳', function (Nutgram $bot) {
