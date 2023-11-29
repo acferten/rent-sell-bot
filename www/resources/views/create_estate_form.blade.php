@@ -47,6 +47,7 @@
 
         <div class="form-group d-none" id="period-container">
             <label class="form-group__title" for="period">Период аренды</label>
+            <p class="form-group__description">Выберите и установите цену исходя из срока аренды: за месяц и/или за год.</p>
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
@@ -58,7 +59,6 @@
                     </div>
                 @endforeach
             </div>
-            <p class="form-group__description">* Выберите и установите цену исходя из срока аренды: за месяц и/или за год.</p>
             <div class="invalid-field" id="period-error"></div>
         </div>
 
@@ -89,9 +89,9 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="title">📜 Название</label>
+            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта. Например, Вилла с видом на море в Чангу.</p>
             <input class="form-control" name="title" id="title"
                    placeholder="Вилла с видом на море в Чангу">
-            <p class="form-group__description">* Напишите уникальное короткое привлекательное название вашего объекта. Например, Вилла с видом на море в Чангу.</p>
             <div class="invalid-field" id="title-error"></div>
         </div>
         <div class="form-group">
@@ -128,6 +128,7 @@
 
         <div class="form-group">
             <label class="form-group__title">📸 Главная фотография</label>
+            <p class="form-group__description">Именно эту фотография клиенты будут видеть первой при просмотре вашего объявления.</p>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
                     <label for="main-photo-hidden" class="photo-uploader__add-button">
@@ -138,11 +139,11 @@
                 <input class="photo-uploader__input" name="main_photo" id="main-photo" type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
-            <p class="form-group__description">* Именно эту фотография клиенты будут видеть первой при просмотре вашего объявления.</p>
             <div class="invalid-field" id="main_photo-error"></div>
         </div>
         <div class="form-group">
             <label class="form-group__title">🎞 Дополнительные фотографии</label>
+            <p class="form-group__description">Добавьте не менее 5 фотографий, показывающих ваш объект с выгодной стороны. Рекомендуем добавить: фото снаружи, ливинг рум, кухня, спальня, ванная комната. Это значительно увеличит заинтересованность к вашему объекту.</p>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     <label for="photos-hidden" class="photo-uploader__add-button">
@@ -153,18 +154,17 @@
                 <input class="photo-uploader__input" name="photo[]" id="photos" type="file" multiple accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>
-            <p class="form-group__description">Добавьте не менее 5 фотографий, показывающих ваш объект с выгодной стороны. Рекомендуем добавить: фото снаружи, ливинг рум, кухня, спальня, ванная комната. Это значительно увеличит заинтересованность к вашему объекту.</p>
             <div class="invalid-field" id="photo-error"></div>
         </div>
 
 
         <div class="form-group">
-            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт) </label>
+            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>
+            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем без видео. Видеоролики желательно добавлять в вертикальном формате.</p>
             <div class="form-outline">
                 <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
                        class="form-control" />
             </div>
-            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем без видео. Видеоролики желательно добавлять в вертикальном формате.</p>
             <div class="invalid-field" id="video-error"></div>
         </div>
 
@@ -207,10 +207,22 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="description">ℹ️ Опишите ваш объект в свободной форме.</label>
+            <label class="form-group__title">📍 Выберите район, где располагается объект</label>
+            <div class="estate_districts">
+                <select id="custom_district" name="custom_district" class="form-select form-control" aria-label="Default select example">
+                    <option value="" selected>Выберите район</option>
+                    @foreach($custom_districts as $custom_district)
+                        <option value="{{$custom_district}}">{{$custom_district}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title" for="description">ℹ️ Описание</label>
+            <p class="form-group__description">Напишите, что ещё хорошего есть на вашем объекте. Какие преимущества территориального расположения.</p>
             <textarea class="form-control" name="description" id="description" rows="3"
                       placeholder="Подробное описание вашего объекта"></textarea>
-            <p class="form-group__description">* Напишите, что ещё хорошего есть на вашем объекте. Какие преимущества территориального расположения.</p>
             <div class="invalid-field" id="description-error"></div>
         </div>
         <div class="d-grid gap-2 main-buttons">

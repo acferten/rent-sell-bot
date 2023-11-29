@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Domain\Estate\Actions\SaveUserFiltersAction;
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
+use Domain\Estate\Enums\BaliDistricts;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Models\Amenity;
+use Domain\Estate\Models\Service;
 use Domain\Estate\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -20,10 +22,12 @@ class EstateFiltersController extends Controller
     public function get(): View
     {
         $data = [
-            'includes' => Amenity::all(),
+            'services' => Service::all(),
+            'amenities' => Amenity::all(),
             'deal_types' => DealTypes::cases(),
             'estate_types' => Type::all(),
             'price_periods' => EstatePeriods::cases(),
+            'custom_districts' => BaliDistricts::cases(),
         ];
         return view('estate_filters', $data);
     }

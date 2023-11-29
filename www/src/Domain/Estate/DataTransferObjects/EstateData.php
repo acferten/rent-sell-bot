@@ -23,6 +23,7 @@ class EstateData extends Data
         public string                                      $description,
         public string                                      $title,
         public string                                      $available_date,
+        public string                                      $custom_district,
         public int                                         $bedrooms,
         public int                                         $conditioners,
         public int                                         $bathrooms,
@@ -72,6 +73,7 @@ class EstateData extends Data
                 'username' => $request->input('username'),
             ]),
             'type_id' => $request->input('house_type_id'),
+            'custom_district' => $request->input('custom_district'),
             'periods' => RentPeriodsData::collection(collect(json_decode($request->input('periods')))),
             'price' => $request->input('deal_type') == DealTypes::sale->value ? $request->input('price') : null
         ]);
@@ -83,6 +85,7 @@ class EstateData extends Data
             'title' => 'required|string|max:80',
             'description' => 'required|string|max:400',
             'available_date' => 'required|date',
+            'custom_district' => 'required|string',
             'deal_type' => 'required|in:Аренда,Продажа',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
 

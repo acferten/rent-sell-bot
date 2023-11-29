@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Estate;
 
+use Domain\Estate\Enums\BaliDistricts;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
@@ -39,6 +40,7 @@ class EstateFactory extends Factory
             'town' => fake()->city,
             'state' => fake()->randomElement($states),
             'county' => fake()->realText(15, 1),
+            'custom_district' => fake()->randomElement(BaliDistricts::cases()),
             'district' => fake()->word,
             'street' => fake()->streetName,
             'house_number' => fake()->buildingNumber,

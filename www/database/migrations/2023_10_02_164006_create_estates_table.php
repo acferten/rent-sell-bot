@@ -1,5 +1,7 @@
 <?php
 
+use Domain\Estate\Enums\BaliDistricts;
+use Domain\Estate\Enums\EstateStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +12,7 @@ return new class extends Migration {
         Schema::create('estates', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
 
-            $table->enum('status', ['Активно', 'Закрыто', 'Заблокировано', 'На осмотре',
-                'На модерации', 'Не заполнен', 'Закрыто владельцем'])
+            $table->enum('status', EstateStatus::values())
                 ->default('Не заполнен');
             $table->string('title');
             $table->date('available_date');
@@ -27,6 +28,7 @@ return new class extends Migration {
             $table->float('latitude', 12, 9)->nullable();
             $table->float('longitude', 12, 9)->nullable();
 
+            $table->enum('custom_district', BaliDistricts::values());
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('county')->nullable();

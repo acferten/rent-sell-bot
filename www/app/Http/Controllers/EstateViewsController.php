@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Domain\Estate\DataTransferObjects\RentPeriodsData;
+use Domain\Estate\Enums\BaliDistricts;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstatePeriods;
 use Domain\Estate\Enums\ReportReasons;
@@ -21,7 +22,8 @@ class EstateViewsController extends Controller
             'amenities' => Amenity::all(),
             'deal_types' => DealTypes::cases(),
             'estate_types' => Type::all(),
-            'price_periods' => EstatePeriods::cases()
+            'price_periods' => EstatePeriods::cases(),
+            'custom_districts' => BaliDistricts::cases()
         ];
 
         return view('create_estate_form', $data);
@@ -58,6 +60,8 @@ class EstateViewsController extends Controller
             'check_in_date' => date('Y-m-d', strtotime($estate->available_date)),
             'services' => Service::all(),
             'amenities' => Amenity::all(),
+            'custom_districts' => BaliDistricts::cases(),
+            'estate_custom_district' => $estate->custom_district,
             'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
             'estate_services' => $estate->services->map(fn($service) => $service->title),
         ];

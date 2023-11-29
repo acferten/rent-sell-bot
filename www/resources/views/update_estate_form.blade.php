@@ -53,6 +53,7 @@
 
         <div class="form-group @if($estate->price) d-none @endif" id="period-container">
             <label class="form-group__title" for="period">Период аренды</label>
+            <p class="form-group__description">Выберите и установите цену исходя из срока аренды: за месяц и/или за год.</p>
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
@@ -110,14 +111,15 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="title">Название</label>
+            <label class="form-group__title" for="title">📜 Название</label>
+            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта. Например, Вилла с видом на море в Чангу.</p>
             <input class="form-control" name="title" id="title" value="{{$estate->title}}"
                    placeholder="Вилла с видом на море в Чангу">
             <div class="invalid-field" id="title-error"></div>
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="bedrooms">Количество спален</label>
+            <label class="form-group__title" for="bedrooms">🛏 Количество спален</label>
             <select id="bedrooms" name="bedrooms" class="form-select form-control" aria-label="Default select example"
             >
                 @for($i = 1; $i <= 10; $i++)
@@ -127,7 +129,7 @@
             <div class="invalid-field" id="bedrooms-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="bathrooms">Количество ванн</label>
+            <label class="form-group__title" for="bathrooms">🛁 Количество ванных комнат</label>
             <select id="bathrooms" name="bathrooms" class="form-select form-control" aria-label="Default select example"
             >
                 @for($i = 1; $i <= 10; $i++)
@@ -137,7 +139,7 @@
             <div class="invalid-field" id="bathrooms-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title" for="conditioners">Количество кондиционеров</label>
+            <label class="form-group__title" for="conditioners">💨 Количество кондиционеров</label>
             <select id="conditioners" name="conditioners" class="form-select form-control"
                     aria-label="Default select example">
                 @for($i = 0; $i <= 10; $i++)
@@ -148,7 +150,8 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Главная фотография</label>
+            <label class="form-group__title">📸 Главная фотография</label>
+            <p class="form-group__description">Именно эту фотография клиенты будут видеть первой при просмотре вашего объявления.</p>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="main-photo-container">
                     <div class="preview-container__photo"
@@ -164,7 +167,8 @@
             <div class="invalid-field" id="main_photo-error"></div>
         </div>
         <div class="form-group">
-            <label class="form-group__title">Дополнительные фотографии</label>
+            <label class="form-group__title">🎞 Дополнительные фотографии</label>
+            <p class="form-group__description">Добавьте не менее 5 фотографий, показывающих ваш объект с выгодной стороны. Рекомендуем добавить: фото снаружи, ливинг рум, кухня, спальня, ванная комната. Это значительно увеличит заинтересованность к вашему объекту.</p>
             <div class="photo-uploader">
                 <div class="photo-uploader__selected-photos" id="photos-container">
                     @foreach($estate_photos as $photo)
@@ -183,7 +187,8 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="video">Видео объекта (не обязательно)</label>
+            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>
+            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем без видео. Видеоролики желательно добавлять в вертикальном формате.</p>
             <div class="form-outline">
                 <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
                        class="form-control"/>
@@ -200,7 +205,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="available_date">свободен для заселения</label>
+            <label class="form-group__title" for="available_date">🗓 С какой даты объект свободен для заселения?</label>
             <div class="form-outline">
                 <input type="date" id="available_date" name="available_date" value="{{$check_in_date}}" class="form-control" />
             </div>
@@ -208,7 +213,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Удобства на объекте</label>
+            <label class="form-group__title">🛎 Удобства на вашем объекте</label>
             <div class="estate_includes">
                 @foreach($amenities as $amenity)
                     <div class="estate_includes__item">
@@ -225,7 +230,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title">Включено в стоимость</label>
+            <label class="form-group__title">🤝 Что включено в стоимость аренды?</label>
             <div class="estate_includes">
                 @foreach($services as $service)
                     <div class="estate_includes__item">
@@ -242,7 +247,19 @@
         </div>
 
         <div class="form-group">
-            <label class="form-group__title" for="description">Описание</label>
+            <label class="form-group__title">📍 Выберите район, где располагается объект</label>
+            <div class="estate_districts">
+                <select id="custom_district" name="custom_district" class="form-select form-control" aria-label="Default select example">
+                    @foreach($custom_districts as $custom_district)
+                        <option value="{{$custom_district}}" @if($custom_district == $estate_custom_district) selected @endif>{{$custom_district}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-group__title" for="description">ℹ️ Опишите ваш объект в свободной форме.</label>
+            <p class="form-group__description">Напишите, что ещё хорошего есть на вашем объекте. Какие преимущества территориального расположения.</p>
             <textarea class="form-control" name="description" id="description" rows="3"
                       placeholder="Подробное описание вашего объекта">{{$estate->description}}</textarea>
             <div class="invalid-field" id="description-error"></div>

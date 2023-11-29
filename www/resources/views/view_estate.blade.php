@@ -189,7 +189,6 @@
         <p>
             {{ $estate->description  }}
             <br><br>
-            Свободен для заселения с {{ $check_in_date }}
         </p>
     </div>
     <div class="form-group report-form-wrapper d-none">
