@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Domain\Estate\Actions\UpdateEstateAsAdminAction;
+use Domain\Estate\Actions\UpdateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\DataTransferObjects\RentPeriodsData;
 use Domain\Estate\Enums\BaliDistricts;
@@ -40,6 +40,6 @@ class UpdateEstateAsAdminController extends Controller
 
     public function update(Estate $estate, EstateData $data)
     {
-        return UpdateEstateAsAdminAction::execute($data);
+        return UpdateEstateAction::execute($data);
     }
 }

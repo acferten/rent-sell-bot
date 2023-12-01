@@ -13,12 +13,12 @@ use SergiX44\Nutgram\Telegram\Web\WebAppUser;
 
 class UpdateEstateAction
 {
-    public static function execute(EstateData $data, WebAppUser $user): Estate
+    public static function execute(EstateData $data, WebAppUser $user = null): Estate
     {
         $estate = Estate::findOrFail($data->id);
 
-        if ($estate->user_id != $user->id) {
-            throw new UnauthorizedException;
+        if (!is_null($user)) {
+            throw_if($estate->user_id != $user->id, new UnauthorizedException);
         }
 
         $estate_photos = $estate->photos();
@@ -34,7 +34,6 @@ class UpdateEstateAction
 
         $estate->update([
             ...$data->all(),
-            'user_id' => $data->user->id,
             'main_photo' => $data->main_photo->storePublicly('', ['disk' => 'photos']),
             'video' => $data->video ? $data->video->storePublicly('', ['disk' => 'photos']) : null]);
 
