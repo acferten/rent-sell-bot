@@ -86,15 +86,13 @@ class EstatePaymentMenu extends InlineMenu
 
         $bot->deleteMessage($bot->userId(), $bot->message()->message_id);
 
-        Estate::withoutEvents(function () {
-            $this->estate->update([
-                'status' => EstateStatus::pending->value
-            ]);
-        });
+        $this->estate->update([
+            'status' => EstateStatus::pending->value
+        ]);
 
         $this->clearButtons()->menuText('Спасибо! Мы получили чек.
-    Модератор проверит ваше объявление в течение одного часа. Модератор может написать вам для уточнения деталей объявления.
-    Мы работаем каждый день с 09:00 до 20:00 (по Бали).')
+Модератор проверит ваше объявление в течение одного часа. Модератор может написать вам для уточнения деталей объявления.
+Мы работаем каждый день с 09:00 до 20:00 (по Бали).')
             ->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
             ->addButtonRow(InlineKeyboardButton::make("💡 Разместить новое", callback_data: 'none@newEstate'))
             ->addButtonRow(InlineKeyboardButton::make("🏡 Мои объявления", callback_data: 'dfsf@myEstates'))

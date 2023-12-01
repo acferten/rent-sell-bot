@@ -2,6 +2,7 @@
 
 namespace Domain\Estate\Listeners;
 
+use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Events\EstateUpdatedEvent;
 use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Nutgram\Laravel\Facades\Telegram;
@@ -30,6 +31,10 @@ class EditAdminEstateMessage
                 callback_data: "close {$event->estate->id}"));
         } else {
             $reply_markup->addRow(InlineKeyboardButton::make('🌟 Разместить', callback_data: "approve {$event->estate->id}"));
+        }
+
+        if ($event->estate->status == EstateStatus::pending->value) {
+            $reply_markup->addRow(InlineKeyboardButton::make('🔴 Отклонить', callback_data: "decline {$event->estate->id}"));
         }
 
         if ($event->estate->admin_message_id) {
