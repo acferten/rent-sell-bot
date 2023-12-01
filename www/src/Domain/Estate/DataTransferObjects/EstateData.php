@@ -101,10 +101,6 @@ class EstateData extends Data
             'amenity_ids' => 'array|exists:amenities,id',
             'service_ids' => 'array|exists:services,id',
             'house_type_id' => 'required|exists:types,id',
-
-            'user_id' => 'required|min:1',
-            'username' => 'required|string',
-            'first_name' => 'required|string'
         ];
     }
 

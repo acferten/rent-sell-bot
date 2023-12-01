@@ -23,6 +23,9 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             $price = "<b>💰 Цена:</b> {$data->price}";
         }
 
+        $paid_with = is_null($estate->paid_with) ? null :
+            "Paid: paid by {$estate->paid_with} card";
+
         return
             "✅ Poster: #{$estate->id}\n" .
             "Created: {$estate->created_at}\n" .
@@ -31,7 +34,8 @@ class AdminEstatePreviewViewModel implements ToStringInterface
             "User login TG: @{$estate->user->username}\n" .
             "User poster count: {$estate->user->estates->count()}\n" .
             "Number TG: {$estate->user->phone}\n" .
-            "💰Order price: 300.000 IDR\n\n" .
+            $paid_with .
+            "\n💰Order price: 300.000 IDR\n\n" .
 
             "<b>Status: {$estate->status}</b>\n\n" .
 

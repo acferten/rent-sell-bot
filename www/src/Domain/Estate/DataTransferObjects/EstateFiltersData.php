@@ -2,33 +2,28 @@
 
 namespace Domain\Estate\DataTransferObjects;
 
-use Domain\Estate\Enums\DealTypes;
-use Domain\Estate\Models\Amenity;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\Service;
 use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Lazy;
 
 class EstateFiltersData extends Data
 {
     public function __construct(
-        public readonly ?UserData                    $user,
-        public readonly null|array                   $periods,
-        public readonly ?string                      $deal_type,
-        public readonly ?string                      $country,
-        public readonly ?string                      $state,
-        public readonly ?string                      $county,
-        public readonly ?string                      $town,
-        public readonly ?int                         $price_start,
-        public readonly ?int                         $price_end,
-        public readonly ?array                       $house_type_ids,
-        public ?string                               $available_date,
-        public ?string                               $custom_district,
-        public readonly null|Collection|string|array $amenity_ids,
-        public readonly null|Collection|string|array $service_ids,
+        public readonly ?UserData $user,
+        public readonly ?array    $periods,
+        public readonly ?string   $deal_type,
+        public readonly ?string   $country,
+        public readonly ?string   $state,
+        public readonly ?string   $county,
+        public readonly ?string   $town,
+        public readonly ?int      $price_start,
+        public readonly ?int      $price_end,
+        public readonly ?array    $house_type_ids,
+        public readonly ?string   $available_date,
+        public readonly ?string   $custom_district,
+        public readonly ?array    $amenity_ids,
+        public readonly ?array    $service_ids,
     )
     {
     }

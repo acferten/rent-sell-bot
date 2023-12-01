@@ -51,23 +51,25 @@ class StartMenu extends InlineMenu
             ->addButtonRow(InlineKeyboardButton::make(
                 '✍️ Заполнить форму',
                 web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/create"))
-            )->orNext('none')
+            )->addButtonRow(InlineKeyboardButton::make(
+                EstateCallbacks::CallManager->value,
+                url: MessageText::ManagerUrl->value
+            ))->orNext('none')
             ->backButton()
             ->showMenu();
     }
 
     public function startGetEstatesChoice(): void
     {
-        $this->menuText(MessageText::GetEstatesText->value)
+        $this->menuText(MessageText::GetEstatesText->value, ['parse_mode' => 'html'])
             ->clearButtons()
-            ->addButtonRow(InlineKeyboardButton::make(
-                EstateCallbacks::GetEstates->value,
-                callback_data: EstateCallbacks::GetEstates->name . "@getEstatesChoice")
-            )
             ->addButtonRow(InlineKeyboardButton::make(
                 EstateCallbacks::GetFilteredEstates->value,
                 web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/filters"))
-            )->backButton()
+            )->addButtonRow(InlineKeyboardButton::make(
+                EstateCallbacks::CallManager->value,
+                url: MessageText::ManagerUrl->value
+            ))->backButton()
             ->orNext('none')
             ->showMenu();
 

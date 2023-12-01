@@ -5,6 +5,8 @@ namespace Domain\Estate\Menu;
 use Domain\Estate\Actions\SendPreviewMessageAction;
 use Domain\Estate\Enums\CancelReasons;
 use Domain\Estate\Enums\EstateCallbacks;
+use Domain\Estate\Enums\EstateStatus;
+use Domain\Estate\Messages\AdminChatEstateCardMessage;
 use Domain\Estate\Models\Estate;
 use Domain\Shared\Enums\MessageText;
 use Illuminate\Support\Facades\Storage;
@@ -21,47 +23,19 @@ class CancelEstatePublicationMenu extends InlineMenu
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
         $this->clearButtons()
-            ->menuText("<b>Подтверждение удаления</b>\n\n 😔 Вы действительно хотите удалить черновик Вашего объявления? Если возникли какие-то трудности при создании, Вы можете связаться с нашим менеджером.",
-                ['parse_mode' => 'html'])
-            ->addButtonRow(InlineKeyboardButton::make('💣 Удалить', callback_data: 'cancel@askReason'))
+            ->menuText("😔 Вы действительно хотите удалить черновик Вашего объявления?
+Если возникли какие-то вопросы, то напишите нашему менеджеру.
+", ['parse_mode' => 'html'])
+            ->addButtonRow(InlineKeyboardButton::make('💣 Удалить черновик', callback_data: 'cancel@delete'))
             ->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
-            ->addButtonRow(InlineKeyboardButton::make('◀️ Отмена', callback_data: 'preview@cancel'))
+            ->addButtonRow(InlineKeyboardButton::make('◀️ Шаг назад', callback_data: 'preview@cancel'))
             ->showMenu();
-    }
-
-    public function askReason(Nutgram $bot): void
-    {
-        $this->clearButtons()
-            ->menuText("<b>Пожалуйста, укажите причину отмены публикации</b>",
-                ['parse_mode' => 'html']);
-
-        foreach (CancelReasons::cases() as $reason) {
-            $this->addButtonRow(InlineKeyboardButton::make(
-                $reason->value,
-                callback_data: $reason->name . '@delete'));
-        }
-        $this->showMenu();
     }
 
     public function delete(Nutgram $bot): void
     {
-        $bot->sendMessage("<b>😞 Пользователь не дошел до финального шага создания объекта</b>
-<b>Причина:</b> {$bot->callbackQuery()->data}
-<b>Пользователь:</b> {$this->estate->user->username}, {$this->estate->user->phone}",
-            '-1001875753187',
-            parse_mode: 'html',
-            disable_notification: true
-        );
-
-        $this->estate->delete();
-
-        // clear storage files
-        $this->estate->photos
-            ->each(fn($photo) => Storage::disk('photos')->delete($photo->photo));
-        Storage::disk('photos')->delete($this->estate->main_photo);
-        if ($this->estate->video) {
-            Storage::disk('photos')->delete($this->estate->video);
-        }
+        AdminChatEstateCardMessage::send($this->estate);
+        $this->estate->update(['status' => EstateStatus::deletedDraft->value]);
 
         if ($bot->getUserData('preview_message_id')) {
             $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
@@ -69,7 +43,10 @@ class CancelEstatePublicationMenu extends InlineMenu
         $bot->deleteUserData('estate_id');
         $bot->deleteUserData('preview_message_id');
 
-        $bot->sendMessage('Публикация успешно удалена.', $this->estate->user_id);
+        $bot->sendMessage('😇 Мы всегда готовы помочь сдать ваше жильё.
+🔑 Теперь вы знаете, что разместить объявление на <b>GetKeysBot</b> быстро и просто.
+Здесь также легко найти вариант для жилья.
+', $this->estate->user_id, parse_mode: 'html');
         $this->closeMenu();
         $this->end();
     }

@@ -152,7 +152,7 @@
         </div>
 
         <div class="d-grid gap-2 main-buttons">
-            <button type="submit" id="btn-submit" class="btn">Применить</button>
+            <button type="submit" id="btn-submit" class="btn">Показать объявления</button>
         </div>
     </form>
 </div>
