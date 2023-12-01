@@ -10,7 +10,8 @@ enum EstateStatus: string
     case closedByOwner = 'Закрыто владельцем';
     case banned = 'Заблокировано';
     case pending = 'На модерации';
-    case notFinished = 'Не заполнен';
+    case notFinished = 'Не оплачен';
+    case deletedDraft = 'Удаленный черновик';
 
     public function canBeChanged(): bool
     {

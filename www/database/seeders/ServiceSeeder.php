@@ -18,7 +18,6 @@ class ServiceSeeder extends Seeder
                 ['title' => 'Чистка бассейна'],
                 ['title' => 'Газ'],
                 ['title' => 'Смена постельного белья'],
-                ['title' => 'Телевизор'],
                 ['title' => 'Завтрак']
             ))->create();
     }
