@@ -20,7 +20,7 @@ use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 
 $bot->onCommand('start', StartMenu::class);
 
-$bot->onCommand('myestates', UserEstatesMenu::class);
+$bot->onCommand('my_posters', UserEstatesMenu::class);
 $bot->onCommand('estates', GetFilteredEstatesConversation::class);
 
 $bot->onCallbackQueryData('change location', ChangeEstateLocationConversation::class);
