@@ -27,7 +27,6 @@ class AdminChatEstateCardMessage
                     url: $estate->user->getTelegramUrl()))
                 ->addRow(InlineKeyboardButton::make('🌟 Разместить', callback_data: "approve {$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('🔴 Отклонить', callback_data: "decline {$estate->id}"))
-                ->addRow(InlineKeyboardButton::make('🧾 Чек об оплате', url: "https://vk.com"))
         );
         Estate::withoutEvents(function () use ($estate, $message) {
             $estate->update([

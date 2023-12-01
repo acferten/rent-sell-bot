@@ -25,9 +25,9 @@ class EstatePaymentMenu extends InlineMenu
         $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
 
         $this->clearButtons()
-            ->menuText("🌟 Прекрасно! Вам осталось оплатить объявление и его увидят все пользователи GetKeysBot.
+            ->menuText("🌟 Прекрасно! Вам осталось оплатить объявление и его увидят все пользователи <b>GetKeysBot</b>.
 
-💸 Стоимость размещение одного объявления на 30 дней:
+<b>💸 Стоимость размещение одного объявления на 30 дней:</b>
 300.000 IDR
 
 Как вам удобнее оплатить?
@@ -52,10 +52,11 @@ class EstatePaymentMenu extends InlineMenu
          <b>2200 7007 7932 1818
             Olga G. </b>
 
-Сумма для перевода {$rub} рублей.
+<b>Сумма для перевода {$rub} рублей.</b>
 
  🧾 После того как переведёте, отправьте боту скриншот о переводе.
-", ['parse_mode' => 'html'])->showMenu();
+", ['parse_mode' => 'html'])->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
+                ->orNext('none')->showMenu();
 
         } else if ($bot->callbackQuery()->data == 'indonesia') {
             $this->clearButtons()
@@ -63,10 +64,11 @@ class EstatePaymentMenu extends InlineMenu
             <b>4628 0100 4036 508
                Anak Agung Gede Adi Semara</b>
 
-Сумма для перевода 300.000 IDR
+<b>Сумма для перевода 300.000 IDR</b>
 
  🧾 После того как переведёте, отправьте боту скриншот о переводе.
-", ['parse_mode' => 'html'])->showMenu();
+", ['parse_mode' => 'html'])->addButtonRow(InlineKeyboardButton::make(EstateCallbacks::CallManager->value, url: MessageText::ManagerUrl->value))
+                ->orNext('none')->showMenu();
         }
 
         $this->next('getPaymentCheque');
@@ -74,12 +76,21 @@ class EstatePaymentMenu extends InlineMenu
 
     public function getPaymentCheque(Nutgram $bot): void
     {
-        $photoId = $bot->message()->photo[0]->file_id;
+        $fileId = $bot->message()->photo[0]->file_id;
+
+        $bot->sendPhoto(
+            $fileId,
+            env('ADMIN_CHAT_ID'),
+            reply_to_message_id: $this->estate->admin_message_id
+        );
+
         $bot->deleteMessage($bot->userId(), $bot->message()->message_id);
 
-        $this->estate->update([
-            'status' => EstateStatus::pending->value
-        ]);
+        Estate::withoutEvents(function () {
+            $this->estate->update([
+                'status' => EstateStatus::pending->value
+            ]);
+        });
 
         $this->clearButtons()->menuText('Спасибо! Мы получили чек.
     Модератор проверит ваше объявление в течение одного часа. Модератор может написать вам для уточнения деталей объявления.
