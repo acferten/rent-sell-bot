@@ -17,7 +17,9 @@ class EditAdminEstateMessage
             ->addRow(InlineKeyboardButton::make('👉 Подробнее',
                 url: env('NGROK_SERVER') . "/estates/{$event->estate->id}"))
             ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу',
-                url: $event->estate->user->getTelegramUrl()));
+                url: $event->estate->user->getTelegramUrl()))
+            ->addRow(InlineKeyboardButton::make('✍️ Редактировать',
+                url: env('NGROK_SERVER') . "admin/estates/{$event->estate->id}/edit"));
 
         if (is_null($event->estate->paid_with)) {
             $reply_markup->addRow(InlineKeyboardButton::make('💳 Paid to Bank BRI',

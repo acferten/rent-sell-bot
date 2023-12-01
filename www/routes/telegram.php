@@ -24,6 +24,7 @@ use SergiX44\Nutgram\Telegram\Exceptions\TelegramException;
 $bot->onCommand('start', StartMenu::class);
 
 $bot->onCommand('my_posters', UserEstatesMenu::class);
+$bot->onCommand('estates', GetFilteredEstatesConversation::class);
 $bot->onCommand('filter', UpdateFilterCommand::class);
 $bot->onCommand('contact', ContactManagerCommand::class);
 $bot->onCommand('new_poster', NewPosterCommand::class);

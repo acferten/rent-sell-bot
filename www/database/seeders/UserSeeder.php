@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Domain\Shared\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -15,7 +16,8 @@ class UserSeeder extends Seeder
                 'id' => 472041603,
                 'is_admin' => 1,
                 'username' => 'grepnam3',
-                'first_name' => "/////////"],
+                'first_name' => "/////////",
+                'password' => Hash::make('password')],
 
                 ['id' => 415670490,
                     'username' => 'Silvery11',

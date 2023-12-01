@@ -23,11 +23,14 @@ class AdminChatEstateCardMessage
             reply_markup: InlineKeyboardMarkup::make()
                 ->addRow(InlineKeyboardButton::make('👉 Подробнее',
                     url: env('NGROK_SERVER') . "/estates/{$estate->id}"))
+                ->addRow(InlineKeyboardButton::make('✍️ Редактировать',
+                    url: env('NGROK_SERVER') . "admin/estates/{$estate->id}/edit"))
                 ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу',
                     url: $estate->user->getTelegramUrl()))
                 ->addRow(InlineKeyboardButton::make('🌟 Разместить', callback_data: "approve {$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('🔴 Отклонить', callback_data: "decline {$estate->id}"))
         );
+
         Estate::withoutEvents(function () use ($estate, $message) {
             $estate->update([
                 'admin_message_id' => $message->message_id

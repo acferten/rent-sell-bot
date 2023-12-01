@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EstateController;
 use App\Http\Controllers\EstateFiltersController;
 use App\Http\Controllers\EstateLocationsController;

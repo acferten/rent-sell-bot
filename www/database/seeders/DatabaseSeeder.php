@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Domain\Shared\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             AmenitySeeder::class,
             ServiceSeeder::class,
+            UserSeeder::class
         ]);
     }
 }
