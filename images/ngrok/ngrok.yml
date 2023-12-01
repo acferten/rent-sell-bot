@@ -1,0 +1,11 @@
+authtoken: {{ NGROK_AUTHTOKEN }}
+version: 2
+tunnels:
+  website:
+    addr: $WEB_PORT
+    schemes:
+      - https
+    inspect: false
+    domain: !NGROK_DOMAIN
+    proto: http
+    host_header: !NGROK_DOMAIN
