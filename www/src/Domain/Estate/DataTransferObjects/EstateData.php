@@ -20,28 +20,26 @@ class EstateData extends Data
 {
     public function __construct(
         public readonly ?int                               $id,
-        public string                                      $description,
-        public string                                      $title,
-        public string                                      $available_date,
-        public string                                      $custom_district,
-        public int                                         $bedrooms,
-        public int                                         $conditioners,
-        public int                                         $bathrooms,
-        public null|int                                    $price,
-        #[WithoutValidation]
+        public readonly string                             $description,
+        public readonly string                             $title,
+        public readonly string                             $available_date,
+        public readonly string                             $custom_district,
+        public readonly int                                $bedrooms,
+        public readonly int                                $conditioners,
+        public readonly int                                $bathrooms,
+        public readonly ?int                               $price,
         /** @var DataCollection<RentPeriodsData> */
-        public null|DataCollection                         $periods,
-        public readonly null|Collection|string             $amenities,
-        public readonly null|Collection|string             $services,
+        public readonly ?DataCollection                    $periods,
+        public readonly ?Collection                        $amenities,
+        public readonly ?Collection                        $services,
         public readonly null|array|UploadedFile|Collection $photo,
         public readonly ?UserData                          $user,
         public readonly null|UploadedFile|string           $video,
         public readonly UploadedFile|string                $main_photo,
-        #[WithoutValidation]
         public readonly int                                $type_id,
-        public readonly null|int                           $chat_id,
+        public readonly ?int                               $chat_id,
         public readonly DealTypes                          $deal_type,
-        public EstateStatus                                $status = EstateStatus::notFinished
+        public readonly EstateStatus                       $status = EstateStatus::notFinished
     )
     {
     }
@@ -53,8 +51,6 @@ class EstateData extends Data
             'photo' => Photo::where(['estate_id' => $estate->id])->get()->pluck('photo'),
             'user' => UserData::from($estate->user),
             'periods' => RentPeriodsData::collection($estate->prices),
-            'amenities' => implode(', ', $estate->amenities->map(fn($amenity) => $amenity->title)->toArray()),
-            'services' => implode(', ', $estate->services->map(fn($service) => $service->title)->toArray())
         ]);
     }
 

@@ -24,7 +24,7 @@ class AdminChatEstateCardMessage
                 ->addRow(InlineKeyboardButton::make('👉 Подробнее',
                     url: env('NGROK_SERVER') . "/estates/{$estate->id}"))
                 ->addRow(InlineKeyboardButton::make('✍️ Редактировать',
-                    url: env('NGROK_SERVER') . "admin/estates/{$estate->id}/edit"))
+                    url: env('NGROK_SERVER') . "/admin/estates/{$estate->id}/edit"))
                 ->addRow(InlineKeyboardButton::make('👨‍💼 Написать владельцу',
                     url: $estate->user->getTelegramUrl()))
                 ->addRow(InlineKeyboardButton::make('🌟 Разместить', callback_data: "approve {$estate->id}"))

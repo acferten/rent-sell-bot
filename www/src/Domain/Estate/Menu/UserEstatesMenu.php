@@ -3,9 +3,7 @@
 namespace Domain\Estate\Menu;
 
 use Domain\Estate\Enums\EstateStatus;
-use Domain\Estate\Messages\AdminChatEstateCardMessage;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\ViewModels\AdminEstatePreviewViewModel;
 use Domain\Estate\ViewModels\UserEstateViewModel;
 use Illuminate\Support\Collection;
 use SergiX44\Nutgram\Conversations\InlineMenu;
@@ -21,31 +19,34 @@ class UserEstatesMenu extends InlineMenu
     public function start(Nutgram $bot): void
     {
         $this->estates = Estate::where('user_id', '=', $bot->userId())
-            ->where('status', '!=', EstateStatus::notFinished)->get();
+            ->where('status', '!=', EstateStatus::notFinished->value)
+            ->where('status', '!=', EstateStatus::deletedDraft->value)
+            ->latest()
+            ->get();
 
         if ($this->estates->isEmpty()) {
             $this->menuText('У вас нет объектов')->showMenu();
         }
 
         $this->element = 0;
-        $this->getEstateLayout();
+        $this->getEstateLayout($bot);
     }
 
-    public function handleNext(): void
+    public function handleNext(Nutgram $bot): void
     {
         $this->element += 1;
-        $this->getEstateLayout();
+        $this->getEstateLayout($bot);
     }
 
-    public function handleBack(): void
+    public function handleBack(Nutgram $bot): void
     {
         $this->element -= 1;
-        $this->getEstateLayout();
+        $this->getEstateLayout($bot);
     }
 
-    public function returnBack(): void
+    public function returnBack(Nutgram $bot): void
     {
-        $this->getEstateLayout();
+        $this->getEstateLayout($bot);
     }
 
     public function handleChangeStatus(Nutgram $bot): void
@@ -97,27 +98,28 @@ class UserEstatesMenu extends InlineMenu
             ]),
         };
 
-        $this->getEstateLayout();
+        $this->getEstateLayout($bot);
     }
 
-    public function getEstateLayout(): void
+    public function getEstateLayout(Nutgram $bot): void
     {
         $estate = $this->estates[$this->element];
         $count = count($this->estates);
         $element = $this->element + 1;
 
+        $bot->setUserData('user_posters_message_id', $this->messageId);
+
         $preview = "<b>Объявление {$element} из {$count}</b>\n\n" . UserEstateViewModel::get($estate);
 
         $this->clearButtons()->menuText($preview, ['parse_mode' => 'html'])
             ->addButtonRow(InlineKeyboardButton::make('👀 Посмотреть подробнее',
-                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estate/{$estate->id}")));
+                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}")));
 
         if ($estate->status()->canBeChanged()) {
             $this->addButtonRow(InlineKeyboardButton::make('✍️ Изменить статус',
                 callback_data: "{$estate->id}@handleChangeStatus"))
-//            ->addButtonRow(InlineKeyboardButton::make('✍️ Редактировать',
-//                web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}/edit")))
-            ;
+                ->addButtonRow(InlineKeyboardButton::make('✍️ Редактировать',
+                    web_app: new WebAppInfo(env('NGROK_SERVER') . "/estates/{$estate->id}/user-update")));
         }
 
         if (array_key_exists($this->element - 1, $this->estates->toArray())) {

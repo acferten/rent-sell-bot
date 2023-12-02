@@ -7,6 +7,7 @@ use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Photo;
 use Domain\Estate\Models\Price;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\UnauthorizedException;
 use SergiX44\Nutgram\Telegram\Web\WebAppUser;
@@ -34,10 +35,12 @@ class UpdateEstateAction
 
         $estate->update([
             ...$data->all(),
+            'status' => $estate->status,
             'main_photo' => $data->main_photo->storePublicly('', ['disk' => 'photos']),
             'video' => $data->video ? $data->video->storePublicly('', ['disk' => 'photos']) : null]);
 
         $estate->amenities()->syncWithPivotValues($data->amenities->pluck('id'), ['estate_id' => $estate->id]);
+        $estate->services()->syncWithPivotValues($data->services->pluck('id'), ['estate_id' => $estate->id]);
 
         if ($data->deal_type == DealTypes::rent) {
             $data->periods->each(fn($rent_price) => $estate->prices()->save(new Price($rent_price->all())));

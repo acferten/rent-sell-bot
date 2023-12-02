@@ -12,7 +12,7 @@ Route::get('/', function () {
     return 'Hello World!! This is GetKeysBot Site 🤠';
 });
 
-Route::patch('estates/{estate}/user-update', [UpdateUserEstateController::class, 'get']);
+Route::get('estates/{estate}/user-update', [UpdateUserEstateController::class, 'get']);
 
 Route::get('estates/filters', [EstateFiltersController::class, 'get']);
 

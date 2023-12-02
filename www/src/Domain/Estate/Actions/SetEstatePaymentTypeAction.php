@@ -2,8 +2,6 @@
 
 namespace Domain\Estate\Actions;
 
-use Domain\Estate\Enums\EstateStatus;
-use Domain\Estate\Messages\EstateCardMessage;
 use Domain\Estate\Models\Estate;
 use SergiX44\Nutgram\Nutgram;
 

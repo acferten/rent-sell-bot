@@ -17,7 +17,7 @@ class CloseIrrelevantEstatesAction
         $estates->each(function ($estate) {
             $preview = GetEstateViewModel::get($estate);
 
-            $estate->update(['status' => EstateStatus::closedByOwner]);
+            $estate->update(['status' => EstateStatus::closedByOwner->value]);
             Telegram::sendMessage("Объект был закрыт, так как Вы долго не подтверждали его актуальность.\nДля того, чтобы вернуть его в поиск, можете ввести команду /myobjects и изменить статус на Активно.\n\n{$preview}",
                 $estate->user_id, parse_mode: 'html');
         });

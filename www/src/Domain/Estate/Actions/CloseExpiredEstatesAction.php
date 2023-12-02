@@ -17,7 +17,7 @@ class CloseExpiredEstatesAction
         DB::transaction(function () {
             $estates = Estate::where('status', '!=', EstateStatus::closed->value)
                 ->whereDate('end_date', '<', date("Y-m-d"));
-            $estates->update(['status' => EstateStatus::closed]);
+            $estates->update(['status' => EstateStatus::closed->value]);
 
             $estates->get()->each(function ($estate) {
                 Telegram::sendMessage("Период размещения объекта закончился. Теперь соискатели жилья не видят его при поиске.\nДля продолжения размещения Вы можете связаться с менеджером.",

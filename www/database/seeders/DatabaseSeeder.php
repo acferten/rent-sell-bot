@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             AmenitySeeder::class,
             ServiceSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            EstateSeeder::class
         ]);
     }
 }

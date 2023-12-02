@@ -13,7 +13,7 @@ class AskEstateRelevanceAction
 {
     public function __invoke(): void
     {
-        $estates = Estate::where('status', EstateStatus::active)->get();
+        $estates = Estate::where('status', EstateStatus::active->value)->get();
 
         $estates->each(function ($estate) {
             $preview = GetEstateViewModel::get($estate);

@@ -47,7 +47,8 @@
             <div class="type_announcement">
                 @foreach($price_periods as $price_period)
                     <div class="type_announcement__item">
-                        <input class="type_announcement__field" type="checkbox" name="periods[]" value="{{$price_period->value}}"
+                        <input class="type_announcement__field" type="checkbox" name="periods[]"
+                               value="{{$price_period->value}}"
                                id="{{$price_period->value}}"/>
                         <label for="{{$price_period->value}}">
                             <span class="radio-label">{{$price_period->value}}</span>
