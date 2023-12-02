@@ -49,18 +49,19 @@ services:
       - nginx-php-postgres-network
 
   ngrok:
-#    image: ngrok/ngrok:latest
     build:
       context: images/ngrok
+      args:
+        NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+        WEB_PORT: proxy:${WEB_PORT}
+        NGROK_DOMAIN: ${NGROK_DOMAIN}
     restart: no
     container_name: ngrok
     ports:
       - "4040:4040"
-#    volumes:
-#      - ./images/ngrok/ngrok.yml:/etc/ngrok.yml
     environment:
       NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-      WEB_PORT: proxy:80
+      WEB_PORT: proxy:${WEB_PORT}
       NGROK_DOMAIN: ${NGROK_DOMAIN}
     depends_on:
       - proxy

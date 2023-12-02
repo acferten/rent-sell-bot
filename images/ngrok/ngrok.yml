@@ -3,7 +3,7 @@ authtoken: $NGROK_AUTHTOKEN
 version: 2
 tunnels:
   website:
-    addr: proxy:80
+    addr: $WEB_PORT
     schemes:
       - https
     inspect: false
