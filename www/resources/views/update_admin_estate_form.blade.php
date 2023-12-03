@@ -7,13 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/css/bundle.css">
+    <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/css/pages/UpdateEstateAdmin/style.css">
     <script src="{{env('NGROK_SERVER')}}/js/globalVariables.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/updateAdminEstate.js" defer></script>
     <title>Обновление данных объекта</title>
 </head>
 <body>
-
-<div class="container mt-3">
+<div class="container mt-3 update-page">
     <h1 class="page-title">Обновление данных объекта</h1>
     <form method="post" enctype="multipart/form-data" id="form">
         @csrf
@@ -276,7 +276,7 @@
                       placeholder="Подробное описание вашего объекта">{{$estate->description}}</textarea>
             <div class="invalid-field" id="description-error"></div>
         </div>
-        <div class="d-grid gap-2 main-buttons">
+        <div class="d-grid main-buttons container">
             <button type="submit" id="btn-submit" class="btn">Сохранить</button>
         </div>
     </form>
