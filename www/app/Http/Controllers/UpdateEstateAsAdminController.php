@@ -12,6 +12,7 @@ use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Amenity;
 use Domain\Estate\Models\Service;
 use Domain\Estate\Models\Type;
+use Illuminate\Http\Request;
 
 class UpdateEstateAsAdminController extends Controller
 {
@@ -35,11 +36,14 @@ class UpdateEstateAsAdminController extends Controller
             'estate_amenities' => $estate->amenities->map(fn($amenity) => $amenity->title),
             'estate_services' => $estate->services->map(fn($service) => $service->title),
         ];
-        return view('update_estate_form', $data);
+        return view('update_admin_estate_form', $data);
     }
 
-    public function update(Estate $estate, EstateData $data)
+    public function update(Request $request)
     {
+        $request->validate(EstateData::rules());
+        $data = EstateData::fromRequest($request);
+
         return UpdateEstateAction::execute($data);
     }
 }

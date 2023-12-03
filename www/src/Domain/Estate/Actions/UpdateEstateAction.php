@@ -53,6 +53,6 @@ class UpdateEstateAction
                 ]));
             }
         }
-        return $estate;
+        return $estate->refresh();
     }
 }

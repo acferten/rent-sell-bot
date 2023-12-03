@@ -62,12 +62,12 @@ class EstateData extends Data
             'amenities' => Amenity::whereIn('id', $request->collect('amenity_ids'))->get(),
             'services' => Service::whereIn('id', $request->collect('service_ids'))->get(),
             'photo' => $request->file('photo'),
-            'user' => UserData::from([
+            'user' => $request->input('user_id') ? UserData::from([
                 'id' => $request->input('user_id'),
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'username' => $request->input('username'),
-            ]),
+            ]) : null,
             'type_id' => $request->input('house_type_id'),
             'custom_district' => $request->input('custom_district'),
             'periods' => RentPeriodsData::collection(collect(json_decode($request->input('periods')))),
