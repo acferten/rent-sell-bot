@@ -4,15 +4,14 @@ namespace Domain\Estate\DataTransferObjects;
 
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Enums\EstateStatus;
-use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Amenity;
+use Domain\Estate\Models\Estate;
 use Domain\Estate\Models\Photo;
 use Domain\Estate\Models\Service;
 use Domain\Shared\DataTransferObjects\UserData;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Spatie\LaravelData\Attributes\WithoutValidation;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\DataCollection;
 
@@ -82,7 +81,10 @@ class EstateData extends Data
             'description' => 'required|string|max:400',
             'available_date' => 'required|date',
             'custom_district' => 'required|string',
-            'deal_type' => 'required|in:Аренда,Продажа',
+            'deal_type' => 'required',
+            'periods' => 'required_if:deal_type,Аренда',
+            'periods.*.period' => 'required|string',
+            'periods.*.price' => 'required|numeric',
             'price' => 'required_if:deal_type,Продажа|int|between:0,10000000|nullable',
 
             'bedrooms' => 'required|int|between:1,10',
@@ -105,11 +107,20 @@ class EstateData extends Data
         return [
             'description' => 'описание',
             'deal_type' => 'тип услуги',
-            'house_type_id' => 'тип недвижимости',
+            'house_type_id' => 'вид недвижимости',
             'bedrooms' => 'количество спален',
             'bathrooms' => 'количество ванных комнат',
             'conditioners' => 'количество кондиционеров',
-            'main_photo' => 'главное фото'
+            'main_photo' => 'главное фото',
+            'title' => 'название',
+            'available_date' => 'дата заселения',
+            'custom_district' => 'район',
+            'periods' => 'период аренды',
+            'price' => 'цена',
+            'photo' => 'дополнительные фотографии',
+            'video' => 'Видеоролик об объекте',
+            'amenity_ids' => 'удобства на вашем объекте',
+            'service_ids' => 'включено в стоимость',
         ];
     }
 }

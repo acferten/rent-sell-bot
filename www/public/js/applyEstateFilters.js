@@ -148,8 +148,8 @@ form.addEventListener('submit', (e) => {
 
                 for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
                     if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
-                        let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).offsetTop;
-                        window.scrollTo({top: scrollDiv - 110, behavior: 'smooth'});
+                        let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).closest('.form-group').offsetTop;
+                        window.scrollTo({top: scrollDiv, behavior: 'smooth'});
                         break;
                     }
                 }

@@ -23,7 +23,7 @@
         <input type="hidden" id="last_name" name="last_name" value=""/>
         <input type="hidden" id="initData" name="initData" value=""/>
 
-        <div class="form-group">
+        <div class="form-group d-none">
             <label class="form-group__title">Тип услуги</label>
             <div class="type_announcement">
                 @foreach($deal_types as $deal_type)
@@ -60,7 +60,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="invalid-field" id="period-error"></div>
+            <div class="invalid-field" id="periods-error"></div>
         </div>
 
 
@@ -227,6 +227,7 @@
                     @endforeach
                 </select>
             </div>
+            <div class="invalid-field" id="custom_district-error"></div>
         </div>
 
         <div class="form-group">

@@ -22,16 +22,18 @@ form.addEventListener('submit', (e) => {
     const formData = new FormData(e.currentTarget);
     let monthPrice = formData.get('month_price');
     let yearPrice = formData.get('year_price');
-    let formatPeriods = [];
     let rentPeriods = formData.getAll('periods[]');
-    rentPeriods.forEach((period) => {
-        if (period === "Месяц") {
-            formatPeriods.push({period: period, price: monthPrice})
-        } else {
-            formatPeriods.push({period: period, price: yearPrice})
-        }
-    })
-    formData.set('periods', JSON.stringify(formatPeriods));
+    if (rentPeriods.length) {
+        let formatPeriods = [];
+        rentPeriods.forEach((period) => {
+            if (period === "Месяц") {
+                formatPeriods.push({period: period, price: monthPrice})
+            } else {
+                formatPeriods.push({period: period, price: yearPrice})
+            }
+        })
+        formData.set('periods', JSON.stringify(formatPeriods));
+    }
 
     fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}?_method=PATCH`, {
         headers: {
@@ -46,6 +48,7 @@ form.addEventListener('submit', (e) => {
             document.getElementById('btn-submit').innerText = "Сохранить";
             if (!json?.errors) {
                 tg.close();
+                return;
             }
 
             for (let error in json?.errors) {
@@ -54,8 +57,8 @@ form.addEventListener('submit', (e) => {
 
             for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
                 if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
-                    let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).offsetTop;
-                    window.scrollTo({top: scrollDiv - 110, behavior: 'smooth'});
+                    let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).closest('.form-group').offsetTop;
+                    window.scrollTo({top: scrollDiv, behavior: 'smooth'});
                     break;
                 }
             }

@@ -16,6 +16,7 @@ class EstateController extends Controller
 {
     public function store(Request $request): void
     {
+        Log::debug($request);
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
         $estate = CreateEstateAction::execute($data);
