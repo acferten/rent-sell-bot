@@ -6,7 +6,6 @@ use Domain\Estate\Actions\CreateEstateAction;
 use Domain\Estate\Actions\UpdateEstateAction;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Nutgram\Laravel\Facades\Telegram;
 use SergiX44\Nutgram\Telegram\Types\Inline\InlineQueryResultArticle;
 use SergiX44\Nutgram\Telegram\Types\Input\InputTextMessageContent;
@@ -16,7 +15,6 @@ class EstateController extends Controller
 {
     public function store(Request $request): void
     {
-        Log::debug($request);
         $request->validate(EstateData::rules());
         $data = EstateData::fromRequest($request);
         $estate = CreateEstateAction::execute($data);
