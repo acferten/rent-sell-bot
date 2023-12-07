@@ -2,12 +2,11 @@ const NGROK_URL = "https://getkeysbot.com";
 
 const FORM_FIELDS_ERROR = [
     'deal_type-error',
-    'deal_type-error',
-    'period-error',
+    'periods-error',
     'price-error',
     'period_price',
-    'title-error',
     'house_type_id-error',
+    'title-error',
     'bedrooms-error',
     'bathrooms-error',
     'conditioners-error',
@@ -15,5 +14,6 @@ const FORM_FIELDS_ERROR = [
     'photo-error',
     'video-error',
     'available_date-error',
+    'custom_district-errror',
     'description-error',
 ];

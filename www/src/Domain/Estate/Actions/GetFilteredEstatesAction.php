@@ -4,6 +4,7 @@ namespace Domain\Estate\Actions;
 
 use Domain\Estate\DataTransferObjects\EstateFiltersData;
 use Domain\Estate\Enums\DealTypes;
+use Domain\Estate\Enums\EstateStatus;
 use Domain\Estate\Models\Estate;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -63,6 +64,7 @@ class GetFilteredEstatesAction
             });
         }
 
+        $estates->where('status', EstateStatus::active->value);
         $estates->orderBy('relevance_date', 'DESC');
 
         return $estates;
