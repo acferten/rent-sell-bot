@@ -53,7 +53,7 @@ services:
       context: images/ngrok
       args:
         NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-        WEB_PORT: proxy:${WEB_PORT}
+        WEB_PORT: proxy:80
         NGROK_DOMAIN: ${NGROK_DOMAIN}
     restart: no
     container_name: ngrok
