@@ -36,7 +36,6 @@ form.addEventListener('submit', (e) => {
     }
 
     let allPhotos = [];
-
     if (formData.get('main_photo')?.name) {
         let main_photo = compress(formData.get('main_photo'));
         allPhotos.push(main_photo);
@@ -249,7 +248,7 @@ async function getBlob() {
     const fetchPromises = imagesFromBackend.map(url =>
         fetch(url)
             .then(response => response.blob())
-            .then(blob => new File([blob], url.split('/').pop()))
+            .then(blob => new File([blob], url.split('/').pop(), {type: "image/jpeg"}))
     );
 
     const files = await Promise.all(fetchPromises);
@@ -278,7 +277,7 @@ const mainPhoto = async () => {
     let url = mainPhotoContainer.children[0].getAttribute('style').match(regex)[1];
     const photoPromise = fetch(url)
         .then(response => response.blob())
-        .then(blob => new File([blob], url.split('/').pop()));
+        .then(blob => new File([blob], url.split('/').pop(), {type: "image/jpeg"}));
 
     let photo = await photoPromise;
     dt2.items.add(photo)
@@ -314,7 +313,6 @@ function compress(file) {
                 resolve(result);
             },
             error(err) {
-                console.log(err.message);
                 reject(err);
             },
         });
