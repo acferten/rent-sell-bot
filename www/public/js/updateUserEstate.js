@@ -61,7 +61,7 @@ form.addEventListener('submit', (e) => {
                 }
             }
 
-            fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}?_method=PATCH`, {
+            fetch(`${NGROK_URL}/api/estates/${ID_ESTATE}/user-update?_method=PATCH`, {
                 headers: {
                     Accept: "application/json"
                 },
