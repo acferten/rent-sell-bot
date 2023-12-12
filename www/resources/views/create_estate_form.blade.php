@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{{env('NGROK_SERVER')}}/css/bundle.css">
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/globalVariables.js" defer></script>
-    <script src="{{env('NGROK_SERVER')}}/js/createFirstStepEstate.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/compressorimages.js" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/createFirstStepEstate.js" type="module" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
@@ -141,7 +142,8 @@
                         +
                     </label>
                 </div>
-                <input class="photo-uploader__input" type="file" id="main-photo-hidden">
+                <input class="photo-uploader__input" type="file"
+                       id="main-photo-hidden">
                 <input class="photo-uploader__input" name="main_photo" id="main-photo" type="file" accept="image/jpg, image/jpeg, image/png, image/tif,
   image/tiff, .tif">
             </div>

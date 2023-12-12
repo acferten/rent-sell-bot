@@ -12,7 +12,7 @@ tg.enableClosingConfirmation();
 
 let form = document.getElementById('form');
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     FORM_FIELDS_ERROR.forEach((elem) => {
         document.getElementById(elem) ? document.getElementById(elem).innerText = "" : null;
@@ -37,35 +37,65 @@ form.addEventListener('submit', (e) => {
         formData.set('periods', JSON.stringify(formatPeriods));
     }
 
+    let allPhotos = [];
 
-    fetch(`${NGROK_URL}/api/estates`, {
-        headers: {
-            Accept: "application/json"
-        },
-        method: "POST",
-        body: formData,
+    if (formData.get('main_photo')?.name) {
+        let main_photo = compress(formData.get('main_photo'));
+        allPhotos.push(main_photo);
+    }
 
+    let photos = formData.getAll('photo[]');
+    photos.forEach((photo) => {
+        if (!photo?.name) return;
+        let compressPhoto = compress(photo);
+        allPhotos.push(compressPhoto);
     })
-        .then((response) => response.json())
-        .then((json) => {
-            document.getElementById('btn-submit').disabled = false;
-            document.getElementById('btn-submit').innerText = "Сохранить";
 
-            for (let error in json?.errors) {
-                document.getElementById(`${error}-error`).innerText = json.errors[error][0];
-            }
+    formData.delete('main_photo');
+    formData.delete('photo[]');
 
+    Promise.all(allPhotos).then(
+        (value) => {
 
-            if (json?.errors) {
-                for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
-                    if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
-                        let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).closest('.form-group').offsetTop;
-                        window.scrollTo({top: scrollDiv, behavior: 'smooth'});
-                        break;
-                    }
+            if (value.length) {
+                formData.set('main_photo', value[0], value[0].name);
+                for (let i = 1; i < value.length; i++) {
+                    formData.append('photo[]', value[i], value[i].name);
                 }
             }
-        })
+
+            fetch(`${NGROK_URL}/api/estates`, {
+                headers: {
+                    Accept: "application/json"
+                },
+                method: "POST",
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    document.getElementById('btn-submit').disabled = false;
+                    document.getElementById('btn-submit').innerText = "Сохранить";
+
+                    for (let error in json?.errors) {
+                        document.getElementById(`${error}-error`).innerText = json.errors[error][0];
+                    }
+
+
+                    if (json?.errors) {
+                        for (let i = 0; i < FORM_FIELDS_ERROR.length; i++) {
+                            if (Object.keys(json?.errors).includes(FORM_FIELDS_ERROR[i].split('-')[0])) {
+                                let scrollDiv = document.getElementById(`${FORM_FIELDS_ERROR[i]}`).closest('.form-group').offsetTop;
+                                window.scrollTo({top: scrollDiv, behavior: 'smooth'});
+                                break;
+                            }
+                        }
+                    }
+                })
+        },
+        (reason) => {
+            console.log(reason);
+        },
+    );
 })
 
 function changeTypePrice(deal_type) {
@@ -248,3 +278,23 @@ if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
 document.getElementById("Аренда").checked = true;
 changeTypePrice('Аренда');
 document.getElementsByClassName("form-group")[0].classList.add('d-none');
+
+// TODO: ТЕСТ СЖАТИЯ ИЗОБРАЖЕНИЯ
+
+function compress(file) {
+    return new Promise((resolve, reject) => {
+        return new Compressor(file, {
+            quality: 0.6,
+
+            // The compression process is asynchronous,
+            // which means you have to access the `result` in the `success` hook function.
+            success(result) {
+                resolve(result);
+            },
+            error(err) {
+                console.log(err.message);
+                reject(err);
+            },
+        });
+    });
+}
