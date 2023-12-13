@@ -10,7 +10,7 @@
     <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/globalVariables.js" defer></script>
     <script src="{{env('NGROK_SERVER')}}/js/compressorimages.js" defer></script>
-    <script src="{{env('NGROK_SERVER')}}/js/createFirstStepEstate.js" type="module" defer></script>
+    <script src="{{env('NGROK_SERVER')}}/js/createFirstStepEstate.js" defer></script>
     <title>Размещение объекта</title>
 </head>
 <body>
