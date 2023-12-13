@@ -56,7 +56,6 @@ form.addEventListener('submit', async (e) => {
 
     Promise.all(allPhotos).then(
         (value) => {
-
             if (value.length) {
                 formData.set('main_photo', value[0], value[0].name);
                 for (let i = 1; i < value.length; i++) {
@@ -74,7 +73,7 @@ form.addEventListener('submit', async (e) => {
                 .then((response) => response.json())
                 .then((json) => {
                     document.getElementById('btn-submit').disabled = false;
-                    document.getElementById('btn-submit').innerText = "Сохранить";
+                    document.getElementById('btn-submit').innerText = "✅ Сохранить";
 
                     for (let error in json?.errors) {
                         document.getElementById(`${error}-error`).innerText = json.errors[error][0];
@@ -292,7 +291,6 @@ function compress(file) {
                 resolve(result);
             },
             error(err) {
-                console.log(err.message);
                 reject(err);
             },
         });
