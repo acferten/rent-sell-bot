@@ -14,6 +14,6 @@ const FORM_FIELDS_ERROR = [
     'photo-error',
     'video-error',
     'available_date-error',
-    'custom_district-errror',
+    'custom_district-error',
     'description-error',
 ];
