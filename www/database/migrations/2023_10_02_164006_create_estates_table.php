@@ -36,6 +36,7 @@ return new class extends Migration {
             $table->string('district')->nullable();
             $table->string('street')->nullable();
             $table->string('house_number')->nullable();
+            $table->string('google_link')->nullable();
 
             $table->integer('price')->nullable();
             $table->enum('paid_with', ['BankBRI', 'Tinkoff'])->nullable();

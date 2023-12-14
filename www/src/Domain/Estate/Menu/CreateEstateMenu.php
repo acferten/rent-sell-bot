@@ -23,7 +23,8 @@ class CreateEstateMenu extends InlineMenu
         if (User::find($bot->userId())->phone) {
             $bot->sendMessage(
                 text: "<b>Шаг 2 из 2</b>
-📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
+📍 Отправьте геолокацию вашего объекта.
+👉 Вставьте ссылку из Google Maps или отправьте текущую Геопозицию.",
                 parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
             );
             $this->next('location');
@@ -48,7 +49,8 @@ class CreateEstateMenu extends InlineMenu
 
         $bot->sendMessage(
             text: "<b>Шаг 3 из 3</b>
-📍 Отправьте геолокацию вашего объекта.\nДля этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
+📍 Отправьте геолокацию вашего объекта.
+👉 Вставьте ссылку из Google Maps или отправьте текущую Геопозицию.",
             parse_mode: 'html', reply_markup: ReplyKeyboardRemove::make(true)
         );
 
@@ -57,15 +59,22 @@ class CreateEstateMenu extends InlineMenu
 
     public function location(Nutgram $bot): void
     {
-        $location = $bot->message()->location;
-
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
-        $this->estate->update([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude
-        ]);;
 
-        $this->setLocationProperties($bot);
+        if ($bot->message()->location) {
+            $location = $bot->message()->location;
+
+            $this->estate->update([
+                'latitude' => $location->latitude,
+                'longitude' => $location->longitude
+            ]);
+
+            $this->setLocationProperties($bot);
+        } else {
+            $this->estate->update([
+                'google_link' => $bot->message()->text
+            ]);
+        }
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);
     }

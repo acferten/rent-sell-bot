@@ -27,7 +27,7 @@ class UserEstateViewModel implements ToStringInterface
             "🤝 {$data->deal_type->value}\n" .
             "🏡 {$estate->type->title}\n" .
             "🛏 {$data->bedrooms} спальни\n\n" .
-            "<b>📍Локация:</b > {$estate->geoposition()}\n" .
+            "<b>📍Локация:</b > {$estate->custom_district}\n" .
             "{$price}\n" .
             "<b>👀 Количество просмотров:  {$estate->views}\n</b>";
     }

@@ -28,7 +28,7 @@ class GetEstateViewModel implements ToStringInterface
             $price .
             "\n🏡 {$estate->type->title}\n" .
             "🛏 {$data->bedrooms}{$test}\n\n" .
-            "<b>📍Локация:</b > {$estate->geoposition()}\n" .
+            "<b>📍Локация:</b > {$estate->custom_district}\n" .
             "<b>📍Google maps:</b > {$estate->getGoogleLink()}\n\n";
     }
 }

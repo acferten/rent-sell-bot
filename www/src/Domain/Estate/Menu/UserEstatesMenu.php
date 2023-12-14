@@ -26,6 +26,7 @@ class UserEstatesMenu extends InlineMenu
 
         if ($this->estates->isEmpty()) {
             $this->menuText('У вас нет объектов')->showMenu();
+            return;
         }
 
         $this->element = 0;

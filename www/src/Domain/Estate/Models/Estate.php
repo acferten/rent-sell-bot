@@ -100,6 +100,7 @@ class Estate extends BaseModel
         'custom_district',
         'street',
         'house_number',
+        'google_link',
 
         'end_date',
         'relevance_date',
@@ -128,7 +129,11 @@ class Estate extends BaseModel
 
     public function getGoogleLink(): string
     {
-        return "https://maps.google.com/?q={$this->latitude},{$this->longitude}";
+        if ($this->google_link) {
+            return $this->google_link;
+        } else {
+            return "https://maps.google.com/?q={$this->latitude},{$this->longitude}";
+        }
     }
 
     // Relations
