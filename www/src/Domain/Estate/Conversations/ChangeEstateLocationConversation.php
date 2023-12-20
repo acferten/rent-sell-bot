@@ -19,8 +19,9 @@ class ChangeEstateLocationConversation extends Conversation
         $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
         $bot->sendMessage(
-            text: "<b>Шаг 2 из 3</b>
-Отправьте геолокацию вашего объекта. Для этого перейдите во вкладку прикрепить и отправьте геолокацию боту.",
+            text: "<b>Обновление локации</b>
+📍 Отправьте геолокацию вашего объекта.
+👉 Вставьте ссылку из Google Maps или отправьте текущую Геопозицию.",
             parse_mode: 'html'
         );
 
@@ -29,16 +30,23 @@ class ChangeEstateLocationConversation extends Conversation
 
     public function change(Nutgram $bot): void
     {
-        $location = $bot->message()->location;
+        $this->estate = Estate::find($bot->getUserData('estate_id', $bot->userId()));
 
-        $this->estate->update([
-            'latitude' => $location->latitude,
-            'longitude' => $location->longitude
-        ]);
+        if ($bot->message()->location) {
+            $location = $bot->message()->location;
 
-        $this->setLocationProperties($bot);
+            $this->estate->update([
+                'latitude' => $location->latitude,
+                'longitude' => $location->longitude
+            ]);
 
-        // clear previous preview
+            $this->setLocationProperties($bot);
+        } else {
+            $this->estate->update([
+                'google_link' => $bot->message()->text
+            ]);
+        }
+
         $bot->deleteMessage($bot->userId(), $bot->getUserData('preview_message_id'));
 
         SendPreviewMessageAction::execute($bot, $this->estate->id);

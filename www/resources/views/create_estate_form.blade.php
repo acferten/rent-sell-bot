@@ -168,16 +168,16 @@
         </div>
 
 
-        <div class="form-group">
-            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>
-            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем
-                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>
-            <div class="form-outline">
-                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"
-                       class="form-control"/>
-            </div>
-            <div class="invalid-field" id="video-error"></div>
-        </div>
+{{--        <div class="form-group">--}}
+{{--            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>--}}
+{{--            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем--}}
+{{--                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>--}}
+{{--            <div class="form-outline">--}}
+{{--                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"--}}
+{{--                       class="form-control"/>--}}
+{{--            </div>--}}
+{{--            <div class="invalid-field" id="video-error"></div>--}}
+{{--        </div>--}}
 
         <div class="form-group">
             <label class="form-group__title" for="available_date">🗓 С какой даты объект свободен для заселения?</label>
