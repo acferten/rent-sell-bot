@@ -46,8 +46,8 @@
         </div>
 
         <div class="form-group @if(!$estate->price) d-none @endif" id="price-container">
-            <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="5000" min="0"
+            <label class="form-group__title" for="price">Цена (указывать в млн.)</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="500" min="0"
                    value="{{$estate->price}}">
             <div class="invalid-field" id="price-error"></div>
         </div>
@@ -81,8 +81,8 @@
             @if($estate_rent->where('period', $price_period)->isEmpty())d-none @endif"
                  id="{{$price_period->name}}_price-container">
                 <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена
-                    за {{$price_period->value}} аренды</label>
-                <input type="number" class="form-control" placeholder="5000" min="10" max="100000000"
+                    за {{$price_period->value}} аренды (указывать в млн.)</label>
+                <input type="number" class="form-control" placeholder="500" min="0"
                        name="{{__("periods.{$price_period->value}")}}_price"
                        id="{{__("periods.{$price_period->value}")}}_price"
                        @foreach($estate_rent as $rent)
@@ -115,8 +115,7 @@
 
         <div class="form-group">
             <label class="form-group__title" for="title">📜 Название</label>
-            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта.
-                Например, Вилла с видом на море в Чангу.</p>
+            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта.</p>
             <input class="form-control" name="title" id="title" value="{{$estate->title}}"
                    placeholder="Вилла с видом на море в Чангу">
             <div class="invalid-field" id="title-error"></div>
@@ -193,24 +192,24 @@
             <div class="invalid-field" id="photo-error"></div>
         </div>
 
-{{--        <div class="form-group">--}}
-{{--            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>--}}
-{{--            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем--}}
-{{--                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>--}}
-{{--            <div class="form-outline">--}}
-{{--                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"--}}
-{{--                       class="form-control"/>--}}
-{{--            </div>--}}
-{{--            <div class="invalid-field" id="video-error"></div>--}}
-{{--            @if($estate->video)--}}
-{{--                <div>--}}
-{{--                    <p class="collage__title">Выбранные ранее</p>--}}
-{{--                    <video class="video" preload="metadata" controls>--}}
-{{--                        <source src="/photos/{{$estate->video}}">--}}
-{{--                    </video>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--        </div>--}}
+        {{--        <div class="form-group">--}}
+        {{--            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>--}}
+        {{--            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем--}}
+        {{--                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>--}}
+        {{--            <div class="form-outline">--}}
+        {{--                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"--}}
+        {{--                       class="form-control"/>--}}
+        {{--            </div>--}}
+        {{--            <div class="invalid-field" id="video-error"></div>--}}
+        {{--            @if($estate->video)--}}
+        {{--                <div>--}}
+        {{--                    <p class="collage__title">Выбранные ранее</p>--}}
+        {{--                    <video class="video" preload="metadata" controls>--}}
+        {{--                        <source src="/photos/{{$estate->video}}">--}}
+        {{--                    </video>--}}
+        {{--                </div>--}}
+        {{--            @endif--}}
+        {{--        </div>--}}
 
         <div class="form-group">
             <label class="form-group__title" for="available_date">🗓 С какой даты объект свободен для заселения?</label>
@@ -263,7 +262,7 @@
                         aria-label="Default select example">
                     @foreach($custom_districts as $custom_district)
                         <option value="{{$custom_district}}"
-                                @if($custom_district == $estate_custom_district) selected @endif>{{$custom_district}}</option>
+                                @if($custom_district->value == $estate_custom_district) selected @endif>{{$custom_district}}</option>
                     @endforeach
                 </select>
             </div>

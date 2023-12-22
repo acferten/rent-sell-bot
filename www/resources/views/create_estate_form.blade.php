@@ -41,8 +41,8 @@
         </div>
 
         <div class="form-group d-none" id="price-container">
-            <label class="form-group__title" for="price">Цена</label>
-            <input type="number" class="form-control" id="price" name="price" placeholder="5100000000 IDR" min="0">
+            <label class="form-group__title" for="price">Цена (указывать в млн.)</label>
+            <input type="number" class="form-control" id="price" name="price" placeholder="500" min="0">
             <div class="invalid-field" id="price-error"></div>
         </div>
 
@@ -68,8 +68,8 @@
         @foreach($price_periods as $price_period)
             <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
                 <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена
-                    за {{$price_period->value}} аренды</label>
-                <input type="number" class="form-control" placeholder="1000000 IDR" min="1" max="100000000"
+                    за {{$price_period->value}} аренды (указывать в млн.)</label>
+                <input type="number" class="form-control" placeholder="500" min="0"
                        name="{{__("periods.{$price_period->value}")}}_price"
                        id="{{__("periods.{$price_period->value}")}}_price">
                 <div class="invalid-field" id="{{__("periods.{$price_period->value}")}}_price-error"></div>
@@ -93,8 +93,7 @@
         </div>
         <div class="form-group">
             <label class="form-group__title" for="title">📜 Название</label>
-            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта.
-                Например, Вилла с видом на море в Чангу.</p>
+            <p class="form-group__description">Напишите уникальное короткое привлекательное название вашего объекта.</p>
             <input class="form-control" name="title" id="title"
                    placeholder="Вилла с видом на море в Чангу">
             <div class="invalid-field" id="title-error"></div>
@@ -168,16 +167,16 @@
         </div>
 
 
-{{--        <div class="form-group">--}}
-{{--            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>--}}
-{{--            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем--}}
-{{--                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>--}}
-{{--            <div class="form-outline">--}}
-{{--                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"--}}
-{{--                       class="form-control"/>--}}
-{{--            </div>--}}
-{{--            <div class="invalid-field" id="video-error"></div>--}}
-{{--        </div>--}}
+        {{--        <div class="form-group">--}}
+        {{--            <label class="form-group__title" for="video">📹 Видеоролик об объекте (необязательный пункт)</label>--}}
+        {{--            <p class="form-group__description">По статистике объявления с видеороликом просматривают на 53% больше, чем--}}
+        {{--                без видео. Видеоролики желательно добавлять в вертикальном формате.</p>--}}
+        {{--            <div class="form-outline">--}}
+        {{--                <input type="file" id="video" accept="video/mp4,video/x-m4v,video/*" name="video"--}}
+        {{--                       class="form-control"/>--}}
+        {{--            </div>--}}
+        {{--            <div class="invalid-field" id="video-error"></div>--}}
+        {{--        </div>--}}
 
         <div class="form-group">
             <label class="form-group__title" for="available_date">🗓 С какой даты объект свободен для заселения?</label>

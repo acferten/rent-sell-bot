@@ -84,30 +84,16 @@
                     <span class="entity__icon">💰</span>
                     <div class="entity__information">
                         <span class="entity__title">Цена</span>
-                        <span class="entity__description">{{ $estate->price }}</span>
+                        <span class="entity__description">{{ $estate->price }} млн. IDR</span>
                     </div>
                 </div>
             @else
                 <div class="entity">
-                    <svg class="entity__image" id="clock" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24">
-                        <path fill="#6563FF"
-                              d="M15.09814,12.63379,13,11.42285V7a1,1,0,0,0-2,0v5a.99985.99985,0,0,0,.5.86621l2.59814,1.5a1.00016,1.00016,0,1,0,1-1.73242ZM12,2A10,10,0,1,0,22,12,10.01114,10.01114,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8.00917,8.00917,0,0,1,12,20Z"></path>
-                    </svg>
-                    <div class="entity__information">
-                        <span class="entity__title">Срок аренды</span>
-                        <span
-                            class="entity__description">{{ $estate_rent[0]->period->value }} @if(isset($estate_rent[1]))
-                                / {{$estate_rent[1]->period->value}}
-                            @endif</span>
-                    </div>
-                </div>
-                <div class="entity">
                     <span class="entity__icon">💰</span>
                     <div class="entity__information">
                         <span class="entity__title">Цена</span>
-                        <span class="entity__description">{{ $estate_rent[0]->price }} IDR @if(isset($estate_rent[1]))
-                                / {{$estate_rent[1]->price}} IDR
+                        <span class="entity__description">{{ $estate_rent[0]->price }} млн. IDR - месяц @if(isset($estate_rent[1]))
+                                / {{$estate_rent[1]->price}} млн. IDR - год
                             @endif</span>
                     </div>
                 </div>
@@ -189,6 +175,7 @@
         <p>
             {{ $estate->description  }}
             <br><br>
+            Свободен для заселения с {{ $check_in_date }}
         </p>
     </div>
     <div class="form-group report-form-wrapper d-none">

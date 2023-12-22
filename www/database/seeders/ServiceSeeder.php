@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Domain\Estate\Models\Service;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
@@ -12,7 +12,6 @@ class ServiceSeeder extends Seeder
     {
         Service::factory()->count(8)
             ->state(new Sequence(
-                ['title' => 'Электричество'],
                 ['title' => 'Интернет'],
                 ['title' => 'Уборка'],
                 ['title' => 'Чистка бассейна'],
