@@ -91,12 +91,19 @@
                 <div class="entity">
                     <span class="entity__icon">💰</span>
                     <div class="entity__information">
-                        <span class="entity__title">Цена</span>
-                        <span class="entity__description">{{ $estate_rent[0]->price }} млн. IDR - месяц @if(isset($estate_rent[1]))
-                                / {{$estate_rent[1]->price}} млн. IDR - год
-                            @endif</span>
+                        <span class="entity__title">Цена за месяц</span>
+                        <span class="entity__description">{{ $estate_rent[0]->price }} млн. IDR</span>
                     </div>
                 </div>
+                @if(isset($estate_rent[1]))
+                    <div class="entity">
+                        <span class="entity__icon">💰</span>
+                        <div class="entity__information">
+                            <span class="entity__title">Цена за год</span>
+                            <span class="entity__description">{{$estate_rent[1]->price}} млн. IDR</span>
+                        </div>
+                    </div>
+                @endif
             @endif
         </div>
     </div>
