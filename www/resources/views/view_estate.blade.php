@@ -84,7 +84,7 @@
                     <span class="entity__icon">💰</span>
                     <div class="entity__information">
                         <span class="entity__title">Цена</span>
-                        <span class="entity__description">{{ $estate->price }}</span>
+                        <span class="entity__description">{{ $estate->price }} млн. IDR</span>
                     </div>
                 </div>
             @else
@@ -92,8 +92,8 @@
                     <span class="entity__icon">💰</span>
                     <div class="entity__information">
                         <span class="entity__title">Цена</span>
-                        <span class="entity__description">{{ $estate_rent[0]->price }} IDR млн. - месяц @if(isset($estate_rent[1]))
-                                / {{$estate_rent[1]->price}} IDR млн. - год
+                        <span class="entity__description">{{ $estate_rent[0]->price }} млн. IDR - месяц @if(isset($estate_rent[1]))
+                                / {{$estate_rent[1]->price}} млн. IDR - год
                             @endif</span>
                     </div>
                 </div>
@@ -175,6 +175,7 @@
         <p>
             {{ $estate->description  }}
             <br><br>
+            Свободен для заселения с {{ $check_in_date }}
         </p>
     </div>
     <div class="form-group report-form-wrapper d-none">
