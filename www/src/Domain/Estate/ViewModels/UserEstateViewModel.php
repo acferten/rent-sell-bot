@@ -5,7 +5,6 @@ namespace Domain\Estate\ViewModels;
 use Domain\Estate\DataTransferObjects\EstateData;
 use Domain\Estate\Enums\DealTypes;
 use Domain\Estate\Models\Estate;
-use Domain\Estate\Models\Type;
 use Domain\Shared\ViewModels\ToStringInterface;
 
 class UserEstateViewModel implements ToStringInterface
@@ -27,7 +26,7 @@ class UserEstateViewModel implements ToStringInterface
             "🤝 {$data->deal_type->value}\n" .
             "🏡 {$estate->type->title}\n" .
             "🛏 {$data->bedrooms} спальни\n\n" .
-            "<b>📍Локация:</b > {$estate->custom_district}\n" .
+            "<b>📍Район:</b > {$estate->custom_district}\n" .
             "{$price}\n" .
             "<b>👀 Количество просмотров:  {$estate->views}\n</b>";
     }
