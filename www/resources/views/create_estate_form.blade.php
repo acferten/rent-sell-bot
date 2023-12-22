@@ -41,7 +41,7 @@
         </div>
 
         <div class="form-group d-none" id="price-container">
-            <label class="form-group__title" for="price">Цена (указывать в млн.)</label>
+            <label class="form-group__title" for="price">Цена (указывать в млн. IDR)</label>
             <input type="number" class="form-control" id="price" name="price" placeholder="500" min="0">
             <div class="invalid-field" id="price-error"></div>
         </div>
@@ -68,7 +68,7 @@
         @foreach($price_periods as $price_period)
             <div class="form-group d-none" id="{{__("periods.{$price_period->value}")}}_price-container">
                 <label class="form-group__title" for="{{__("periods.{$price_period->value}")}}_price">Цена
-                    за {{$price_period->value}} аренды (указывать в млн.)</label>
+                    за {{$price_period->value}} аренды (указывать в млн. IDR)</label>
                 <input type="number" class="form-control" placeholder="500" min="0"
                        name="{{__("periods.{$price_period->value}")}}_price"
                        id="{{__("periods.{$price_period->value}")}}_price">

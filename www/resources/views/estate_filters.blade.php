@@ -60,12 +60,12 @@
         </div>
 
         <div class="form-group" id="price-container">
-            <label class="form-group__title" for="price-start">Цена от (указывать в млн.)</label>
+            <label class="form-group__title" for="price-start">Цена от (указывать в млн. IDR)</label>
             <input type="number" class="form-control" id="price-start" name="price_start" placeholder="500"
                    min="0">
         </div>
         <div class="form-group" id="price-container">
-            <label class="form-group__title" for="price-end">Цена до (указывать в млн.)</label>
+            <label class="form-group__title" for="price-end">Цена до (указывать в млн. IDR)</label>
             <input type="number" class="form-control" id="price-end" name="price_end" placeholder="500"
                    min="0">
         </div>
