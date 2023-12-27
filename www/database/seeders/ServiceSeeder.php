@@ -10,7 +10,7 @@ class ServiceSeeder extends Seeder
 {
     public function run(): void
     {
-        Service::factory()->count(8)
+        Service::factory()->count(6)
             ->state(new Sequence(
                 ['title' => 'Интернет'],
                 ['title' => 'Уборка'],
