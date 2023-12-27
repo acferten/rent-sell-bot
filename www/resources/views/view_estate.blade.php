@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 @if(isset($estate_rent[1]))
-                    <div class="entity">
+                    <div class="entity price-year">
                         <span class="entity__icon">💰</span>
                         <div class="entity__information">
                             <span class="entity__title">Цена за год</span>
@@ -178,11 +178,14 @@
     </div>
     <div class="view-page__group">
         <hr>
+        <label class="form-group__title available-date">🗓️ Свободно с {{ $check_in_date }}</label>
+    </div>
+    <div class="view-page__group">
+        <hr>
         <label class="form-group__title">ℹ️ Описание</label>
         <p>
-            {{ $estate->description  }}
+            {{ $estate->description }}
             <br><br>
-            Свободен для заселения с {{ $check_in_date }}
         </p>
     </div>
     <div class="form-group report-form-wrapper d-none">

@@ -181,6 +181,15 @@
     gap: 25px;
 }
 
+.price-year {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.available-date {
+    margin-block-end: 0;
+}
+
 .entity {
     display: flex;
     align-items: center;
